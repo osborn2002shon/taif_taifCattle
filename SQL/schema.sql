@@ -391,16 +391,41 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[System_MilkSetting](
-	[age] [int] NOT NULL,
-	[milkProduction] [decimal](4, 1) NOT NULL,
-	[remark] [nvarchar](max) NULL,
-	[updateDateTime] [datetime] NOT NULL,
-	[updateUserID] [int] NOT NULL,
- CONSTRAINT [PK_System_MilkSetting] PRIMARY KEY CLUSTERED 
+        [age] [int] NOT NULL,
+        [milkProduction] [decimal](4, 1) NOT NULL,
+        [remark] [nvarchar](max) NULL,
+        [updateDateTime] [datetime] NOT NULL,
+        [updateUserID] [int] NOT NULL,
+ CONSTRAINT [PK_System_MilkSetting] PRIMARY KEY CLUSTERED
 (
-	[age] ASC
+        [age] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[System_Config]    Script Date: 2025/10/20 下午 12:22:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[System_Config](
+        [configID] [int] IDENTITY(1,1) NOT NULL,
+        [passwordMinLength] [int] NOT NULL,
+        [requireUppercase] [bit] NOT NULL,
+        [requireLowercase] [bit] NOT NULL,
+        [requireNumbers] [bit] NOT NULL,
+        [requireSymbols] [bit] NOT NULL,
+        [passwordMaxAge] [int] NOT NULL,
+        [passwordHistoryCount] [int] NOT NULL,
+        [passwordMinAge] [int] NOT NULL,
+        [maxFailAttempts] [int] NOT NULL,
+        [lockoutDuration] [int] NOT NULL,
+        [updateDateTime] [datetime] NOT NULL,
+        [updateUserID] [int] NOT NULL,
+ CONSTRAINT [PK_System_Config] PRIMARY KEY CLUSTERED
+(
+        [configID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 GO
 /****** Object:  Table [dbo].[System_Taiwan]    Script Date: 2025/10/20 下午 12:22:51 ******/
 SET ANSI_NULLS ON

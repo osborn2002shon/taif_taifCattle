@@ -21,6 +21,7 @@
         <h6 class="alert-heading"><i class="fas fa-info-circle me-2"></i>設定說明</h6>
         以下設定將影響所有系統使用者的密碼規則，請謹慎調整各項參數。修改後的設定將立即生效。
     </div>
+    <asp:Label ID="Label_Message" runat="server" CssClass="fw-bold d-block mb-3"></asp:Label>
     <!-- 密碼政策設定卡片 -->
     <div class="data-table">
         <div class="table-header">
@@ -45,7 +46,7 @@
                         <i class="fas fa-ruler"></i>密碼最小長度
                     </label>
                     <div class="input-group">
-                        <input type="number" class="form-control" id="minLength" value="8" min="8" max="20">
+                        <asp:TextBox ID="TextBox_MinLength" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
                         <span class="input-group-text">個字元</span>
                     </div>
                     <div class="form-text">需設定為8個字元以上，提升密碼安全性</div>
@@ -55,26 +56,26 @@
                         <i class="fas fa-puzzle-piece"></i>密碼複雜性要求
                     </label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="requireUppercase" checked>
-                        <label class="form-check-label" for="requireUppercase">
+                        <asp:CheckBox ID="CheckBox_RequireUppercase" runat="server" CssClass="form-check-input" />
+                        <label class="form-check-label" for="<%= CheckBox_RequireUppercase.ClientID %>">
                             必須包含大寫英文字母 (A-Z)
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="requireLowercase" checked>
-                        <label class="form-check-label" for="requireLowercase">
+                        <asp:CheckBox ID="CheckBox_RequireLowercase" runat="server" CssClass="form-check-input" />
+                        <label class="form-check-label" for="<%= CheckBox_RequireLowercase.ClientID %>">
                             必須包含小寫英文字母 (a-z)
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="requireNumbers" checked>
-                        <label class="form-check-label" for="requireNumbers">
+                        <asp:CheckBox ID="CheckBox_RequireNumbers" runat="server" CssClass="form-check-input" />
+                        <label class="form-check-label" for="<%= CheckBox_RequireNumbers.ClientID %>">
                             必須包含數字 (0-9)
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="requireSymbols" checked>
-                        <label class="form-check-label" for="requireSymbols">
+                        <asp:CheckBox ID="CheckBox_RequireSymbols" runat="server" CssClass="form-check-input" />
+                        <label class="form-check-label" for="<%= CheckBox_RequireSymbols.ClientID %>">
                             必須包含特殊符號 (!@#$%^&*等)
                         </label>
                     </div>
@@ -93,7 +94,7 @@
                         <i class="fas fa-clock"></i>密碼變更週期
                     </label>
                     <div class="input-group">
-                        <input type="number" class="form-control" id="maxAge" value="90" min="30" max="90">
+                        <asp:TextBox ID="TextBox_MaxAge" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
                         <span class="input-group-text">天</span>
                     </div>
                     <div class="form-text">密碼使用超過此天數後，系統將強制要求使用者更換密碼</div>
@@ -104,7 +105,7 @@
                     </label>
                     <div class="input-group">
                         <span class="input-group-text">記住前</span>
-                        <input type="number" class="form-control" id="historyCount" value="3" min="3" max="10">
+                        <asp:TextBox ID="TextBox_HistoryCount" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
                         <span class="input-group-text">代密碼</span>
                     </div>
                     <div class="form-text">防止使用者重複使用最近用過的密碼</div>
@@ -114,7 +115,7 @@
                         <i class="fas fa-hourglass-start"></i>密碼最短使用期限
                     </label>
                     <div class="input-group">
-                        <input type="number" class="form-control" id="minAge" value="1" min="1" max="7">
+                        <asp:TextBox ID="TextBox_MinAge" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
                         <span class="input-group-text">天</span>
                     </div>
                     <div class="form-text">防止使用者頻繁更換密碼來規避歷程紀錄限制</div>
@@ -135,7 +136,7 @@
                                 <i class="fas fa-exclamation-triangle"></i>密碼錯誤次數上限
                             </label>
                             <div class="input-group">
-                                <input type="number" class="form-control" id="maxFailAttempts" value="5" min="3" max="5">
+                                <asp:TextBox ID="TextBox_MaxFailAttempts" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
                                 <span class="input-group-text">次</span>
                             </div>
                             <div class="form-text">連續密碼輸入錯誤超過此次數將鎖定帳號</div>
@@ -147,7 +148,7 @@
                                 <i class="fas fa-stopwatch"></i>帳號鎖定時間
                             </label>
                             <div class="input-group">
-                                <input type="number" class="form-control" id="lockoutDuration" value="15" min="15" max="60">
+                                <asp:TextBox ID="TextBox_LockoutDuration" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
                                 <span class="input-group-text">分鐘</span>
                             </div>
                             <div class="form-text">帳號被鎖定後的解鎖等待時間</div>
@@ -159,10 +160,10 @@
             <div class="p-4 border-bottom">
                  <!-- 按鈕群組 -->
                 <div class="btn-group-custom">
-                    <asp:LinkButton ID="Button_Cancel" runat="server" CssClass="btn btn-cancel ">
+                    <asp:LinkButton ID="Button_Cancel" runat="server" CssClass="btn btn-cancel " CausesValidation="False">
                         <i class="fas fa-times me-2"></i>取消
                     </asp:LinkButton>
-                    
+
                      <asp:LinkButton ID="Button_Save" runat="server" CssClass="btn btn-success">
                         <i class="fas fa-download me-1"></i>儲存設定
                     </asp:LinkButton>
