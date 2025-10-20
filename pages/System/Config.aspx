@@ -56,25 +56,25 @@
                         <i class="fas fa-puzzle-piece"></i>密碼複雜性要求
                     </label>
                     <div class="form-check">
-                        <asp:CheckBox ID="CheckBox_RequireUppercase" runat="server" CssClass="form-check-input" />
+                        <asp:CheckBox ID="CheckBox_RequireUppercase" runat="server" />
                         <label class="form-check-label" for="<%= CheckBox_RequireUppercase.ClientID %>">
                             必須包含大寫英文字母 (A-Z)
                         </label>
                     </div>
                     <div class="form-check">
-                        <asp:CheckBox ID="CheckBox_RequireLowercase" runat="server" CssClass="form-check-input" />
+                        <asp:CheckBox ID="CheckBox_RequireLowercase" runat="server" />
                         <label class="form-check-label" for="<%= CheckBox_RequireLowercase.ClientID %>">
                             必須包含小寫英文字母 (a-z)
                         </label>
                     </div>
                     <div class="form-check">
-                        <asp:CheckBox ID="CheckBox_RequireNumbers" runat="server" CssClass="form-check-input" />
+                        <asp:CheckBox ID="CheckBox_RequireNumbers" runat="server" />
                         <label class="form-check-label" for="<%= CheckBox_RequireNumbers.ClientID %>">
                             必須包含數字 (0-9)
                         </label>
                     </div>
                     <div class="form-check">
-                        <asp:CheckBox ID="CheckBox_RequireSymbols" runat="server" CssClass="form-check-input" />
+                        <asp:CheckBox ID="CheckBox_RequireSymbols" runat="server" />
                         <label class="form-check-label" for="<%= CheckBox_RequireSymbols.ClientID %>">
                             必須包含特殊符號 (!@#$%^&*等)
                         </label>
