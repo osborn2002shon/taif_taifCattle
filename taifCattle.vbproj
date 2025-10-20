@@ -159,6 +159,7 @@
   <ItemGroup>
     <Content Include="Login.aspx" />
     <Content Include="pages\sample\sample.aspx" />
+    <Content Include="pages\System\Config.aspx" />
     <Content Include="pages\System\UserLog.aspx" />
     <Content Include="Web.config" />
     <Content Include="_css\bootstrap-icons.css" />
@@ -209,6 +210,13 @@
     </Compile>
     <Compile Include="pages\sample\sample.aspx.vb">
       <DependentUpon>sample.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="pages\System\Config.aspx.designer.vb">
+      <DependentUpon>Config.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\System\Config.aspx.vb">
+      <DependentUpon>Config.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="pages\System\UserLog.aspx.designer.vb">
@@ -270,7 +278,9 @@
     <Content Include="_fonts\fa-v4compatibility.woff2" />
     <Content Include="_mp\mp_default.master" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Sample\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

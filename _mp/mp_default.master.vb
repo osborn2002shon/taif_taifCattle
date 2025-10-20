@@ -69,7 +69,7 @@ Public Class mp_default
         Dim sb As New StringBuilder()
 
         ' 依群組分組
-        Dim groups = menuList.GroupBy(Function(m) m.groupName).
+        Dim groups = menuList.Where(Function(x) x.isShow).GroupBy(Function(m) m.groupName).
                           OrderBy(Function(g) g.First().orderBy_group)
 
         For Each grp In groups
@@ -142,7 +142,7 @@ Public Class mp_default
 
         Dim userInfo As taifCattle.Base.stru_LoginUserInfo = Session("userInfo")
         If IsPostBack = False Then
-            Label_userName.Text = userInfo.name
+            LinkButton_userName.Text = userInfo.name
 
 
         End If

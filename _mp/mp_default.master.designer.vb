@@ -32,13 +32,13 @@ Partial Public Class mp_default
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
-    '''Label_userName 控制項。
+    '''LinkButton_userName 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Label_userName As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents LinkButton_userName As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''LinkButton_logout 控制項。

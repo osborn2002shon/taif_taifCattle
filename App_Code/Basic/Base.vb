@@ -37,13 +37,16 @@ Namespace taifCattle
         Enum enum_UserLogItem
             登入
             登出
+            我的帳號管理
             系統帳號管理
-            密碼政策設定
+            系統參數設定
+            平均產乳量設定
             牧場資料管理
             牛籍資料管理
-            牛籍轉移作業
-            牛籍除籍作業
-            平均產乳量設定
+            牛籍批次新增功能
+            旅程批次新增功能
+            除籍批次設定功能
+
         End Enum
 
         ''' <summary>
@@ -291,7 +294,7 @@ Namespace taifCattle
                         System_UserAccount.*, 
                         case when System_UserAccount.isActive = 1 then '啟用' else '停用' end 'isActive_display',
                         slauName, isnull(slauName_short,slauName)'slauName_short', System_Taiwan.city 'slauCity', 
-                        auTypeName, IsNull(slauCode_eng, '') as 'slauCode_eng'
+                        auTypeName
                     from System_UserAccount
                     left join List_Slaughterhouse on System_UserAccount.slauID = List_Slaughterhouse.slauID
                     left join System_Taiwan on List_Slaughterhouse.twID = System_Taiwan.twID
@@ -326,7 +329,7 @@ Namespace taifCattle
                 'userInfo.farmID = Convert_DBNullToString(dt.Rows(0)("farmID"), -1)
                 'userInfo.farmCode = Convert_DBNullToString(dt.Rows(0)("farmCode"), "無資料")
                 'userInfo.farmName = Convert_DBNullToString(dt.Rows(0)("farmName"), "無資料")
-                userInfo.slauCode_eng = Convert_DBNullToString(dt.Rows(0)("slauCode_eng"), "＊")
+                'userInfo.slauCode_eng = Convert_DBNullToString(dt.Rows(0)("slauCode_eng"), "＊")
                 userInfo.slauName_short = Convert_DBNullToString(dt.Rows(0)("slauName_short"), "非屠宰場")
 
                 '目錄
