@@ -37,6 +37,9 @@ Namespace taifCattle
         Enum enum_UserLogItem
             登入
             登出
+            忘記密碼
+            預設密碼變更
+            定期密碼變更
             我的帳號管理
             系統帳號管理
             系統參數設定

@@ -157,9 +157,14 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CPW.aspx" />
+    <Content Include="FPW.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="pages\sample\sample.aspx" />
+    <Content Include="pages\System\AccountManage.aspx" />
     <Content Include="pages\System\Config.aspx" />
+    <Content Include="pages\System\MilkSetting.aspx" />
+    <Content Include="pages\System\MyAccount.aspx" />
     <Content Include="pages\System\UserLog.aspx" />
     <Content Include="Web.config" />
     <Content Include="_css\bootstrap-icons.css" />
@@ -174,11 +179,27 @@
     <Content Include="_uc\uc_jqDatePicker.ascx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\Basic\Account.vb" />
     <Compile Include="App_Code\Basic\Base.vb">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="App_Code\Basic\DataAccess_MSSQL.vb" />
     <Compile Include="App_Code\Basic\Control.vb" />
+    <Compile Include="App_Code\Basic\Mail.vb" />
+    <Compile Include="CPW.aspx.designer.vb">
+      <DependentUpon>CPW.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CPW.aspx.vb">
+      <DependentUpon>CPW.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="FPW.aspx.designer.vb">
+      <DependentUpon>FPW.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FPW.aspx.vb">
+      <DependentUpon>FPW.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Login.aspx.designer.vb">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
@@ -212,11 +233,32 @@
       <DependentUpon>sample.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="pages\System\AccountManage.aspx.designer.vb">
+      <DependentUpon>AccountManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\System\AccountManage.aspx.vb">
+      <DependentUpon>AccountManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="pages\System\Config.aspx.designer.vb">
       <DependentUpon>Config.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\System\Config.aspx.vb">
       <DependentUpon>Config.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\System\MilkSetting.aspx.designer.vb">
+      <DependentUpon>MilkSetting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\System\MilkSetting.aspx.vb">
+      <DependentUpon>MilkSetting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\System\MyAccount.aspx.designer.vb">
+      <DependentUpon>MyAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\System\MyAccount.aspx.vb">
+      <DependentUpon>MyAccount.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="pages\System\UserLog.aspx.designer.vb">
@@ -278,9 +320,7 @@
     <Content Include="_fonts\fa-v4compatibility.woff2" />
     <Content Include="_mp\mp_default.master" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Sample\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

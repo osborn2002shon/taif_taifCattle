@@ -38,8 +38,14 @@
                     Case True
                         Insert_UserLog(userInfo.accountID, enum_UserLogItem.登入, enum_UserLogType.其他)
                         Select Case userInfo.auTypeID
-                            Case 1 '最高管理者(畜產會)
-                                Response.Redirect("~/pages/sample/sample.aspx")
+                            Case 1 '系統管理員(農業保險基金)
+                                Response.Redirect("~/pages/System/AccountManage.aspx")
+                            Case 2 '一般管理員(畜牧司草食產業科)
+                                Response.Redirect("~/pages/System/AccountManage.aspx")
+                            Case 3 '一般使用者(縣市政府農業局處)
+                                Response.Redirect("~/pages/System/AccountManage.aspx")
+                            Case 4 '查詢使用者(其他 (ex防檢署/畜產會))
+                                Response.Redirect("~/pages/System/AccountManage.aspx")
 
                         End Select
                     Case False
