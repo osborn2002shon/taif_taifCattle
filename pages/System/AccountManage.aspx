@@ -137,6 +137,24 @@
             color: white;
         }
 
+        .btn-danger{
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            /*margin-left: 5px;*/
+        }
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #c82333, #bd2130);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(220,53,69,0.3);
+            color: white;
+        }
+
         /* 最後登入時間 */
         .last-login {
             font-size: 0.85rem;
@@ -265,6 +283,9 @@
                         <td>2024-03-10</td>
                         <td class="last-login">從未登入</td>
                         <td>
+                            <button class="btn btn-danger">
+                                <i class="fas fa-edit me-1"></i>刪除
+                            </button>
                             <button class="btn btn-approve" onclick="approveAccount('li.xiaohua@example.com')">
                                 <i class="fas fa-envelope me-1"></i>重發驗證信
                             </button>
@@ -294,6 +315,9 @@
                         <td>2024-05-20</td>
                         <td class="last-login">從未登入</td>
                         <td>
+                            <button class="btn btn-danger">
+                                <i class="fas fa-edit me-1"></i>刪除
+                            </button>
                             <button class="btn btn-approve" onclick="approveAccount('li.xiaohua@example.com')">
                                 <i class="fas fa-envelope me-1"></i>重發驗證信
                             </button>
