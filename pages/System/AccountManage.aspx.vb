@@ -310,8 +310,20 @@ Public Class AccountManage
         Dim emailText As String = TextBox_email.Text.Trim()
         Dim memoText As String = TextBox_memo.Text.Trim()
 
+        If String.IsNullOrWhiteSpace(accountText) Then
+            ShowFormMessage("請輸入登入帳號。", True)
+            Panel_editor.Visible = True
+            Exit Sub
+        End If
+
         If Not IsValidEmailFormat(accountText) Then
             ShowFormMessage("請輸入正確的登入帳號電子信箱格式。", True)
+            Panel_editor.Visible = True
+            Exit Sub
+        End If
+
+        If String.IsNullOrWhiteSpace(nameText) Then
+            ShowFormMessage("請輸入使用者姓名。", True)
             Panel_editor.Visible = True
             Exit Sub
         End If

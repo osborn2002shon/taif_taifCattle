@@ -140,15 +140,6 @@ Partial Public Class AccountManage
     Protected WithEvents TextBox_account As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''RequiredFieldValidator_account 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents RequiredFieldValidator_account As Global.System.Web.UI.WebControls.RequiredFieldValidator
-
-    '''<summary>
     '''TextBox_name 控制項。
     '''</summary>
     '''<remarks>
@@ -158,15 +149,6 @@ Partial Public Class AccountManage
     Protected WithEvents TextBox_name As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''RequiredFieldValidator_name 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents RequiredFieldValidator_name As Global.System.Web.UI.WebControls.RequiredFieldValidator
-
-    '''<summary>
     '''DropDownList_editRole 控制項。
     '''</summary>
     '''<remarks>
@@ -174,15 +156,6 @@ Partial Public Class AccountManage
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents DropDownList_editRole As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''RequiredFieldValidator_role 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents RequiredFieldValidator_role As Global.System.Web.UI.WebControls.RequiredFieldValidator
 
     '''<summary>
     '''TextBox_mobile 控制項。

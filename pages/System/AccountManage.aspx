@@ -170,6 +170,8 @@
     <script type="text/javascript">
         function validateAccountForm() {
             var accountInput = document.getElementById('<%= TextBox_account.ClientID %>');
+            var nameInput = document.getElementById('<%= TextBox_name.ClientID %>');
+            var roleSelect = document.getElementById('<%= DropDownList_editRole.ClientID %>');
             var contactEmailInput = document.getElementById('<%= TextBox_email.ClientID %>');
             var messageLabel = document.getElementById('<%= Label_formMessage.ClientID %>');
 
@@ -185,12 +187,42 @@
             var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
             var accountValue = accountInput.value.trim();
-            if (accountValue.length > 0 && !pattern.test(accountValue)) {
+            if (accountValue.length === 0) {
+                if (messageLabel) {
+                    messageLabel.textContent = '請輸入登入帳號。';
+                    messageLabel.className = 'd-block fw-bold mb-3 text-danger';
+                } else {
+                    alert('請輸入登入帳號。');
+                }
+                return false;
+            }
+
+            if (!pattern.test(accountValue)) {
                 if (messageLabel) {
                     messageLabel.textContent = '請輸入正確的登入帳號電子信箱格式。';
                     messageLabel.className = 'd-block fw-bold mb-3 text-danger';
                 } else {
                     alert('請輸入正確的登入帳號電子信箱格式。');
+                }
+                return false;
+            }
+
+            if (nameInput && nameInput.value.trim().length === 0) {
+                if (messageLabel) {
+                    messageLabel.textContent = '請輸入使用者姓名。';
+                    messageLabel.className = 'd-block fw-bold mb-3 text-danger';
+                } else {
+                    alert('請輸入使用者姓名。');
+                }
+                return false;
+            }
+
+            if (roleSelect && roleSelect.value.trim().length === 0) {
+                if (messageLabel) {
+                    messageLabel.textContent = '請選擇系統權限。';
+                    messageLabel.className = 'd-block fw-bold mb-3 text-danger';
+                } else {
+                    alert('請選擇系統權限。');
                 }
                 return false;
             }
@@ -338,20 +370,14 @@
                     <div class="col-md-6">
                         <label class="form-label">登入帳號（電子信箱）<span class="text-danger">*</span></label>
                         <asp:TextBox ID="TextBox_account" runat="server" CssClass="form-control"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator_account" runat="server" ControlToValidate="TextBox_account"
-                            Display="Dynamic" CssClass="text-danger" ErrorMessage="請輸入登入帳號" ValidationGroup="AccountForm"></asp:RequiredFieldValidator>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">使用者姓名<span class="text-danger">*</span></label>
                         <asp:TextBox ID="TextBox_name" runat="server" CssClass="form-control"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator_name" runat="server" ControlToValidate="TextBox_name"
-                            Display="Dynamic" CssClass="text-danger" ErrorMessage="請輸入使用者姓名" ValidationGroup="AccountForm"></asp:RequiredFieldValidator>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">系統權限<span class="text-danger">*</span></label>
                         <asp:DropDownList ID="DropDownList_editRole" runat="server" CssClass="form-select"></asp:DropDownList>
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator_role" runat="server" ControlToValidate="DropDownList_editRole"
-                            InitialValue="" Display="Dynamic" CssClass="text-danger" ErrorMessage="請選擇系統權限" ValidationGroup="AccountForm"></asp:RequiredFieldValidator>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">聯絡電話</label>
