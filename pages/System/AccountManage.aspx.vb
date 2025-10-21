@@ -190,8 +190,8 @@ Public Class AccountManage
         Property_EditAccountID = -1
         Property_EditIsVerified = False
 
-        'ResetEditor()
-        'Panel_editor.Visible = True
+        ResetEditor()
+        Panel_editor.Visible = True
         Label_formMessage.Text = ""
     End Sub
 
