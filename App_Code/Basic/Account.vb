@@ -136,14 +136,14 @@ Namespace taifCattle
         ''' </summary>
         Public Function CreateSystemAccount(auTypeID As Integer, account As String, password As String, name As String,
                                             email As String, unit As String, mobile As String, memo As String,
-                                            insertAccountID As Integer) As Integer
+                                            insertAccountID As Integer, govCityID As Integer?) As Integer
 
             Dim md5pw As String
             Using md5Hash As System.Security.Cryptography.MD5 = System.Security.Cryptography.MD5.Create()
                 md5pw = taifCattle_base.Convert_MD5(md5Hash, password)
             End Using
 
-            Return taifCattle_dao.InsertSystemAccount(auTypeID, account, md5pw, name, email, unit, mobile, memo, insertAccountID)
+            Return taifCattle_dao.InsertSystemAccount(auTypeID, account, md5pw, name, email, unit, mobile, memo, insertAccountID, govCityID)
         End Function
 
         ''' <summary>
@@ -151,8 +151,8 @@ Namespace taifCattle
         ''' </summary>
         Public Sub UpdateSystemAccount(accountID As Integer, auTypeID As Integer, account As String, name As String,
                                        email As String, unit As String, mobile As String, memo As String,
-                                       isActive As Boolean, updateAccountID As Integer)
-            taifCattle_dao.UpdateSystemAccount(accountID, auTypeID, account, name, email, unit, mobile, memo, isActive, updateAccountID)
+                                       isActive As Boolean, updateAccountID As Integer, govCityID As Integer?)
+            taifCattle_dao.UpdateSystemAccount(accountID, auTypeID, account, name, email, unit, mobile, memo, isActive, updateAccountID, govCityID)
         End Sub
 
         ''' <summary>
@@ -228,6 +228,7 @@ Namespace taifCattle.DAO
                     select ua.accountID, ua.account, ua.name, ua.email, ua.unit, ua.mobile, ua.memo,
                            ua.isActive, ua.isEmailVerified, ua.emailVerifiedDateTime, ua.insertDateTime,
                            ua.updateDateTime, ua.updateAccountID, ua.lastLoginDateTime, ua.auTypeID,
+                           ua.govID,
                            aut.auTypeName,
                            datediff(day, isnull(ua.lastLoginDateTime, ua.insertDateTime), getdate()) as daysSinceLastLogin
                     from System_UserAccount ua
@@ -268,6 +269,7 @@ Namespace taifCattle.DAO
                     select ua.accountID, ua.account, ua.name, ua.email, ua.unit, ua.mobile, ua.memo,
                            ua.isActive, ua.isEmailVerified, ua.emailVerifiedDateTime, ua.insertDateTime,
                            ua.updateDateTime, ua.updateAccountID, ua.lastLoginDateTime, ua.auTypeID,
+                           ua.govID,
                            aut.auTypeName
                     from System_UserAccount ua
                     left join System_UserAuType aut on ua.auTypeID = aut.auTypeID
@@ -302,21 +304,22 @@ Namespace taifCattle.DAO
 
         Function InsertSystemAccount(auTypeID As Integer, account As String, password As String, name As String,
                                      email As String, unit As String, mobile As String, memo As String,
-                                     insertAccountID As Integer) As Integer
+                                     insertAccountID As Integer, govCityID As Integer?) As Integer
 
             Dim sql =
                 <sql>
                     insert into System_UserAccount
-                        (auTypeID, account, password, name, email, unit, mobile, memo,
+                        (auTypeID, govID, account, password, name, email, unit, mobile, memo,
                          isActive, isEmailVerified, insertDateTime, insertAccountID)
                     values
-                        (@auTypeID, @account, @password, @name, @email, @unit, @mobile, @memo,
+                        (@auTypeID, @govID, @account, @password, @name, @email, @unit, @mobile, @memo,
                          @isActive, @isEmailVerified, @insertDateTime, @insertAccountID);
                     select scope_identity();
                 </sql>.Value
 
             Dim para As New List(Of Data.SqlClient.SqlParameter) From {
                 New Data.SqlClient.SqlParameter("auTypeID", auTypeID),
+                New Data.SqlClient.SqlParameter("govID", If(govCityID.HasValue, CType(govCityID.Value, Object), CType(DBNull.Value, Object))),
                 New Data.SqlClient.SqlParameter("account", account),
                 New Data.SqlClient.SqlParameter("password", password),
                 New Data.SqlClient.SqlParameter("name", name),
@@ -338,12 +341,13 @@ Namespace taifCattle.DAO
 
         Sub UpdateSystemAccount(accountID As Integer, auTypeID As Integer, account As String, name As String,
                                 email As String, unit As String, mobile As String, memo As String,
-                                isActive As Boolean, updateAccountID As Integer)
+                                isActive As Boolean, updateAccountID As Integer, govCityID As Integer?)
 
             Dim sql =
                 <sql>
                     update System_UserAccount set
                         auTypeID=@auTypeID,
+                        govID=@govID,
                         account=@account,
                         name=@name,
                         email=@email,
@@ -358,6 +362,7 @@ Namespace taifCattle.DAO
 
             Dim para As New List(Of Data.SqlClient.SqlParameter) From {
                 New Data.SqlClient.SqlParameter("auTypeID", auTypeID),
+                New Data.SqlClient.SqlParameter("govID", If(govCityID.HasValue, CType(govCityID.Value, Object), CType(DBNull.Value, Object))),
                 New Data.SqlClient.SqlParameter("account", account),
                 New Data.SqlClient.SqlParameter("name", name),
                 New Data.SqlClient.SqlParameter("email", If(String.IsNullOrWhiteSpace(email), CType(DBNull.Value, Object), email)),

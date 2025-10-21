@@ -17,6 +17,26 @@ Public Class AccountManage
     Private ReadOnly taifCattle_account As New taifCattle.Account
     Private ReadOnly taifCattle_mail As New taifCattle.Mail
 
+    Private Sub ShowEditorView()
+        Panel_query.Visible = False
+        Panel_editor.Visible = True
+    End Sub
+
+    Private Sub ShowQueryView()
+        Panel_query.Visible = True
+        Panel_editor.Visible = False
+    End Sub
+
+    Private Sub UpdateCitySelectorVisibility()
+        Dim isGovUser As Boolean = (DropDownList_editRole.SelectedValue = "3")
+        Panel_citySelector.Visible = isGovUser
+        If Not isGovUser Then
+            If DropDownList_editCity.Items.Count > 0 Then
+                DropDownList_editCity.SelectedIndex = 0
+            End If
+        End If
+    End Sub
+
     Private Property Property_Query_Status As String
         Get
             If ViewState("Property_Query_Status") Is Nothing Then
@@ -95,6 +115,8 @@ Public Class AccountManage
             taifCattle_con.BindDropDownList_userRole(DropDownList_role, True)
             taifCattle_con.BindDropDownList_userRole(DropDownList_editRole, False, True)
             DropDownList_editRole.Items.Insert(0, New ListItem("請選擇系統權限", String.Empty))
+            taifCattle_con.BindDropDownList_city(DropDownList_editCity, False)
+            DropDownList_editCity.Items.Insert(0, New ListItem("請選擇縣市", String.Empty))
 
             Property_Query_Status = String.Empty
             Property_Query_RoleID = String.Empty
@@ -184,6 +206,10 @@ Public Class AccountManage
         Label_isActive.Visible = False
         ShowFormMessage(String.Empty, False)
         HiddenField_editAccountID.Value = String.Empty
+        If DropDownList_editCity.Items.Count > 0 Then
+            DropDownList_editCity.SelectedIndex = 0
+        End If
+        Panel_citySelector.Visible = False
     End Sub
 
     Private Sub OpenAddEditor()
@@ -192,8 +218,9 @@ Public Class AccountManage
         Property_EditIsVerified = False
 
         ResetEditor()
-        Panel_editor.Visible = True
+        ShowEditorView()
         Label_formMessage.Text = ""
+        UpdateCitySelectorVisibility()
     End Sub
 
     Private Sub OpenEditEditor(accountID As Integer)
@@ -208,7 +235,7 @@ Public Class AccountManage
         Property_EditIsVerified = Convert.ToBoolean(row("isEmailVerified"))
 
         ResetEditor()
-        Panel_editor.Visible = True
+        ShowEditorView()
 
         HiddenField_editAccountID.Value = accountID.ToString()
         TextBox_account.Text = row("account").ToString()
@@ -217,6 +244,14 @@ Public Class AccountManage
         Dim roleID As String = row("auTypeID").ToString()
         If DropDownList_editRole.Items.FindByValue(roleID) IsNot Nothing Then
             DropDownList_editRole.SelectedValue = roleID
+        End If
+
+        Dim cityValue As String = String.Empty
+        If row.Table.Columns.Contains("govID") AndAlso row("govID") IsNot DBNull.Value Then
+            cityValue = row("govID").ToString()
+        End If
+        If Not String.IsNullOrEmpty(cityValue) AndAlso DropDownList_editCity.Items.FindByValue(cityValue) IsNot Nothing Then
+            DropDownList_editCity.SelectedValue = cityValue
         End If
 
         TextBox_mobile.Text = If(row("mobile") Is DBNull.Value, String.Empty, row("mobile").ToString())
@@ -232,6 +267,8 @@ Public Class AccountManage
             CheckBox_isActive.Visible = False
             Label_isActive.Visible = False
         End If
+
+        UpdateCitySelectorVisibility()
     End Sub
 
     Private Function ValidateAccountUniqueness(account As String, excludeAccountID As Integer) As Boolean
@@ -298,7 +335,7 @@ Public Class AccountManage
     Private Sub HandleSave()
         Page.Validate("AccountForm")
         If Not Page.IsValid Then
-            Panel_editor.Visible = True
+            ShowEditorView()
             Exit Sub
         End If
 
@@ -309,35 +346,50 @@ Public Class AccountManage
         Dim unitText As String = TextBox_unit.Text.Trim()
         Dim emailText As String = TextBox_email.Text.Trim()
         Dim memoText As String = TextBox_memo.Text.Trim()
+        Dim cityValue As String = DropDownList_editCity.SelectedValue
+        Dim selectedCityID As Integer? = Nothing
 
         If String.IsNullOrWhiteSpace(accountText) Then
             ShowFormMessage("請輸入登入帳號。", True)
-            Panel_editor.Visible = True
+            ShowEditorView()
             Exit Sub
         End If
 
         If Not IsValidEmailFormat(accountText) Then
             ShowFormMessage("請輸入正確的登入帳號電子信箱格式。", True)
-            Panel_editor.Visible = True
+            ShowEditorView()
             Exit Sub
         End If
 
         If String.IsNullOrWhiteSpace(nameText) Then
             ShowFormMessage("請輸入使用者姓名。", True)
-            Panel_editor.Visible = True
+            ShowEditorView()
             Exit Sub
         End If
 
         If Not String.IsNullOrWhiteSpace(emailText) AndAlso Not IsValidEmailFormat(emailText) Then
             ShowFormMessage("請輸入正確的聯絡電子信箱格式。", True)
-            Panel_editor.Visible = True
+            ShowEditorView()
             Exit Sub
         End If
 
         If String.IsNullOrEmpty(roleValue) Then
             ShowFormMessage("請選擇系統權限。", True)
-            Panel_editor.Visible = True
+            ShowEditorView()
             Exit Sub
+        End If
+
+        Dim isGovUser As Boolean = (roleValue = "3")
+        Dim cityIDValue As Integer
+        If isGovUser Then
+            If String.IsNullOrEmpty(cityValue) OrElse Not Integer.TryParse(cityValue, cityIDValue) Then
+                ShowFormMessage("請選擇縣市。", True)
+                ShowEditorView()
+                Exit Sub
+            End If
+            selectedCityID = cityIDValue
+        ElseIf Not String.IsNullOrEmpty(cityValue) AndAlso Integer.TryParse(cityValue, cityIDValue) Then
+            selectedCityID = cityIDValue
         End If
 
         Dim currentUser = InfoSession
@@ -350,12 +402,12 @@ Public Class AccountManage
             If Property_EditMode = taifCattle.Base.enum_EditMode.新增 Then
                 If Not ValidateAccountUniqueness(accountText, -1) Then
                     ShowFormMessage("此登入帳號已存在，請重新輸入。", True)
-                    Panel_editor.Visible = True
+                    ShowEditorView()
                     Exit Sub
                 End If
 
                 Dim tempPassword As String = taifCattle_account.GenerateCompliantPassword()
-                Dim newID As Integer = taifCattle_account.CreateSystemAccount(Convert.ToInt32(roleValue), accountText, tempPassword, nameText, emailText, unitText, mobileText, memoText, currentUser.accountID)
+                Dim newID As Integer = taifCattle_account.CreateSystemAccount(Convert.ToInt32(roleValue), accountText, tempPassword, nameText, emailText, unitText, mobileText, memoText, currentUser.accountID, selectedCityID)
                 Insert_UserLog(currentUser.accountID, taifCattle.Base.enum_UserLogItem.系統帳號管理, taifCattle.Base.enum_UserLogType.新增, $"accountID:{newID},account:{accountText}")
 
                 Dim mailSent = SendAccountNotification(nameText, accountText, emailText, tempPassword, True)
@@ -369,7 +421,7 @@ Public Class AccountManage
                 Dim originalRow As DataRow = taifCattle_account.GetSystemAccount(targetID)
                 If originalRow Is Nothing Then
                     ShowFormMessage("找不到指定的帳號資料。", True)
-                    Panel_editor.Visible = True
+                    ShowEditorView()
                     Exit Sub
                 End If
 
@@ -379,24 +431,24 @@ Public Class AccountManage
                 Else
                     If Not ValidateAccountUniqueness(accountText, targetID) Then
                         ShowFormMessage("此登入帳號已存在，請重新輸入。", True)
-                        Panel_editor.Visible = True
+                        ShowEditorView()
                         Exit Sub
                     End If
                 End If
 
                 Dim isActive As Boolean = If(isVerified, CheckBox_isActive.Checked, True)
-                taifCattle_account.UpdateSystemAccount(targetID, Convert.ToInt32(roleValue), accountText, nameText, emailText, unitText, mobileText, memoText, isActive, currentUser.accountID)
+                taifCattle_account.UpdateSystemAccount(targetID, Convert.ToInt32(roleValue), accountText, nameText, emailText, unitText, mobileText, memoText, isActive, currentUser.accountID, selectedCityID)
                 Insert_UserLog(currentUser.accountID, taifCattle.Base.enum_UserLogItem.系統帳號管理, taifCattle.Base.enum_UserLogType.修改, $"accountID:{targetID}")
                 ShowMessage("帳號資料已更新完成。", "text-success")
             End If
 
             ResetEditor()
-            Panel_editor.Visible = False
+            ShowQueryView()
             Property_EditMode = taifCattle.Base.enum_EditMode.預設
             BindGridView()
         Catch ex As Exception
             ShowFormMessage("儲存帳號資料時發生錯誤，請稍後再試。", True)
-            Panel_editor.Visible = True
+            ShowEditorView()
         End Try
     End Sub
 
@@ -481,7 +533,7 @@ Public Class AccountManage
         taifCattle_account.DeletePendingAccount(accountID, currentUser.accountID)
         Insert_UserLog(currentUser.accountID, taifCattle.Base.enum_UserLogItem.系統帳號管理, taifCattle.Base.enum_UserLogType.刪除, $"accountID:{accountID}")
         ResetEditor()
-        Panel_editor.Visible = False
+        ShowQueryView()
         Property_EditMode = taifCattle.Base.enum_EditMode.預設
         ShowMessage($"已刪除尚未驗證的帳號「{targetRow("account")}」。", "text-success")
         BindGridView()
@@ -597,7 +649,7 @@ Public Class AccountManage
 
     Protected Sub Button_cancel_Click(sender As Object, e As EventArgs) Handles Button_cancel.Click
         ResetEditor()
-        Panel_editor.Visible = False
+        ShowQueryView()
         Property_EditMode = taifCattle.Base.enum_EditMode.預設
         ShowFormMessage(String.Empty, False)
     End Sub
@@ -664,5 +716,10 @@ Public Class AccountManage
                 deleteButton.Visible = Not isVerified
             End If
         End If
+    End Sub
+
+    Protected Sub DropDownList_editRole_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DropDownList_editRole.SelectedIndexChanged
+        UpdateCitySelectorVisibility()
+        ShowEditorView()
     End Sub
 End Class
