@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class AccountManage
 
     '''<summary>
+    '''Panel_query 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Panel_query As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
     '''DropDownList_status 控制項。
     '''</summary>
     '''<remarks>
@@ -156,6 +165,24 @@ Partial Public Class AccountManage
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents DropDownList_editRole As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Panel_citySelector 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Panel_citySelector As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''DropDownList_editCity 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents DropDownList_editCity As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''TextBox_mobile 控制項。

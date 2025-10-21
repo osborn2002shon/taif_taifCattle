@@ -6,6 +6,7 @@
             var accountInput = document.getElementById('<%= TextBox_account.ClientID %>');
             var nameInput = document.getElementById('<%= TextBox_name.ClientID %>');
             var roleSelect = document.getElementById('<%= DropDownList_editRole.ClientID %>');
+            var citySelect = document.getElementById('<%= DropDownList_editCity.ClientID %>');
             var contactEmailInput = document.getElementById('<%= TextBox_email.ClientID %>');
             var messageLabel = document.getElementById('<%= Label_formMessage.ClientID %>');
 
@@ -61,6 +62,18 @@
                 return false;
             }
 
+            if (roleSelect && roleSelect.value.trim() === '3') {
+                if (!citySelect || citySelect.value.trim().length === 0) {
+                    if (messageLabel) {
+                        messageLabel.textContent = '請選擇縣市。';
+                        messageLabel.className = 'd-block fw-bold mb-3 text-danger';
+                    } else {
+                        alert('請選擇縣市。');
+                    }
+                    return false;
+                }
+            }
+
             if (contactEmailInput) {
                 var contactEmailValue = contactEmailInput.value.trim();
                 if (contactEmailValue.length > 0 && !pattern.test(contactEmailValue)) {
@@ -87,66 +100,67 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder_content" runat="server">
 
-    <div class="queryBox">
-    <div class="queryBox-header">
-        系統帳號查詢與列表
-    </div>
-    <div class="queryBox-body">
-        <div class="row">
-            <div class="col">
-                <label>帳號狀態</label>
-                <asp:DropDownList ID="DropDownList_status" runat="server" CssClass="form-select"></asp:DropDownList>
+    <asp:Panel ID="Panel_query" runat="server">
+        <div class="queryBox">
+            <div class="queryBox-header">
+                系統帳號查詢與列表
             </div>
-            <div class="col">
-                <label>系統權限</label>
-                <asp:DropDownList ID="DropDownList_role" runat="server" CssClass="form-select"></asp:DropDownList>
-            </div>
-            <div class="col">
-                <label>關鍵字查詢</label>
-                <asp:TextBox ID="TextBox_keyword" runat="server" CssClass="form-control" placeholder="請輸入電子信箱或使用者姓名"></asp:TextBox>
-            </div>
-        </div>
+            <div class="queryBox-body">
+                <div class="row">
+                    <div class="col">
+                        <label>帳號狀態</label>
+                        <asp:DropDownList ID="DropDownList_status" runat="server" CssClass="form-select"></asp:DropDownList>
+                    </div>
+                    <div class="col">
+                        <label>系統權限</label>
+                        <asp:DropDownList ID="DropDownList_role" runat="server" CssClass="form-select"></asp:DropDownList>
+                    </div>
+                    <div class="col">
+                        <label>關鍵字查詢</label>
+                        <asp:TextBox ID="TextBox_keyword" runat="server" CssClass="form-control" placeholder="請輸入電子信箱或使用者姓名"></asp:TextBox>
+                    </div>
+                </div>
 
-        <div class="row">
-            <div class="col text-center">
-                <asp:LinkButton ID="LinkButton_search" runat="server" CssClass="btn btn-primary me-2" CausesValidation="False">
-                    <span><i class="fas fa-search me-1"></i>搜尋</span>
+                <div class="row">
+                    <div class="col text-center">
+                        <asp:LinkButton ID="LinkButton_search" runat="server" CssClass="btn btn-primary me-2" CausesValidation="False">
+                            <span><i class="fas fa-search me-1"></i>搜尋</span>
+                        </asp:LinkButton>
+                        <asp:LinkButton ID="LinkButton_reset" runat="server" CssClass="btn btn-outline-secondary me-2" CausesValidation="False">
+                            <span><i class="fas fa-redo me-1"></i>重置</span>
+                        </asp:LinkButton>
+                        <asp:LinkButton ID="LinkButton_export" runat="server" CssClass="btn btn-success" CausesValidation="False">
+                            <span><i class="fas fa-download me-1"></i>匯出Excel</span>
+                        </asp:LinkButton>
+                    </div>
+                </div>
+            </div>
+            <div class="queryBox-footer"></div>
+        </div>
+        <div class="row m-0 mt-3 mb-3 align-items-center">
+            <div class="col p-0">
+                <asp:LinkButton ID="LinkButton_addAccount" runat="server" CssClass="btn btn-success" CausesValidation="False">
+                    <span><i class="fas fa-user-plus me-1"></i>新增帳號</span>
                 </asp:LinkButton>
-                <asp:LinkButton ID="LinkButton_reset" runat="server" CssClass="btn btn-outline-secondary me-2" CausesValidation="False">
-                    <span><i class="fas fa-redo me-1"></i>重置</span>
-                </asp:LinkButton>
-                <asp:LinkButton ID="LinkButton_export" runat="server" CssClass="btn btn-success" CausesValidation="False">
-                    <span><i class="fas fa-download me-1"></i>匯出Excel</span>
-                </asp:LinkButton>
+            </div>
+            <div class="col p-0 text-end">
+                共 <asp:Label ID="Label_recordCount" runat="server" Text="0"></asp:Label> 筆
             </div>
         </div>
-    </div>
-    <div class="queryBox-footer"></div>
-</div>
-    <div class="row m-0 mt-3 mb-3 align-items-center">
-        <div class="col p-0">
-            <asp:LinkButton ID="LinkButton_addAccount" runat="server" CssClass="btn btn-success" CausesValidation="False">
-                <span><i class="fas fa-user-plus me-1"></i>新增帳號</span>
-            </asp:LinkButton>
-        </div>
-        <div class="col p-0 text-end">
-            共 <asp:Label ID="Label_recordCount" runat="server" Text="0"></asp:Label> 筆
-        </div>
-    </div>
-
-    
-
-    <asp:Label ID="Label_message" runat="server" CssClass="d-block fw-bold px-4 pt-3"></asp:Label>
 
 
 
-    <div class="table-responsive gv-tb">
-         <asp:GridView ID="GridView_accounts" runat="server" CssClass="gv" AutoGenerateColumns="False"
-             AllowPaging="True" PageSize="10" DataKeyNames="accountID"
-             OnPageIndexChanging="GridView_accounts_PageIndexChanging"
-             OnRowCommand="GridView_accounts_RowCommand"
-             OnRowDataBound="GridView_accounts_RowDataBound">
-             <Columns>
+        <asp:Label ID="Label_message" runat="server" CssClass="d-block fw-bold px-4 pt-3"></asp:Label>
+
+
+
+        <div class="table-responsive gv-tb">
+             <asp:GridView ID="GridView_accounts" runat="server" CssClass="gv" AutoGenerateColumns="False"
+                 AllowPaging="True" PageSize="10" DataKeyNames="accountID"
+                 OnPageIndexChanging="GridView_accounts_PageIndexChanging"
+                 OnRowCommand="GridView_accounts_RowCommand"
+                 OnRowDataBound="GridView_accounts_RowDataBound">
+                 <Columns>
                  <asp:TemplateField HeaderText="登入帳號（電子信箱）">
                      <ItemTemplate>
                          <span class="account-id"><%# Eval("account") %></span>
@@ -194,6 +208,7 @@
              <PagerStyle HorizontalAlign="Center" />
          </asp:GridView>
     </div>
+    </asp:Panel>
 
     <div class="data-table">
         <div class="table-body">
@@ -226,8 +241,12 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">系統權限<span class="text-danger">*</span></label>
-                        <asp:DropDownList ID="DropDownList_editRole" runat="server" CssClass="form-select"></asp:DropDownList>
+                        <asp:DropDownList ID="DropDownList_editRole" runat="server" CssClass="form-select" AutoPostBack="True" OnSelectedIndexChanged="DropDownList_editRole_SelectedIndexChanged"></asp:DropDownList>
                     </div>
+                    <asp:Panel ID="Panel_citySelector" runat="server" CssClass="col-md-6" Visible="false">
+                        <label class="form-label">縣市<span class="text-danger">*</span></label>
+                        <asp:DropDownList ID="DropDownList_editCity" runat="server" CssClass="form-select"></asp:DropDownList>
+                    </asp:Panel>
                     <div class="col-md-6">
                         <label class="form-label">聯絡電話</label>
                         <asp:TextBox ID="TextBox_mobile" runat="server" CssClass="form-control"></asp:TextBox>
