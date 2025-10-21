@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="AccountManage.aspx.vb" Inherits="taifCattle.AccountManage" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
 
     <script type="text/javascript">
@@ -78,7 +79,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
-    <i class="fa-solid fa-users"></i> 系統帳號管理
+    <i class="fa-solid fa-users"></i>系統帳號管理
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_title" runat="server">
     系統帳號管理
@@ -94,16 +95,20 @@
             <div class="queryBox-body">
                 <div class="row">
                     <div class="col">
-                        <label>帳號狀態</label>
-                        <asp:DropDownList ID="DropDownList_status" runat="server" CssClass="form-select"></asp:DropDownList>
-                    </div>
-                    <div class="col">
                         <label>系統權限</label>
                         <asp:DropDownList ID="DropDownList_role" runat="server" CssClass="form-select"></asp:DropDownList>
                     </div>
                     <div class="col">
+                        <label>帳號狀態</label>
+                        <asp:DropDownList ID="DropDownList_status" runat="server" CssClass="form-select"></asp:DropDownList>
+                    </div>
+
+                    <div class="col">
                         <label>關鍵字查詢</label>
-                        <asp:TextBox ID="TextBox_keyword" runat="server" CssClass="form-control" placeholder="請輸入電子信箱或使用者姓名"></asp:TextBox>
+                        <div class="input-group">
+                            <asp:TextBox ID="TextBox_keyword" runat="server" CssClass="form-control" placeholder="請輸入電子信箱或使用者姓名"></asp:TextBox>
+                            <span class="input-group-text" onclick="clearControl('<%= TextBox_keyword.ClientID %>')" style="cursor: pointer;"><i class="fa-solid fa-xmark"></i></span>
+                        </div>
                     </div>
                 </div>
 
@@ -112,12 +117,7 @@
                         <asp:LinkButton ID="LinkButton_search" runat="server" CssClass="btn btn-primary me-2" CausesValidation="False">
                             <span><i class="fas fa-search me-1"></i>搜尋</span>
                         </asp:LinkButton>
-                        <asp:LinkButton ID="LinkButton_reset" runat="server" CssClass="btn btn-outline-secondary me-2" CausesValidation="False">
-                            <span><i class="fas fa-redo me-1"></i>重置</span>
-                        </asp:LinkButton>
-                        <asp:LinkButton ID="LinkButton_export" runat="server" CssClass="btn btn-success" CausesValidation="False">
-                            <span><i class="fas fa-download me-1"></i>匯出Excel</span>
-                        </asp:LinkButton>
+
                     </div>
                 </div>
             </div>
@@ -125,12 +125,18 @@
         </div>
         <div class="row m-0 mt-3 mb-3 align-items-center">
             <div class="col p-0">
+
                 <asp:LinkButton ID="LinkButton_addAccount" runat="server" CssClass="btn btn-success" CausesValidation="False">
                     <span><i class="fas fa-user-plus me-1"></i>新增帳號</span>
                 </asp:LinkButton>
+                <asp:LinkButton ID="LinkButton_export" runat="server" CssClass="btn btn-outline-success" CausesValidation="False">
+                    <span><i class="fas fa-download me-1"></i>匯出Excel</span>
+                </asp:LinkButton>
             </div>
             <div class="col p-0 text-end">
-                共 <asp:Label ID="Label_recordCount" runat="server" Text="0"></asp:Label> 筆
+                共
+                <asp:Label ID="Label_recordCount" runat="server" Text="0"></asp:Label>
+                筆
             </div>
         </div>
 
@@ -141,59 +147,59 @@
 
 
         <div class="table-responsive gv-tb">
-             <asp:GridView ID="GridView_accounts" runat="server" CssClass="gv" AutoGenerateColumns="False"
-                 AllowPaging="True" PageSize="10" DataKeyNames="accountID"
-                 OnPageIndexChanging="GridView_accounts_PageIndexChanging"
-                 OnRowCommand="GridView_accounts_RowCommand"
-                 OnRowDataBound="GridView_accounts_RowDataBound">
-                 <Columns>
-                 <asp:TemplateField HeaderText="登入帳號（電子信箱）">
-                     <ItemTemplate>
-                         <span class="account-id"><%# Eval("account") %></span>
-                         <asp:HiddenField ID="HiddenField_accountID" runat="server" Value='<%# Eval("accountID") %>' />
-                         <asp:HiddenField ID="HiddenField_isActive" runat="server" Value='<%# Eval("isActive") %>' />
-                         <asp:HiddenField ID="HiddenField_isVerified" runat="server" Value='<%# Eval("isEmailVerified") %>' />
-                     </ItemTemplate>
-                 </asp:TemplateField>
-                 <asp:BoundField DataField="name" HeaderText="使用者姓名" ItemStyle-Width="120px" />
-                 <asp:BoundField DataField="auTypeName" HeaderText="使用者角色" ItemStyle-Width="80px" />
-                 <asp:TemplateField HeaderText="帳號狀態"  ItemStyle-Width="80px">
-                     <ItemTemplate>
-                         <asp:Label ID="Label_status" runat="server"></asp:Label>
-                     </ItemTemplate>
-                 </asp:TemplateField>
-                 <asp:BoundField DataField="insertDateTime" HeaderText="建立日期" DataFormatString="{0:yyyy-MM-dd}" ItemStyle-Width="120px" />
-                 <asp:TemplateField HeaderText="最後登入" ItemStyle-Width="150px">
-                     <ItemTemplate>
-                         <asp:Label ID="Label_lastLogin" runat="server"></asp:Label>
-                     </ItemTemplate>
-                 </asp:TemplateField>
-                 <asp:TemplateField HeaderText="操作" ItemStyle-Width="300px">
-                     <ItemTemplate>
-                         <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-warning btn-sm me-1" CommandName="EditAccount" CommandArgument='<%# Eval("accountID") %>' CausesValidation="False">
+            <asp:GridView ID="GridView_accounts" runat="server" CssClass="gv" AutoGenerateColumns="False"
+                AllowPaging="True" PageSize="10" DataKeyNames="accountID"
+                OnPageIndexChanging="GridView_accounts_PageIndexChanging"
+                OnRowCommand="GridView_accounts_RowCommand"
+                OnRowDataBound="GridView_accounts_RowDataBound">
+                <Columns>
+                    <asp:BoundField DataField="auTypeName" HeaderText="系統權限" ItemStyle-Width="100px" />
+                    <asp:TemplateField HeaderText="帳號狀態" ItemStyle-Width="80px">
+                        <ItemTemplate>
+                            <asp:Label ID="Label_status" runat="server"></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="登入帳號（電子信箱）">
+                        <ItemTemplate>
+                            <span class="account-id"><%# Eval("account") %></span>
+                            <asp:HiddenField ID="HiddenField_accountID" runat="server" Value='<%# Eval("accountID") %>' />
+                            <asp:HiddenField ID="HiddenField_isActive" runat="server" Value='<%# Eval("isActive") %>' />
+                            <asp:HiddenField ID="HiddenField_isVerified" runat="server" Value='<%# Eval("isEmailVerified") %>' />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="name" HeaderText="使用者姓名" ItemStyle-Width="120px" />
+                    <%--<asp:BoundField  DataField="insertDateTime" HeaderText="建立日期" DataFormatString="{0:yyyy-MM-dd}" ItemStyle-Width="120px" />--%>
+                    <asp:TemplateField HeaderText="最後登入時間" ItemStyle-Width="180px">
+                        <ItemTemplate>
+                            <asp:Label ID="Label_lastLogin" runat="server"></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="操作" ItemStyle-Width="300px">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-warning btn-sm me-1" CommandName="EditAccount" CommandArgument='<%# Eval("accountID") %>' CausesValidation="False">
                              <i class="fas fa-edit me-1"></i>編輯
-                         </asp:LinkButton>
-                         <asp:LinkButton ID="LinkButton_resetPassword" runat="server" CssClass="btn btn-warning btn-sm me-1" CausesValidation="False"
-                             CommandName="ResetPassword" CommandArgument='<%# Eval("accountID") %>' OnClientClick="return confirm('確定要重設此帳號的密碼並寄送通知信件嗎？');">
+                            </asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton_resetPassword" runat="server" CssClass="btn btn-outline-warning btn-sm me-1" CausesValidation="False"
+                                CommandName="ResetPassword" CommandArgument='<%# Eval("accountID") %>' OnClientClick="return confirm('確定要重設此帳號的密碼並寄送通知信件嗎？');">
                              <i class="fas fa-key me-1"></i>重設密碼
-                         </asp:LinkButton>
-                         <asp:LinkButton ID="LinkButton_toggleActive" runat="server" CssClass="btn btn-approve btn-sm me-1" CausesValidation="False"
-                             CommandName="ToggleActive" CommandArgument='<%# Eval("accountID") %>'>
+                            </asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton_toggleActive" runat="server" CssClass="btn btn-approve btn-sm me-1" CausesValidation="False"
+                                CommandName="ToggleActive" CommandArgument='<%# Eval("accountID") %>'>
                              <i class="fas fa-toggle-on me-1"></i><span>啟用</span>
-                         </asp:LinkButton>
-                         <asp:LinkButton ID="LinkButton_delete" runat="server" CssClass="btn btn-danger btn-sm" CausesValidation="False"
-                             CommandName="DeleteAccount" CommandArgument='<%# Eval("accountID") %>' OnClientClick="return confirm('確定要刪除此尚未驗證的帳號嗎？');">
+                            </asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton_delete" runat="server" CssClass="btn btn-outline-danger btn-sm" CausesValidation="False"
+                                CommandName="DeleteAccount" CommandArgument='<%# Eval("accountID") %>' OnClientClick="return confirm('確定要刪除此尚未驗證的帳號嗎？');">
                              <i class="fas fa-trash me-1"></i>刪除
-                         </asp:LinkButton>
-                     </ItemTemplate>
-                 </asp:TemplateField>
-             </Columns>
-             <EmptyDataTemplate>
-                 <div class="text-danger text-center py-2 fw-bold">目前沒有符合條件的帳號資料。</div>
-             </EmptyDataTemplate>
-             <PagerStyle HorizontalAlign="Center" />
-         </asp:GridView>
-    </div>
+                            </asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+                <EmptyDataTemplate>
+                    <div class="text-danger text-center py-2 fw-bold">目前沒有符合條件的帳號資料。</div>
+                </EmptyDataTemplate>
+                <PagerStyle HorizontalAlign="Center" />
+            </asp:GridView>
+        </div>
     </asp:Panel>
 
     <asp:Panel ID="Panel_editor" runat="server" CssClass="mt-4" Visible="false">
@@ -206,6 +212,14 @@
                 <asp:Label ID="Label_formMessage" runat="server" CssClass="d-block fw-bold mb-3"></asp:Label>
                 <div class="row g-3">
                     <div class="col-md-6">
+    <label class="form-label">系統權限<span class="text-danger">*</span></label>
+    <asp:DropDownList ID="DropDownList_editRole" runat="server" CssClass="form-select" AutoPostBack="True" OnSelectedIndexChanged="DropDownList_editRole_SelectedIndexChanged"></asp:DropDownList>
+</div>
+                    <asp:Panel ID="Panel_citySelector" runat="server" CssClass="col-md-6" Visible="false">
+    <label class="form-label">縣市<span class="text-danger">*</span></label>
+    <asp:DropDownList ID="DropDownList_editCity" runat="server" CssClass="form-select"></asp:DropDownList>
+</asp:Panel>
+                    <div class="col-md-6">
                         <label class="form-label">登入帳號／電子信箱<span class="text-danger">*</span></label>
                         <asp:TextBox ID="TextBox_account" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
@@ -213,14 +227,8 @@
                         <label class="form-label">使用者姓名<span class="text-danger">*</span></label>
                         <asp:TextBox ID="TextBox_name" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">系統權限<span class="text-danger">*</span></label>
-                        <asp:DropDownList ID="DropDownList_editRole" runat="server" CssClass="form-select" AutoPostBack="True"   OnSelectedIndexChanged="DropDownList_editRole_SelectedIndexChanged"></asp:DropDownList>
-                    </div>
-                    <asp:Panel ID="Panel_citySelector" runat="server" CssClass="col-md-6" Visible="false">
-                        <label class="form-label">縣市<span class="text-danger">*</span></label>
-                        <asp:DropDownList ID="DropDownList_editCity" runat="server" CssClass="form-select"></asp:DropDownList>
-                    </asp:Panel>
+                    
+                    
                     <div class="col-md-6">
                         <label class="form-label">聯絡電話</label>
                         <asp:TextBox ID="TextBox_mobile" runat="server" CssClass="form-control"></asp:TextBox>
@@ -247,5 +255,12 @@
             </div>
         </div>
     </asp:Panel>
+    <script type="text/javascript">
+       function clearControl(controlId) {
+           var textbox = document.getElementById(controlId);
+           textbox.value = '';
+           textbox.focus(); // 清除後自動聚焦
+       }
+    </script>
 </asp:Content>
 

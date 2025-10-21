@@ -622,13 +622,6 @@ Public Class AccountManage
         BindGridView()
     End Sub
 
-    Protected Sub LinkButton_reset_Click(sender As Object, e As EventArgs) Handles LinkButton_reset.Click
-        DropDownList_status.SelectedIndex = 0
-        DropDownList_role.SelectedIndex = 0
-        TextBox_keyword.Text = String.Empty
-        SaveQueryCondition()
-        BindGridView()
-    End Sub
 
     Protected Sub LinkButton_export_Click(sender As Object, e As EventArgs) Handles LinkButton_export.Click
         SaveQueryCondition()

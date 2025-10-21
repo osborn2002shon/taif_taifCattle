@@ -23,15 +23,6 @@ Partial Public Class AccountManage
     Protected WithEvents Panel_query As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''DropDownList_status 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents DropDownList_status As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''DropDownList_role 控制項。
     '''</summary>
     '''<remarks>
@@ -39,6 +30,15 @@ Partial Public Class AccountManage
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents DropDownList_role As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''DropDownList_status 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents DropDownList_status As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''TextBox_keyword 控制項。
@@ -59,13 +59,13 @@ Partial Public Class AccountManage
     Protected WithEvents LinkButton_search As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''LinkButton_reset 控制項。
+    '''LinkButton_addAccount 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents LinkButton_reset As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents LinkButton_addAccount As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''LinkButton_export 控制項。
@@ -75,15 +75,6 @@ Partial Public Class AccountManage
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents LinkButton_export As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''LinkButton_addAccount 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents LinkButton_addAccount As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Label_recordCount 控制項。
@@ -140,24 +131,6 @@ Partial Public Class AccountManage
     Protected WithEvents Label_formMessage As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''TextBox_account 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents TextBox_account As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''TextBox_name 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents TextBox_name As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''DropDownList_editRole 控制項。
     '''</summary>
     '''<remarks>
@@ -183,6 +156,24 @@ Partial Public Class AccountManage
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents DropDownList_editCity As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''TextBox_account 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents TextBox_account As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''TextBox_name 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents TextBox_name As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''TextBox_mobile 控制項。

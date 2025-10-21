@@ -322,8 +322,8 @@ Namespace taifCattle
                 userInfo.account = dt.Rows(0)("account")
                 userInfo.name = dt.Rows(0)("name")
                 userInfo.unit = "" & dt.Rows(0)("unit")
-                userInfo.mail = dt.Rows(0)("email")
-                userInfo.tel = dt.Rows(0)("mobile")
+                userInfo.mail = dt.Rows(0)("email") & ""
+                userInfo.tel = dt.Rows(0)("mobile") & ""
                 userInfo.isActive = dt.Rows(0)("isActive")  '帳號啟用／停用狀態
                 userInfo.pwUpdateDateTime = dt.Rows(0)("lastUpdatePWDateTime")
                 userInfo.lastLoginDateTime = dt.Rows(0)("lastLoginDateTime")
