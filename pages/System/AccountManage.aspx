@@ -210,18 +210,6 @@
     </div>
     </asp:Panel>
 
-    <div class="data-table">
-        <div class="table-body">
-
-            <div class="table-responsive">
-                <div class="text-muted text-end p-2">
-                    
-                </div>
-               
-            </div>
-        </div>
-    </div>
-
     <asp:Panel ID="Panel_editor" runat="server" CssClass="mt-4" Visible="false">
         <div class="card shadow-sm">
             <div class="card-header bg-light">
