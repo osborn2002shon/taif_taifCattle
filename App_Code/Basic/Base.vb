@@ -91,6 +91,9 @@ Namespace taifCattle
             Property isExist As Boolean
             Property msg As String
             Property pwUpdateDateTime As Object
+            Property lastLoginDateTime As Object
+            Property insertDateTime As DateTime
+            Property isEmailVerified As Boolean
 
             Property slauID As Integer
             Property govID As Integer
@@ -323,6 +326,9 @@ Namespace taifCattle
                 userInfo.tel = dt.Rows(0)("mobile")
                 userInfo.isActive = dt.Rows(0)("isActive")  '帳號啟用／停用狀態
                 userInfo.pwUpdateDateTime = dt.Rows(0)("lastUpdatePWDateTime")
+                userInfo.lastLoginDateTime = dt.Rows(0)("lastLoginDateTime")
+                userInfo.insertDateTime = dt.Rows(0)("insertDateTime")
+                userInfo.isEmailVerified = dt.Rows(0)("isEmailVerified")
 
                 userInfo.slauID = Convert_DBNullToString(dt.Rows(0)("slauID"), -1)
                 'userInfo.govID = Convert_DBNullToString(dt.Rows(0)("govID"), -1)
@@ -347,6 +353,9 @@ Namespace taifCattle
                 userInfo.unit = ""
                 userInfo.isActive = False
                 userInfo.pwUpdateDateTime = DBNull.Value
+                userInfo.lastLoginDateTime = DBNull.Value
+                userInfo.insertDateTime = Date.MinValue
+                userInfo.isEmailVerified = False
 
                 userInfo.slauID = -1
                 userInfo.govID = -1
@@ -389,6 +398,9 @@ Namespace taifCattle
             userInfo.unit = ""
             userInfo.isActive = False
             userInfo.pwUpdateDateTime = DBNull.Value
+            userInfo.lastLoginDateTime = DBNull.Value
+            userInfo.insertDateTime = Date.MinValue
+            userInfo.isEmailVerified = False
             userInfo.liMenu = New List(Of stru_MenuItem)
             System.Web.HttpContext.Current.Session("UserInfo") = userInfo
         End Sub
@@ -422,6 +434,10 @@ Namespace taifCattle
                     userInfo.unit = ""
                     userInfo.isActive = False
                     userInfo.pwUpdateDateTime = DBNull.Value
+                    userInfo.lastLoginDateTime = DBNull.Value
+                    userInfo.insertDateTime = Date.MinValue
+                    userInfo.isEmailVerified = False
+                    userInfo.liMenu = New List(Of stru_MenuItem)
                     Return userInfo
                 Else
                     Return System.Web.HttpContext.Current.Session("UserInfo")

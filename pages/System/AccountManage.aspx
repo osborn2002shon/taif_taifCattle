@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="AccountManage.aspx.vb" Inherits="taifCattle.AccountManage" %>
+<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="AccountManage.aspx.vb" Inherits="taifCattle.AccountManage" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
     <style type="text/css">
         /* 狀態標籤 */
@@ -174,227 +174,172 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_title" runat="server">
     系統帳號管理
 </asp:Content>
+
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder_content" runat="server">
     <div class="data-table">
-    <div class="table-header">
-        <div class="table-title-group">
-            <h3 class="table-title">系統帳號查詢與列表</h3>
-            <p class="table-subtitle">管理所有系統使用者帳號與權限設定</p>
+        <div class="table-header">
+            <div class="table-title-group">
+                <h3 class="table-title">系統帳號查詢與列表</h3>
+                <p class="table-subtitle">管理所有系統使用者帳號與權限設定</p>
+            </div>
+            <div class="table-actions">
+                <asp:LinkButton ID="LinkButton_addAccount" runat="server" CssClass="btn btn-add-account" CausesValidation="False">
+                    <span><i class="fas fa-user-plus me-1"></i>新增帳號</span>
+                </asp:LinkButton>
+            </div>
         </div>
-        <div class="table-actions">
-            <button class="btn btn-add-account" onclick="addNewAccount()">
-                <i class="fas fa-user-plus me-1"></i>新增帳號
-            </button>
+
+        <div class="table-body">
+            <div class="p-4 border-bottom">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">帳號狀態</label>
+                        <asp:DropDownList ID="DropDownList_status" runat="server" CssClass="form-select"></asp:DropDownList>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">系統權限</label>
+                        <asp:DropDownList ID="DropDownList_role" runat="server" CssClass="form-select"></asp:DropDownList>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">關鍵字查詢</label>
+                        <asp:TextBox ID="TextBox_keyword" runat="server" CssClass="form-control" placeholder="請輸入電子信箱或使用者姓名"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <asp:LinkButton ID="LinkButton_search" runat="server" CssClass="btn btn-primary me-2" CausesValidation="False">
+                            <span><i class="fas fa-search me-1"></i>搜尋</span>
+                        </asp:LinkButton>
+                        <asp:LinkButton ID="LinkButton_reset" runat="server" CssClass="btn btn-outline-secondary me-2" CausesValidation="False">
+                            <span><i class="fas fa-redo me-1"></i>重置</span>
+                        </asp:LinkButton>
+                        <asp:LinkButton ID="LinkButton_export" runat="server" CssClass="btn btn-success" CausesValidation="False">
+                            <span><i class="fas fa-download me-1"></i>匯出Excel</span>
+                        </asp:LinkButton>
+                    </div>
+                </div>
+            </div>
+
+            <asp:Label ID="Label_message" runat="server" CssClass="d-block fw-bold px-4 pt-3"></asp:Label>
+
+            <div class="table-responsive">
+                <div class="text-muted text-end p-2">
+                    共 <asp:Label ID="Label_recordCount" runat="server" Text="0"></asp:Label> 筆
+                </div>
+                <asp:GridView ID="GridView_accounts" runat="server" CssClass="table" AutoGenerateColumns="False"
+                    AllowPaging="True" PageSize="10" DataKeyNames="accountID"
+                    OnPageIndexChanging="GridView_accounts_PageIndexChanging"
+                    OnRowCommand="GridView_accounts_RowCommand"
+                    OnRowDataBound="GridView_accounts_RowDataBound">
+                    <Columns>
+                        <asp:TemplateField HeaderText="登入帳號（電子信箱）" ItemStyle-Width="22%">
+                            <ItemTemplate>
+                                <span class="account-id"><%# Eval("account") %></span>
+                                <asp:HiddenField ID="HiddenField_accountID" runat="server" Value='<%# Eval("accountID") %>' />
+                                <asp:HiddenField ID="HiddenField_isActive" runat="server" Value='<%# Eval("isActive") %>' />
+                                <asp:HiddenField ID="HiddenField_isVerified" runat="server" Value='<%# Eval("isEmailVerified") %>' />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="name" HeaderText="使用者姓名" ItemStyle-Width="15%" />
+                        <asp:BoundField DataField="auTypeName" HeaderText="使用者角色" ItemStyle-Width="15%" />
+                        <asp:TemplateField HeaderText="帳號狀態" ItemStyle-Width="12%">
+                            <ItemTemplate>
+                                <asp:Label ID="Label_status" runat="server"></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="insertDateTime" HeaderText="建立日期" DataFormatString="{0:yyyy-MM-dd}" ItemStyle-Width="12%" />
+                        <asp:TemplateField HeaderText="最後登入" ItemStyle-Width="14%">
+                            <ItemTemplate>
+                                <asp:Label ID="Label_lastLogin" runat="server"></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="操作" ItemStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-edit btn-sm me-1" CommandName="EditAccount" CommandArgument='<%# Eval("accountID") %>' CausesValidation="False">
+                                    <i class="fas fa-edit me-1"></i>編輯
+                                </asp:LinkButton>
+                                <asp:LinkButton ID="LinkButton_resetPassword" runat="server" CssClass="btn btn-password btn-sm me-1" CausesValidation="False"
+                                    CommandName="ResetPassword" CommandArgument='<%# Eval("accountID") %>' OnClientClick="return confirm('確定要重設此帳號的密碼並寄送通知信件嗎？');">
+                                    <i class="fas fa-key me-1"></i>重設密碼
+                                </asp:LinkButton>
+                                <asp:LinkButton ID="LinkButton_toggleActive" runat="server" CssClass="btn btn-approve btn-sm me-1" CausesValidation="False"
+                                    CommandName="ToggleActive" CommandArgument='<%# Eval("accountID") %>'>
+                                    <i class="fas fa-toggle-on me-1"></i><span>啟用</span>
+                                </asp:LinkButton>
+                                <asp:LinkButton ID="LinkButton_delete" runat="server" CssClass="btn btn-danger btn-sm" CausesValidation="False"
+                                    CommandName="DeleteAccount" CommandArgument='<%# Eval("accountID") %>' OnClientClick="return confirm('確定要刪除此尚未驗證的帳號嗎？');">
+                                    <i class="fas fa-trash me-1"></i>刪除
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                    <EmptyDataTemplate>
+                        <div class="text-danger text-center py-2 fw-bold">目前沒有符合條件的帳號資料。</div>
+                    </EmptyDataTemplate>
+                    <PagerStyle HorizontalAlign="Center" />
+                </asp:GridView>
+            </div>
         </div>
     </div>
 
-    <div class="table-body">
-        <!-- 篩選器區域 -->
-        <div class="p-4 border-bottom">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label">帳號狀態</label>
-                    <select class="form-select" id="statusFilter">
-                        <option value="">全部狀態</option>
-                        <option value="active">啟用</option>
-                        <option value="inactive">停用</option>
-                        <option value="pending">待驗證</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">系統權限</label>
-                    <!-- 讀取System_UserAuType -->
-                    <select class="form-select" id="roleFilter">
-                        <option value="">全部權限</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">關鍵字查詢</label>
-                    <input type="text" class="form-control" id="keywordFilter" placeholder="請輸入電子信箱或使用者姓名">
+    <asp:Panel ID="Panel_editor" runat="server" CssClass="mt-4" Visible="false">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0" id="formTitle">帳號維護</h5>
+            </div>
+            <div class="card-body">
+                <asp:HiddenField ID="HiddenField_editAccountID" runat="server" />
+                <asp:Label ID="Label_formMessage" runat="server" CssClass="d-block fw-bold mb-3"></asp:Label>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">登入帳號（電子信箱）<span class="text-danger">*</span></label>
+                        <asp:TextBox ID="TextBox_account" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator_account" runat="server" ControlToValidate="TextBox_account"
+                            Display="Dynamic" CssClass="text-danger" ErrorMessage="請輸入登入帳號" ValidationGroup="AccountForm"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator_account" runat="server" ControlToValidate="TextBox_account"
+                            Display="Dynamic" CssClass="text-danger" ValidationExpression="^[^@\s]+@[^@\s]+\.[^@\s]+$" ErrorMessage="請輸入正確的電子信箱格式" ValidationGroup="AccountForm"></asp:RegularExpressionValidator>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">使用者姓名<span class="text-danger">*</span></label>
+                        <asp:TextBox ID="TextBox_name" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator_name" runat="server" ControlToValidate="TextBox_name"
+                            Display="Dynamic" CssClass="text-danger" ErrorMessage="請輸入使用者姓名" ValidationGroup="AccountForm"></asp:RequiredFieldValidator>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">系統權限<span class="text-danger">*</span></label>
+                        <asp:DropDownList ID="DropDownList_editRole" runat="server" CssClass="form-select"></asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator_role" runat="server" ControlToValidate="DropDownList_editRole"
+                            InitialValue="" Display="Dynamic" CssClass="text-danger" ErrorMessage="請選擇系統權限" ValidationGroup="AccountForm"></asp:RequiredFieldValidator>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">聯絡電話</label>
+                        <asp:TextBox ID="TextBox_mobile" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">服務單位</label>
+                        <asp:TextBox ID="TextBox_unit" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">電子信箱</label>
+                        <asp:TextBox ID="TextBox_email" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">備註</label>
+                        <asp:TextBox ID="TextBox_memo" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3"></asp:TextBox>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                            <asp:CheckBox ID="CheckBox_isActive" runat="server" CssClass="form-check-input" />
+                            <asp:Label ID="Label_isActive" runat="server" CssClass="form-check-label" AssociatedControlID="CheckBox_isActive" Text="啟用此帳號"></asp:Label>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col-12">
-                    <button class="btn btn-primary me-2" onclick="searchAccounts()">
-                        <i class="fas fa-search me-1"></i>搜尋
-                    </button>
-                    <button class="btn btn-outline-secondary me-2" onclick="resetFilter()">
-                        <i class="fas fa-redo me-1"></i>重置
-                    </button>
-                    <button class="btn btn-success" onclick="exportData()">
-                        <i class="fas fa-download me-1"></i>匯出Excel
-                    </button>
-                </div>
+            <div class="card-footer text-end">
+                <asp:Button ID="Button_save" runat="server" CssClass="btn btn-primary me-2" Text="儲存" ValidationGroup="AccountForm" />
+                <asp:Button ID="Button_cancel" runat="server" CssClass="btn btn-outline-secondary" Text="取消" CausesValidation="False" />
             </div>
         </div>
-
-        <!-- 資料表格 -->
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>登入帳號（電子信箱）</th>
-                        <th>使用者姓名</th>
-                        <th>使用者角色</th>
-                        <th>帳號狀態</th>
-                        <th>建立日期</th>
-                        <th>最後登入</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody id="accountTableBody">
-                    <tr>
-                        <td><span class="account-id">admin@example.com</span></td>
-                        <td><strong>系統管理員</strong></td>
-                        <td><span class="role-badge role-admin">系統管理者</span></td>
-                        <td><span class="status-badge status-active">啟用</span></td>
-                        <td>2024-01-01</td>
-                        <td class="last-login">2024-07-29 09:15:23</td>
-                        <td>
-                            <button class="btn btn-edit">
-                                <i class="fas fa-edit me-1"></i>編輯
-                            </button>
-                            <button class="btn btn-password">
-                                <i class="fas fa-key me-1"></i>重設密碼
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class="account-id">wang.daming@example.com</span></td>
-                        <td><strong>王大明</strong></td>
-                        <td><span class="role-badge role-manager">一般管理員</span></td>
-                        <td><span class="status-badge status-active">啟用</span></td>
-                        <td>2024-02-15</td>
-                        <td class="last-login">2024-07-28 16:42:18</td>
-                        <td>
-                            <button class="btn btn-edit">
-                                <i class="fas fa-edit me-1"></i>編輯
-                            </button>
-                            <button class="btn btn-password">
-                                <i class="fas fa-key me-1"></i>重設密碼
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class="account-id">li.xiaohua@example.com</span></td>
-                        <td><strong>李小華</strong></td>
-                        <td><span class="role-badge role-operator">查詢使用者</span></td>
-                        <td><span class="status-badge status-pending">待驗證</span></td>
-                        <td>2024-03-10</td>
-                        <td class="last-login">從未登入</td>
-                        <td>
-                            <button class="btn btn-danger">
-                                <i class="fas fa-edit me-1"></i>刪除
-                            </button>
-                            <button class="btn btn-approve" onclick="approveAccount('li.xiaohua@example.com')">
-                                <i class="fas fa-envelope me-1"></i>重發驗證信
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class="account-id">zhang.zhiming@example.com</span></td>
-                        <td><strong>張志明</strong></td>
-                        <td><span class="role-badge role-viewer">一般使用者</span></td>
-                        <td><span class="status-badge status-inactive">停用</span></td>
-                        <td>2024-04-05</td>
-                        <td class="last-login">2024-07-20 14:22:11</td>
-                        <td>
-                            <button class="btn btn-edit" onclick="editAccount('zhang.zhiming@example.com')">
-                                <i class="fas fa-edit me-1"></i>編輯
-                            </button>
-                            <button class="btn btn-password" onclick="changePassword('zhang.zhiming@example.com')">
-                                <i class="fas fa-key me-1"></i>重設密碼
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class="account-id">chen.meiling@example.com</span></td>
-                        <td><strong>陳美玲</strong></td>
-                        <td><span class="role-badge role-operator">一般使用者</span></td>
-                        <td><span class="status-badge status-pending">待審核</span></td>
-                        <td>2024-05-20</td>
-                        <td class="last-login">從未登入</td>
-                        <td>
-                            <button class="btn btn-danger">
-                                <i class="fas fa-edit me-1"></i>刪除
-                            </button>
-                            <button class="btn btn-approve" onclick="approveAccount('li.xiaohua@example.com')">
-                                <i class="fas fa-envelope me-1"></i>重發驗證信
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class="account-id">liu.jianguo@example.com</span></td>
-                        <td><strong>劉建國</strong></td>
-                        <td><span class="role-badge role-manager">一般管理員</span></td>
-                        <td><span class="status-badge status-active">啟用</span></td>
-                        <td>2024-06-12</td>
-                        <td class="last-login">2024-07-29 07:45:12</td>
-                        <td>
-                            <button class="btn btn-edit" onclick="editAccount('liu.jianguo@example.com')">
-                                <i class="fas fa-edit me-1"></i>編輯
-                            </button>
-                            <button class="btn btn-password" onclick="changePassword('liu.jianguo@example.com')">
-                                <i class="fas fa-key me-1"></i>重設密碼
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class="account-id">huang.shujuan@example.com</span></td>
-                        <td><strong>黃淑娟</strong></td>
-                        <td><span class="role-badge role-viewer">一般使用者</span></td>
-                        <td><span class="status-badge status-active">啟用</span></td>
-                        <td>2024-07-01</td>
-                        <td class="last-login">2024-07-28 15:30:28</td>
-                        <td>
-                            <button class="btn btn-edit" onclick="editAccount('huang.shujuan@example.com')">
-                                <i class="fas fa-edit me-1"></i>編輯
-                            </button>
-                            <button class="btn btn-password" onclick="changePassword('huang.shujuan@example.com')">
-                                <i class="fas fa-key me-1"></i>重設密碼
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class="account-id">lin.zhihao@example.com</span></td>
-                        <td><strong>林志豪</strong></td>
-                        <td><span class="role-badge role-operator">一般使用者</span></td>
-                        <td><span class="status-badge status-active">啟用</span></td>
-                        <td>2024-07-15</td>
-                        <td class="last-login">從未登入</td>
-                        <td>
-                            <button class="btn btn-edit" onclick="editAccount('lin.zhihao@example.com')">
-                                <i class="fas fa-edit me-1"></i>編輯
-                            </button>
-                            <button class="btn btn-password" onclick="changePassword('lin.zhihao@example.com')">
-                                <i class="fas fa-key me-1"></i>重設密碼
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- 分頁 -->
-        <div class="d-flex justify-content-between align-items-center p-3">
-            <div class="text-muted">
-                顯示第 1 到 8 筆，共 8 筆帳號
-            </div>
-            <nav>
-                <ul class="pagination mb-0">
-                    <li class="page-item disabled">
-                        <span class="page-link">上一頁</span>
-                    </li>
-                    <li class="page-item active">
-                        <span class="page-link">1</span>
-                    </li>
-                    <li class="page-item disabled">
-                        <span class="page-link">下一頁</span>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</div>
-
+    </asp:Panel>
 </asp:Content>
+
