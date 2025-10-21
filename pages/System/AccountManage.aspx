@@ -241,7 +241,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">系統權限<span class="text-danger">*</span></label>
-                        <asp:DropDownList ID="DropDownList_editRole" runat="server" CssClass="form-select" AutoPostBack="True" OnSelectedIndexChanged="DropDownList_editRole_SelectedIndexChanged"></asp:DropDownList>
+                        <asp:DropDownList ID="DropDownList_editRole" runat="server" CssClass="form-select" AutoPostBack="True"   OnSelectedIndexChanged="DropDownList_editRole_SelectedIndexChanged"></asp:DropDownList>
                     </div>
                     <asp:Panel ID="Panel_citySelector" runat="server" CssClass="col-md-6" Visible="false">
                         <label class="form-label">縣市<span class="text-danger">*</span></label>
