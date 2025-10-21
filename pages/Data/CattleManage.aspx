@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col">
                     <label>牛籍類型</label>
-                    <asp:DropDownList ID="DropDownList_groupName" runat="server" CssClass="form-select"></asp:DropDownList>
+                    <asp:DropDownList ID="DropDownList_groupName" runat="server" CssClass="form-select" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div class="col">
                     <label>牛籍規格</label>
@@ -25,27 +25,48 @@
                     <label>牛籍狀態</label>
                     <asp:DropDownList ID="DropDownList_cattleStatus" runat="server" CssClass="form-select"></asp:DropDownList>
                 </div>
-                <div class="col">
-                    <label>牛籍編號</label>
-                    <asp:TextBox ID="TextBox_tagNo" runat="server" CssClass="form-control"></asp:TextBox>
-                </div>
             </div>
             <div class="row">
                 <div class="col">
+                    <label>牛籍編號</label>
+                    <div class="input-group">
+                        <asp:TextBox ID="TextBox_tagNo" runat="server" CssClass="form-control" autocomplete="off"></asp:TextBox>
+                        <span class="input-group-text" onclick="clearControl('<%= TextBox_tagNo.ClientID %>')" style="cursor: pointer;"><i class="fa-solid fa-xmark"></i></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <label>出生年度</label>
+                    <div class="input-group">
+                        <asp:TextBox ID="TextBox_birthYear" runat="server" CssClass="form-control" TextMode="Number" MaxLength="4" min="2000"></asp:TextBox>
+                            <span class="input-group-text" onclick="clearControl('<%= TextBox_birthYear.ClientID %>')" style="cursor: pointer;"><i class="fa-solid fa-xmark"></i></span>
+                    </div>
+
+                </div>
+                <div class="col">
+                    <label>牛籍歲齡</label>
+                    <div class="input-group">
+                    <asp:TextBox ID="TextBox_cattleAge" runat="server" CssClass="form-control" TextMode="Number" MaxLength="2" min="0"></asp:TextBox>
+                        <span class="input-group-text" onclick="clearControl('<%= TextBox_cattleAge.ClientID %>')" style="cursor: pointer;"><i class="fa-solid fa-xmark"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
                     <asp:LinkButton ID="LinkButton_query" runat="server" CssClass="btn btn-primary">
-                        <i class="fas fa-search me-1"></i>查詢
+                        <i class="fas fa-search"></i>查詢
                     </asp:LinkButton>
                 </div>
             </div>
         </div>
         <div class="queryBox-footer"></div>
     </div>
-    <div class="row m-3">
+    <div class="row m-0 mt-3 mb-3 align-items-center">
         <div class="col p-0">
-            <asp:LinkButton ID="LinkButton_addNew" runat="server" CssClass="btn btn-primary">新增牛籍</asp:LinkButton>
+            <asp:LinkButton ID="LinkButton_addNew" runat="server" CssClass="btn btn-success"><i class="fa-solid fa-plus"></i>新增牛籍</asp:LinkButton>
+            <%--<asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-outline-success">下載列表</asp:LinkButton>--%>
         </div>
         <div class="col p-0 text-end">
-            共 1000 筆
+            共 <asp:Label ID="Label_datCount" runat="server"></asp:Label> 筆
         </div>
     </div>
     <div class="table-responsive gv-tb">
@@ -56,7 +77,7 @@
                         <%# Eval("groupName") %>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:TemplateField HeaderText="牛種規格">
+                <asp:TemplateField HeaderText="牛籍規格">
                     <ItemTemplate>
                         <%# Eval("typeName") %>
                     </ItemTemplate>
@@ -73,21 +94,31 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="出生年度">
                     <ItemTemplate>
-                        <%# IIf(Eval("birthYear") = -1, "", Eval("birthYear")) %>
+                        <%# IIf(Eval("birthYear") = -1, "-", Eval("birthYear")) %>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="牛籍歲齡">
                     <ItemTemplate>
-                        <%# IIf(Eval("cattleAge") = -1, "", Eval("cattleAge")) %>
+                        <%# IIf(Eval("cattleAge") = -1, "-", Eval("cattleAge")) %>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField ItemStyle-CssClass="text-end">
                     <ItemTemplate>
-                        <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-primary"
-                            CommandName="edit" CommandArgument='<%# Eval("cattleID") %>' >編輯</asp:LinkButton>
+                        <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-warning"
+                            CommandName="edit" CommandArgument='<%# Eval("cattleID") %>' ><i class="fa-solid fa-pen-to-square"></i>編輯</asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
+            <EmptyDataTemplate>
+                查無資料。
+            </EmptyDataTemplate>
         </asp:GridView>
-    </div>    
+    </div>
+    <script type="text/javascript">
+        function clearControl(controlId) {
+            var textbox = document.getElementById(controlId);
+            textbox.value = '';
+            textbox.focus(); // 清除後自動聚焦
+        }
+    </script>
 </asp:Content>

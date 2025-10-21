@@ -41,29 +41,20 @@ body {
 
     .sidebar-title {
         color: white;
-        font-size: 1.2rem;
+        font-size: 1.25rem;
         font-weight: 600;
         margin: 0;
     }
 
 .sidebar-subtitle {
     color: rgba(255,255,255,0.8);
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin: 0;
 }
 
 /* 導航樣式 */
 .nav-section {
     padding: 20px 0;
-}
-
-.nav-section-title {
-    color: rgba(255,255,255,0.6);
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    padding: 0 20px 10px;
-    letter-spacing: 1px;
 }
 
 .nav-item {
@@ -102,7 +93,7 @@ body {
 
     .nav-submenu .nav-link {
         padding-left: 50px;
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
 /* 主要內容區域 */

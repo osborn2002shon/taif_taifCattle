@@ -10,7 +10,7 @@ Public Class FPW
 
     ' 忘記密碼寄信間隔（秒）
     Public Const FPW_EMAIL_INTERVAL As Integer = 60
-    Private Enum EnumViewMode
+    Private Enum enumFPWViewMode
         Verification = 0
         Account = 1
         ResetPassword = 2
@@ -30,15 +30,15 @@ Public Class FPW
     End Structure
 #Region "Fun/Sub"
 
-    Private Sub SwitchView(mode As EnumViewMode)
+    Private Sub SwitchView(mode As enumFPWViewMode)
         Select Case mode
-            Case EnumViewMode.Verification
+            Case enumFPWViewMode.Verification
                 MultiView_main.SetActiveView(View_verification)
-            Case EnumViewMode.Account
+            Case enumFPWViewMode.Account
                 MultiView_main.SetActiveView(View_account)
-            Case EnumViewMode.ResetPassword
+            Case enumFPWViewMode.ResetPassword
                 MultiView_main.SetActiveView(View_reset)
-            Case EnumViewMode.Invalid
+            Case enumFPWViewMode.Invalid
                 MultiView_main.SetActiveView(View_err)
         End Select
     End Sub
@@ -244,12 +244,12 @@ Public Class FPW
             Dim queryString As String = Request.QueryString("resetToken")
             If String.IsNullOrEmpty(queryString) = False Then
                 If VerifyResetToken(queryString).isValid Then
-                    SwitchView(EnumViewMode.ResetPassword)
+                    SwitchView(enumFPWViewMode.ResetPassword)
                 Else
-                    SwitchView(EnumViewMode.Invalid)
+                    SwitchView(enumFPWViewMode.Invalid)
                 End If
             Else
-                SwitchView(EnumViewMode.Verification)
+                SwitchView(enumFPWViewMode.Verification)
             End If
         End If
     End Sub
@@ -294,7 +294,7 @@ Public Class FPW
         Else
             ' 多筆帳號 → 切到輸入帳號頁面
             ViewState("FPW_email") = mail
-            SwitchView(EnumViewMode.Account)
+            SwitchView(enumFPWViewMode.Account)
             Label_msg_account.Text = "此信箱綁定多個帳號，請輸入欲重設密碼的帳號。"
         End If
     End Sub

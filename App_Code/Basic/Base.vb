@@ -553,6 +553,16 @@ Namespace taifCattle
             Return IDCheck.IsMatch(ID)
         End Function
 
+        ''' <summary>
+        ''' 檢查畜牧場證號
+        ''' </summary>
+        ''' <param name="farmID"></param>
+        ''' <returns></returns>
+        Function CheckFarmID(ByVal farmID As String) As Boolean
+            '5碼、8碼、加上10碼身分證
+            Dim reg As New Regex("^[0-9]{5}$|^[0-9]{8}$|^[a-zA-z]{1}[0-9]{9}$")
+            Return reg.IsMatch(farmID)
+        End Function
         Property CurrentNewsID As Integer
             Get
                 If IsNothing(Session("_temp_CurrentNewsID")) Then

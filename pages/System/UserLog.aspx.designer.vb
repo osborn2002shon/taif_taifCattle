@@ -14,24 +14,6 @@ Option Explicit On
 Partial Public Class UserLog
 
     '''<summary>
-    '''uc_jqDatePicker_dateBeg 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents uc_jqDatePicker_dateBeg As Global.taifCattle.uc_jqDatePicker
-
-    '''<summary>
-    '''uc_jqDatePicker_dateEnd 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents uc_jqDatePicker_dateEnd As Global.taifCattle.uc_jqDatePicker
-
-    '''<summary>
     '''DropDownList_userLogItem 控制項。
     '''</summary>
     '''<remarks>

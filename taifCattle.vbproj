@@ -157,12 +157,13 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\Cattle.vb" />
+    <Compile Include="App_Code\Cattle.vb" />
     <Content Include="CPW.aspx" />
     <Content Include="FPW.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="pages\Data\CattleManage.aspx" />
     <Content Include="pages\Data\CattleManage_Detail.aspx" />
+    <Content Include="pages\Data\FarmManage.aspx" />
     <Content Include="pages\sample\sample.aspx" />
     <Content Include="pages\System\AccountManage.aspx" />
     <Content Include="pages\System\Config.aspx" />
@@ -175,13 +176,11 @@
     <Content Include="_css\control.css" />
     <Content Include="_css\control_temp.css" />
     <Content Include="_css\fontawesome-all.css" />
-    <Content Include="_css\jquery-ui.css" />
     <Content Include="_css\login.css" />
     <Content Include="_css\mp_default.css" />
     <Content Include="_img\logo.png" />
     <Content Include="_js\bootstrap.bundle.js" />
     <Content Include="_js\jquery-3.7.1.js" />
-    <Content Include="_uc\uc_jqDatePicker.ascx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\Basic\Account.vb" />
@@ -191,6 +190,7 @@
     <Compile Include="App_Code\Basic\DataAccess_MSSQL.vb" />
     <Compile Include="App_Code\Basic\Control.vb" />
     <Compile Include="App_Code\Basic\Mail.vb" />
+    <Compile Include="App_Code\Farm.vb" />
     <Compile Include="CPW.aspx.designer.vb">
       <DependentUpon>CPW.aspx</DependentUpon>
     </Compile>
@@ -245,6 +245,13 @@
       <DependentUpon>CattleManage_Detail.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="pages\Data\FarmManage.aspx.designer.vb">
+      <DependentUpon>FarmManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Data\FarmManage.aspx.vb">
+      <DependentUpon>FarmManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="pages\sample\sample.aspx.designer.vb">
       <DependentUpon>sample.aspx</DependentUpon>
     </Compile>
@@ -294,15 +301,6 @@
       <DependentUpon>mp_default.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="_uc\uc_jqDatePicker.ascx.designer.vb">
-      <DependentUpon>uc_jqDatePicker.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="_uc\uc_jqDatePicker.ascx.vb">
-      <DependentUpon>uc_jqDatePicker.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Content Include="_js\jquery-ui.min.js" />
-    <Content Include="_js\jquery.ui.datepicker-zh-TW.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

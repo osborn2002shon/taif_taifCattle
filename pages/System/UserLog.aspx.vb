@@ -15,7 +15,7 @@ Public Class UserLog
     Property Property_Query_dateBeg As Date
         Get
             If IsNothing(ViewState("Property_Query_dateBeg")) Then
-                Return Today
+                Return Today.AddDays(-6)
             Else
                 Return ViewState("Property_Query_dateBeg")
             End If
@@ -48,7 +48,7 @@ Public Class UserLog
     Public Property Property_Query_userLogItem As String
         Get
             If IsNothing(ViewState("Property_Query_userLogItem")) Then
-                Return ""
+                Return "%"
             Else
                 Return ViewState("Property_Query_userLogItem").ToString()
             End If
@@ -64,7 +64,7 @@ Public Class UserLog
     Public Property Property_Query_userLogType As String
         Get
             If IsNothing(ViewState("Property_Query_userLogType")) Then
-                Return ""
+                Return "%"
             Else
                 Return ViewState("Property_Query_userLogType").ToString()
             End If
@@ -97,17 +97,26 @@ Public Class UserLog
     ''' </summary>
     Private Sub SaveQueryCondition()
 
-        '操作時間
-        If uc_jqDatePicker_dateBeg.Value.HasValue Then
-            Property_Query_dateBeg = uc_jqDatePicker_dateBeg.Value.Value.ToString("yyyy-MM-dd")
+        ' --- 操作時間(起) ---
+        Dim strBeg As String = Request.Form("dateBeg")
+        Dim begDate As DateTime
+
+        If Not String.IsNullOrEmpty(strBeg) AndAlso DateTime.TryParse(strBeg, begDate) Then
+            Property_Query_dateBeg = begDate.ToString("yyyy-MM-dd")
         Else
-            Property_Query_dateEnd = Today.AddDays(-6).ToString("yyyy-MM-dd")
+            ' 預設：今天往前 6 天
+            Property_Query_dateBeg = Today.AddDays(-6).ToString("yyyy-MM-dd")
         End If
 
 
-        If uc_jqDatePicker_dateEnd.Value.HasValue Then
-            Property_Query_dateEnd = uc_jqDatePicker_dateEnd.Value.Value.ToString("yyyy-MM-dd")
+        ' --- 操作時間(訖) ---
+        Dim strEnd As String = Request.Form("dateEnd")
+        Dim endDate As DateTime
+
+        If Not String.IsNullOrEmpty(strEnd) AndAlso DateTime.TryParse(strEnd, endDate) Then
+            Property_Query_dateEnd = endDate.ToString("yyyy-MM-dd")
         Else
+            ' 預設：今天
             Property_Query_dateEnd = Today.ToString("yyyy-MM-dd")
         End If
 
@@ -178,9 +187,6 @@ Public Class UserLog
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
 
-            '操作時間
-            uc_jqDatePicker_dateBeg.Value = Today.AddDays(-6)
-            uc_jqDatePicker_dateEnd.Value = Today
             '操作項目
             taifCattle_con.BindDropDownList_UserLogItem(DropDownList_userLogItem, True)
             '操作類型

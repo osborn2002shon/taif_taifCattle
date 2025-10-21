@@ -1,10 +1,5 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="UserLog.aspx.vb" Inherits="taifCattle.UserLog" %>
 
-<%@ Register Src="~/_uc/uc_jqDatePicker.ascx" TagPrefix="uc1" TagName="uc_jqDatePicker" %>
-
-
-
-
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
@@ -33,12 +28,12 @@
             <div class="p-4 border-bottom">
                 <div class="row g-3">
                      <div class="col-md-3">
-                         <label class="form-label">操作時間(起)</label>
-                         <uc1:uc_jqDatePicker runat="server" ID="uc_jqDatePicker_dateBeg" CssClass="form-control"/>
+                        <label class="form-label">操作時間(起)</label>
+                        <input type="date" id="dateBeg" name="dateBeg" class="form-control" value="<%=Property_Query_dateBeg.ToString("yyyy-MM-dd") %>">
                      </div>
                      <div class="col-md-3">
                          <label class="form-label">操作日期(訖)</label>
-                         <uc1:uc_jqDatePicker runat="server" ID="uc_jqDatePicker_dateEnd" CssClass="form-control"/>
+                         <input type="date" id="dateEnd" name="dateEnd" class="form-control" value="<%=Property_Query_dateEnd.ToString("yyyy-MM-dd") %>">
                      </div>
                     <div class="col-md-3">
                         <label class="form-label">操作項目</label>

@@ -50,6 +50,24 @@ Partial Public Class CattleManage
     Protected WithEvents TextBox_tagNo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''TextBox_birthYear 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents TextBox_birthYear As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''TextBox_cattleAge 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents TextBox_cattleAge As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''LinkButton_query 控制項。
     '''</summary>
     '''<remarks>
@@ -66,6 +84,15 @@ Partial Public Class CattleManage
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents LinkButton_addNew As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Label_datCount 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Label_datCount As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''GridView_data 控制項。

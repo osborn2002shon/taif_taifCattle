@@ -318,7 +318,7 @@
                         </asp:TemplateField>
                         <asp:BoundField DataField="name" HeaderText="使用者姓名" ItemStyle-Width="120px" />
                         <asp:BoundField DataField="auTypeName" HeaderText="使用者角色" ItemStyle-Width="80px" />
-                        <asp:TemplateField HeaderText="帳號狀態"  ItemStyle-Width="40px">
+                        <asp:TemplateField HeaderText="帳號狀態"  ItemStyle-Width="80px">
                             <ItemTemplate>
                                 <asp:Label ID="Label_status" runat="server"></asp:Label>
                             </ItemTemplate>

@@ -100,9 +100,6 @@ Namespace taifCattle
             End If
 
             If isNeedBCCNaif = True Then
-                '2023/07 擴充新增加上信件BCC寄送至beef@ms.naif.org.tw
-                mail_msg.Bcc.Add(New Net.Mail.MailAddress("beef@ms.naif.org.tw", "中央畜產會國產牛肉溯源管理者"))
-                mail_msg.Bcc.Add(New Net.Mail.MailAddress("naifcattle@gmail.com", "國產牛肉溯源系統"))
                 mail_msg.Bcc.Add(New Net.Mail.MailAddress("olga@i-forcetech.com", "IFT_Olga"))
             End If
 
