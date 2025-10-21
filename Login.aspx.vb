@@ -7,6 +7,7 @@
 
     Private Sub Button_login_Click(sender As Object, e As EventArgs) Handles Button_login.Click
         Dim userInfo As New stru_LoginUserInfo
+        Dim accountService As New taifCattle.Account
         Dim ac As String = TextBox_ac.Text.Trim
         Dim pw As String = TextBox_pw.Text.Trim
 
@@ -34,9 +35,28 @@
 
         Select Case userInfo.isExist
             Case True
+                Dim lastActivity As DateTime = userInfo.insertDateTime
+                If userInfo.lastLoginDateTime IsNot Nothing AndAlso Not IsDBNull(userInfo.lastLoginDateTime) Then
+                    lastActivity = CType(userInfo.lastLoginDateTime, DateTime)
+                End If
+
+                If lastActivity <> Date.MinValue Then
+                    If DateDiff(DateInterval.Day, lastActivity, Now) > 180 Then
+                        accountService.UpdateAccountActiveStatus(userInfo.accountID, False, userInfo.accountID)
+                        Insert_UserLog(userInfo.accountID, enum_UserLogItem.登入, enum_UserLogType.其他, "超過180天未登入自動停用")
+                        Label_msg.Text = "您的帳號因超過180天未登入已被停用，請洽系統管理員。"
+                        Exit Sub
+                    End If
+                End If
+
                 Select Case userInfo.isActive
                     Case True
                         Insert_UserLog(userInfo.accountID, enum_UserLogItem.登入, enum_UserLogType.其他)
+                        accountService.UpdateAccountLoginInfo(userInfo.accountID, Now, True)
+                        userInfo.lastLoginDateTime = Now
+                        userInfo.isEmailVerified = True
+                        Session("userInfo") = userInfo
+                        Session("UserInfo") = userInfo
                         Select Case userInfo.auTypeID
                             Case 1 '系統管理員(農業保險基金)
                                 Response.Redirect("~/pages/System/AccountManage.aspx")

@@ -160,6 +160,33 @@ Namespace taifCattle
         End Sub
 
         ''' <summary>
+        ''' 產生DDL控制項：系統權限
+        ''' </summary>
+        ''' <param name="ddl_role"></param>
+        ''' <param name="isNeedAll"></param>
+        ''' <param name="includeInactive"></param>
+        Sub BindDropDownList_userRole(ddl_role As DropDownList, Optional isNeedAll As Boolean = False, Optional includeInactive As Boolean = False)
+            Dim sqlString As String = "select auTypeID, auTypeName from System_UserAuType where (@includeInactive = 1 or isActive = 1) order by auTypeID"
+            Dim para As New List(Of Data.SqlClient.SqlParameter) From {
+                New Data.SqlClient.SqlParameter("includeInactive", If(includeInactive, 1, 0))
+            }
+
+            Dim dt As New Data.DataTable
+            Using da As New DataAccess.MS_SQL
+                dt = da.GetDataTable(sqlString, para.ToArray)
+            End Using
+
+            ddl_role.Items.Clear()
+            If isNeedAll Then
+                ddl_role.Items.Add(New ListItem("全部權限", ""))
+            End If
+
+            For Each row As Data.DataRow In dt.Rows
+                ddl_role.Items.Add(New ListItem(row("auTypeName").ToString(), row("auTypeID").ToString()))
+            Next
+        End Sub
+
+        ''' <summary>
         ''' 產生CBL控制項：縣市
         ''' </summary>
         ''' <param name="cbl_city"></param>
