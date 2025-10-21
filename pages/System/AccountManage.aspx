@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="AccountManage.aspx.vb" Inherits="taifCattle.AccountManage" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="AccountManage.aspx.vb" Inherits="taifCattle.AccountManage" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
     <style type="text/css">
         /* 狀態標籤 */
@@ -232,7 +232,7 @@
                     OnRowCommand="GridView_accounts_RowCommand"
                     OnRowDataBound="GridView_accounts_RowDataBound">
                     <Columns>
-                        <asp:TemplateField HeaderText="登入帳號（電子信箱）" ItemStyle-Width="22%">
+                        <asp:TemplateField HeaderText="登入帳號（電子信箱）">
                             <ItemTemplate>
                                 <span class="account-id"><%# Eval("account") %></span>
                                 <asp:HiddenField ID="HiddenField_accountID" runat="server" Value='<%# Eval("accountID") %>' />
@@ -240,20 +240,20 @@
                                 <asp:HiddenField ID="HiddenField_isVerified" runat="server" Value='<%# Eval("isEmailVerified") %>' />
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:BoundField DataField="name" HeaderText="使用者姓名" ItemStyle-Width="15%" />
-                        <asp:BoundField DataField="auTypeName" HeaderText="使用者角色" ItemStyle-Width="15%" />
-                        <asp:TemplateField HeaderText="帳號狀態" ItemStyle-Width="12%">
+                        <asp:BoundField DataField="name" HeaderText="使用者姓名" ItemStyle-Width="120px" />
+                        <asp:BoundField DataField="auTypeName" HeaderText="使用者角色" ItemStyle-Width="80px" />
+                        <asp:TemplateField HeaderText="帳號狀態"  ItemStyle-Width="40px">
                             <ItemTemplate>
                                 <asp:Label ID="Label_status" runat="server"></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:BoundField DataField="insertDateTime" HeaderText="建立日期" DataFormatString="{0:yyyy-MM-dd}" ItemStyle-Width="12%" />
-                        <asp:TemplateField HeaderText="最後登入" ItemStyle-Width="14%">
+                        <asp:BoundField DataField="insertDateTime" HeaderText="建立日期" DataFormatString="{0:yyyy-MM-dd}" ItemStyle-Width="120px" />
+                        <asp:TemplateField HeaderText="最後登入" ItemStyle-Width="150px">
                             <ItemTemplate>
                                 <asp:Label ID="Label_lastLogin" runat="server"></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="操作" ItemStyle-Width="20%">
+                        <asp:TemplateField HeaderText="操作" ItemStyle-Width="300px">
                             <ItemTemplate>
                                 <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-edit btn-sm me-1" CommandName="EditAccount" CommandArgument='<%# Eval("accountID") %>' CausesValidation="False">
                                     <i class="fas fa-edit me-1"></i>編輯

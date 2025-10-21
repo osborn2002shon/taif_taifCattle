@@ -326,7 +326,7 @@ Namespace taifCattle.DAO
             }
 
             Using da As New DataAccess.MS_SQL
-                Dim result = da.GetValue(sql, para.ToArray)
+                Dim result = da.ExecuteScalar(sql, para.ToArray)
                 Return Convert.ToInt32(result)
             End Using
         End Function
@@ -435,7 +435,7 @@ Namespace taifCattle.DAO
 
         Sub DeactivateDormantAccounts(referenceDate As DateTime, updateAccountID As Integer)
             Dim sql =
-                <sql>
+                <xml sql="
                     update System_UserAccount set
                         isActive = 0,
                         updateDateTime = @updateDateTime,
@@ -443,8 +443,9 @@ Namespace taifCattle.DAO
                     where removeDateTime is null
                         and isActive = 1
                         and isEmailVerified = 1
-                        and isnull(lastLoginDateTime, insertDateTime) < @referenceDate
-                </sql>.Value
+                        and isnull(lastLoginDateTime, insertDateTime) &lt; @referenceDate
+                ">
+                </xml>.FirstAttribute.Value
 
             Dim para As New List(Of Data.SqlClient.SqlParameter) From {
                 New Data.SqlClient.SqlParameter("updateDateTime", NowTime),

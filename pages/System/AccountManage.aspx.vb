@@ -1,4 +1,4 @@
-Imports System
+﻿Imports System
 Imports System.Collections.Generic
 Imports System.Configuration
 Imports System.Data
@@ -189,8 +189,9 @@ Public Class AccountManage
         Property_EditMode = taifCattle.Base.enum_EditMode.新增
         Property_EditAccountID = -1
         Property_EditIsVerified = False
-        ResetEditor()
-        Panel_editor.Visible = True
+
+        'ResetEditor()
+        'Panel_editor.Visible = True
         Label_formMessage.Text = ""
     End Sub
 
@@ -420,7 +421,7 @@ Public Class AccountManage
         taifCattle_account.UpdateAccountActiveStatus(accountID, newStatus, currentUser.accountID)
         Dim actionText As String = If(newStatus, "啟用", "停用")
         Insert_UserLog(currentUser.accountID, taifCattle.Base.enum_UserLogItem.系統帳號管理, taifCattle.Base.enum_UserLogType.修改, $"accountID:{accountID},action:{actionText}")
-        ShowMessage($"已{actionText}帳號「{targetRow("account")}"。", "text-success")
+        ShowMessage($"已{actionText}帳號「{targetRow("account")}」。", "text-success")
         BindGridView()
     End Sub
 
@@ -448,7 +449,7 @@ Public Class AccountManage
         ResetEditor()
         Panel_editor.Visible = False
         Property_EditMode = taifCattle.Base.enum_EditMode.預設
-        ShowMessage($"已刪除尚未驗證的帳號「{targetRow("account")}"。", "text-success")
+        ShowMessage($"已刪除尚未驗證的帳號「{targetRow("account")}」。", "text-success")
         BindGridView()
     End Sub
 
