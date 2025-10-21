@@ -7,7 +7,6 @@
             var nameInput = document.getElementById('<%= TextBox_name.ClientID %>');
             var roleSelect = document.getElementById('<%= DropDownList_editRole.ClientID %>');
             var citySelect = document.getElementById('<%= DropDownList_editCity.ClientID %>');
-            var contactEmailInput = document.getElementById('<%= TextBox_email.ClientID %>');
             var messageLabel = document.getElementById('<%= Label_formMessage.ClientID %>');
 
             if (!accountInput) {
@@ -69,19 +68,6 @@
                         messageLabel.className = 'd-block fw-bold mb-3 text-danger';
                     } else {
                         alert('請選擇縣市。');
-                    }
-                    return false;
-                }
-            }
-
-            if (contactEmailInput) {
-                var contactEmailValue = contactEmailInput.value.trim();
-                if (contactEmailValue.length > 0 && !pattern.test(contactEmailValue)) {
-                    if (messageLabel) {
-                        messageLabel.textContent = '請輸入正確的聯絡電子信箱格式。';
-                        messageLabel.className = 'd-block fw-bold mb-3 text-danger';
-                    } else {
-                        alert('請輸入正確的聯絡電子信箱格式。');
                     }
                     return false;
                 }
@@ -220,7 +206,7 @@
                 <asp:Label ID="Label_formMessage" runat="server" CssClass="d-block fw-bold mb-3"></asp:Label>
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="form-label">登入帳號（電子信箱）<span class="text-danger">*</span></label>
+                        <label class="form-label">登入帳號／電子信箱<span class="text-danger">*</span></label>
                         <asp:TextBox ID="TextBox_account" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
                     <div class="col-md-6">
@@ -242,10 +228,6 @@
                     <div class="col-md-6">
                         <label class="form-label">服務單位</label>
                         <asp:TextBox ID="TextBox_unit" runat="server" CssClass="form-control"></asp:TextBox>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">電子信箱</label>
-                        <asp:TextBox ID="TextBox_email" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
                     <div class="col-12">
                         <label class="form-label">備註</label>

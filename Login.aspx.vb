@@ -51,6 +51,15 @@
 
                 Select Case userInfo.isActive
                     Case True
+                        If Not userInfo.isEmailVerified Then
+                            Session("CPW_accountID") = userInfo.accountID
+                            Session.Remove("userInfo")
+                            Session.Remove("UserInfo")
+                            Insert_UserLog(userInfo.accountID, enum_UserLogItem.登入, enum_UserLogType.其他, "初次登入，導向密碼變更")
+                            Response.Redirect("CPW.aspx?mode=init")
+                            Exit Sub
+                        End If
+
                         Insert_UserLog(userInfo.accountID, enum_UserLogItem.登入, enum_UserLogType.其他)
                         accountService.UpdateAccountLoginInfo(userInfo.accountID, Now, True)
                         userInfo.lastLoginDateTime = Now

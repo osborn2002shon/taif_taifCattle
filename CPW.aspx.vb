@@ -76,6 +76,7 @@ Public Class CPW
             Dim success As Boolean = taifCattle_account.ChangeUserPassword(accountID, pw1, accountID, logItem)
 
             If success Then
+                taifCattle_account.UpdateAccountLoginInfo(accountID, Now, True)
                 Label_resetMsg.Text = "密碼變更成功，請重新登入系統。"
                 Button_change.Enabled = False
                 js.AppendLine("setTimeout(function(){ window.location.href='Login.aspx'; }, 2000);")

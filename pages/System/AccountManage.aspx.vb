@@ -199,7 +199,6 @@ Public Class AccountManage
         DropDownList_editRole.SelectedIndex = 0
         TextBox_mobile.Text = String.Empty
         TextBox_unit.Text = String.Empty
-        TextBox_email.Text = String.Empty
         TextBox_memo.Text = String.Empty
         CheckBox_isActive.Checked = True
         CheckBox_isActive.Visible = False
@@ -256,7 +255,6 @@ Public Class AccountManage
 
         TextBox_mobile.Text = If(row("mobile") Is DBNull.Value, String.Empty, row("mobile").ToString())
         TextBox_unit.Text = If(row("unit") Is DBNull.Value, String.Empty, row("unit").ToString())
-        TextBox_email.Text = If(row("email") Is DBNull.Value, String.Empty, row("email").ToString())
         TextBox_memo.Text = If(row("memo") Is DBNull.Value, String.Empty, row("memo").ToString())
 
         If Property_EditIsVerified Then
@@ -344,7 +342,7 @@ Public Class AccountManage
         Dim roleValue As String = DropDownList_editRole.SelectedValue
         Dim mobileText As String = TextBox_mobile.Text.Trim()
         Dim unitText As String = TextBox_unit.Text.Trim()
-        Dim emailText As String = TextBox_email.Text.Trim()
+        Dim emailText As String = accountText
         Dim memoText As String = TextBox_memo.Text.Trim()
         Dim cityValue As String = DropDownList_editCity.SelectedValue
         Dim selectedCityID As Integer? = Nothing
@@ -363,12 +361,6 @@ Public Class AccountManage
 
         If String.IsNullOrWhiteSpace(nameText) Then
             ShowFormMessage("請輸入使用者姓名。", True)
-            ShowEditorView()
-            Exit Sub
-        End If
-
-        If Not String.IsNullOrWhiteSpace(emailText) AndAlso Not IsValidEmailFormat(emailText) Then
-            ShowFormMessage("請輸入正確的聯絡電子信箱格式。", True)
             ShowEditorView()
             Exit Sub
         End If
