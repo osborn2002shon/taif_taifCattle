@@ -14,15 +14,6 @@ Option Explicit On
 Partial Public Class AccountManage
 
     '''<summary>
-    '''LinkButton_addAccount 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents LinkButton_addAccount As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''DropDownList_status 控制項。
     '''</summary>
     '''<remarks>
@@ -77,13 +68,13 @@ Partial Public Class AccountManage
     Protected WithEvents LinkButton_export As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Label_message 控制項。
+    '''LinkButton_addAccount 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Label_message As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents LinkButton_addAccount As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Label_recordCount 控制項。
@@ -93,6 +84,15 @@ Partial Public Class AccountManage
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents Label_recordCount As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Label_message 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Label_message As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''GridView_accounts 控制項。

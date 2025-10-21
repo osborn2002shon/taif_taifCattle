@@ -654,7 +654,7 @@ Public Class AccountManage
                         toggleButton.CssClass = "btn btn-danger btn-sm me-1"
                         toggleButton.Text = "<i class='fas fa-toggle-off me-1'></i>停用"
                     Else
-                        toggleButton.CssClass = "btn btn-approve btn-sm me-1"
+                        toggleButton.CssClass = "btn btn-success btn-sm me-1"
                         toggleButton.Text = "<i class='fas fa-toggle-on me-1'></i>啟用"
                     End If
                 End If
