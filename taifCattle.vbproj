@@ -157,9 +157,12 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\Cattle.vb" />
     <Content Include="CPW.aspx" />
     <Content Include="FPW.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="pages\Data\CattleManage.aspx" />
+    <Content Include="pages\Data\CattleManage_Detail.aspx" />
     <Content Include="pages\sample\sample.aspx" />
     <Content Include="pages\System\AccountManage.aspx" />
     <Content Include="pages\System\Config.aspx" />
@@ -169,6 +172,8 @@
     <Content Include="Web.config" />
     <Content Include="_css\bootstrap-icons.css" />
     <Content Include="_css\bootstrap.css" />
+    <Content Include="_css\control.css" />
+    <Content Include="_css\control_temp.css" />
     <Content Include="_css\fontawesome-all.css" />
     <Content Include="_css\jquery-ui.css" />
     <Content Include="_css\login.css" />
@@ -225,6 +230,20 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="pages\Data\CattleManage.aspx.designer.vb">
+      <DependentUpon>CattleManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Data\CattleManage.aspx.vb">
+      <DependentUpon>CattleManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Data\CattleManage_Detail.aspx.designer.vb">
+      <DependentUpon>CattleManage_Detail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Data\CattleManage_Detail.aspx.vb">
+      <DependentUpon>CattleManage_Detail.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="pages\sample\sample.aspx.designer.vb">
       <DependentUpon>sample.aspx</DependentUpon>

@@ -1,5 +1,9 @@
-﻿Namespace taifCattle
+﻿Imports Microsoft.VisualBasic
+
+Namespace taifCattle
+
     Public Class Account
+
         Dim taifCattle_dao As New DAO.Account
         Dim taifCattle_base As New taifCattle.Base
 
@@ -179,6 +183,7 @@
             taifCattle_dao.DeactivateDormantAccounts(referenceDate, updateAccountID)
         End Sub
     End Class
+
 End Namespace
 
 Namespace taifCattle.DAO
