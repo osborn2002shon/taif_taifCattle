@@ -4,6 +4,7 @@ Imports System.Configuration
 Imports System.Data
 Imports System.IO
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports System.Web
 Imports System.Web.UI.WebControls
 Imports NPOI.SS.UserModel
@@ -242,6 +243,15 @@ Public Class AccountManage
         Return existID = excludeAccountID
     End Function
 
+    Private Function IsValidEmailFormat(email As String) As Boolean
+        If String.IsNullOrWhiteSpace(email) Then
+            Return False
+        End If
+
+        Dim pattern As String = "^[^@\s]+@[^@\s]+\.[^@\s]+$"
+        Return Regex.IsMatch(email, pattern)
+    End Function
+
     Private Function GenerateLoginUrl() As String
         Dim baseUrl = Request.Url.GetLeftPart(UriPartial.Authority)
         Dim relative = ResolveUrl("~/Login.aspx")
@@ -299,6 +309,18 @@ Public Class AccountManage
         Dim unitText As String = TextBox_unit.Text.Trim()
         Dim emailText As String = TextBox_email.Text.Trim()
         Dim memoText As String = TextBox_memo.Text.Trim()
+
+        If Not IsValidEmailFormat(accountText) Then
+            ShowFormMessage("請輸入正確的登入帳號電子信箱格式。", True)
+            Panel_editor.Visible = True
+            Exit Sub
+        End If
+
+        If Not String.IsNullOrWhiteSpace(emailText) AndAlso Not IsValidEmailFormat(emailText) Then
+            ShowFormMessage("請輸入正確的聯絡電子信箱格式。", True)
+            Panel_editor.Visible = True
+            Exit Sub
+        End If
 
         If String.IsNullOrEmpty(roleValue) Then
             ShowFormMessage("請選擇系統權限。", True)
