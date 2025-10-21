@@ -149,15 +149,6 @@ Partial Public Class AccountManage
     Protected WithEvents RequiredFieldValidator_account As Global.System.Web.UI.WebControls.RequiredFieldValidator
 
     '''<summary>
-    '''RegularExpressionValidator_account 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents RegularExpressionValidator_account As Global.System.Web.UI.WebControls.RegularExpressionValidator
-
-    '''<summary>
     '''TextBox_name 控制項。
     '''</summary>
     '''<remarks>

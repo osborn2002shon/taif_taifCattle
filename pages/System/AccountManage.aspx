@@ -167,6 +167,50 @@
             color: #856404;
         }
     </style>
+    <script type="text/javascript">
+        function validateAccountForm() {
+            var accountInput = document.getElementById('<%= TextBox_account.ClientID %>');
+            var contactEmailInput = document.getElementById('<%= TextBox_email.ClientID %>');
+            var messageLabel = document.getElementById('<%= Label_formMessage.ClientID %>');
+
+            if (!accountInput) {
+                return true;
+            }
+
+            if (messageLabel) {
+                messageLabel.textContent = '';
+                messageLabel.className = 'd-block fw-bold mb-3';
+            }
+
+            var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            var accountValue = accountInput.value.trim();
+            if (accountValue.length > 0 && !pattern.test(accountValue)) {
+                if (messageLabel) {
+                    messageLabel.textContent = '請輸入正確的登入帳號電子信箱格式。';
+                    messageLabel.className = 'd-block fw-bold mb-3 text-danger';
+                } else {
+                    alert('請輸入正確的登入帳號電子信箱格式。');
+                }
+                return false;
+            }
+
+            if (contactEmailInput) {
+                var contactEmailValue = contactEmailInput.value.trim();
+                if (contactEmailValue.length > 0 && !pattern.test(contactEmailValue)) {
+                    if (messageLabel) {
+                        messageLabel.textContent = '請輸入正確的聯絡電子信箱格式。';
+                        messageLabel.className = 'd-block fw-bold mb-3 text-danger';
+                    } else {
+                        alert('請輸入正確的聯絡電子信箱格式。');
+                    }
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
     系統管理 > 系統帳號管理
@@ -296,8 +340,6 @@
                         <asp:TextBox ID="TextBox_account" runat="server" CssClass="form-control"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator_account" runat="server" ControlToValidate="TextBox_account"
                             Display="Dynamic" CssClass="text-danger" ErrorMessage="請輸入登入帳號" ValidationGroup="AccountForm"></asp:RequiredFieldValidator>
-                        <asp:RegularExpressionValidator ID="RegularExpressionValidator_account" runat="server" ControlToValidate="TextBox_account"
-                            Display="Dynamic" CssClass="text-danger" ValidationExpression="^[^@\s]+@[^@\s]+\.[^@\s]+$" ErrorMessage="請輸入正確的電子信箱格式" ValidationGroup="AccountForm"></asp:RegularExpressionValidator>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">使用者姓名<span class="text-danger">*</span></label>
@@ -336,7 +378,7 @@
                 </div>
             </div>
             <div class="card-footer text-end">
-                <asp:Button ID="Button_save" runat="server" CssClass="btn btn-primary me-2" Text="儲存" ValidationGroup="AccountForm" />
+                <asp:Button ID="Button_save" runat="server" CssClass="btn btn-primary me-2" Text="儲存" ValidationGroup="AccountForm" OnClientClick="return validateAccountForm();" />
                 <asp:Button ID="Button_cancel" runat="server" CssClass="btn btn-outline-secondary" Text="取消" CausesValidation="False" />
             </div>
         </div>
