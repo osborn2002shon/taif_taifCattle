@@ -169,7 +169,7 @@
     <Content Include="pages\System\Config.aspx" />
     <Content Include="pages\System\MilkSetting.aspx" />
     <Content Include="pages\System\MyAccount.aspx" />
-    <Content Include="pages\System\PermissionSetting.aspx" />
+    <Content Include="pages\System\Permission.aspx" />
     <Content Include="pages\System\UserLog.aspx" />
     <Content Include="Web.config" />
     <Content Include="_css\bootstrap-icons.css" />
@@ -288,12 +288,12 @@
       <DependentUpon>MyAccount.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="pages\System\PermissionSetting.aspx.designer.vb">
-      <DependentUpon>PermissionSetting.aspx</DependentUpon>
+    <Compile Include="pages\System\Permission.aspx.designer.vb">
+      <DependentUpon>Permission.aspx</DependentUpon>
     </Compile>
-    <Compile Include="pages\System\PermissionSetting.aspx.vb">
-      <DependentUpon>PermissionSetting.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+    <Compile Include="pages\System\Permission.aspx.vb">
+      <DependentUpon>Permission.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="pages\System\UserLog.aspx.designer.vb">
       <DependentUpon>UserLog.aspx</DependentUpon>

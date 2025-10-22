@@ -7,6 +7,12 @@ Namespace taifCattle
     ''' </summary>
     Public Class Cattle
 
+        Enum enum_cattleEditMode
+            list
+            add
+            edit
+        End Enum
+
         Sub Bind_DropDownList_cattleGroup(ddl As DropDownList, isNeedAll As Boolean)
             Dim sqlString As String =
                 "select distinct groupOrder, groupName from Cattle_TypeCattle order by groupOrder "

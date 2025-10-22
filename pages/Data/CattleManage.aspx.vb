@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlTypes
+Imports taifCattle.taifCattle.Cattle
 
 Public Class CattleManage
     Inherits taifCattle.Base
@@ -20,6 +21,7 @@ Public Class CattleManage
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
+            Session("CattleManage") = enum_cattleEditMode.list
             taifCattle_cattle.Bind_DropDownList_cattleGroup(DropDownList_groupName, True)
             taifCattle_cattle.Bind_DropDownList_cattleType(DropDownList_typeName, True, DropDownList_groupName.SelectedValue)
             taifCattle_cattle.Bind_DropDownList_cattleStatus(DropDownList_cattleStatus, True)
@@ -36,7 +38,18 @@ Public Class CattleManage
     End Sub
 
     Private Sub GridView_data_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles GridView_data.RowCommand
+        Select Case e.CommandName
+            Case "cattleEdit"
+                Session("CattleManage") = enum_cattleEditMode.edit
+                Response.Redirect("CattleManage_Detail.aspx")
+            Case Else
+                'nothing
+        End Select
+    End Sub
 
+    Private Sub LinkButton_addNew_Click(sender As Object, e As EventArgs) Handles LinkButton_addNew.Click
+        Session("CattleManage") = enum_cattleEditMode.add
+        Response.Redirect("CattleManage_Detail.aspx")
     End Sub
 
 End Class

@@ -62,7 +62,7 @@
     </div>
     <div class="row m-0 mt-3 mb-3 align-items-center">
         <div class="col p-0">
-            <asp:LinkButton ID="LinkButton_addNew" runat="server" CssClass="btn btn-success"><i class="fa-solid fa-plus"></i>新增牛籍</asp:LinkButton>
+            <asp:LinkButton ID="LinkButton_addNew" runat="server" CssClass="btn btn-success" CommandName="cattleAdd"><i class="fa-solid fa-plus"></i>新增牛籍</asp:LinkButton>
             <%--<asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-outline-success">下載列表</asp:LinkButton>--%>
         </div>
         <div class="col p-0 text-end">
@@ -105,7 +105,7 @@
                 <asp:TemplateField ItemStyle-CssClass="text-end">
                     <ItemTemplate>
                         <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-warning"
-                            CommandName="edit" CommandArgument='<%# Eval("cattleID") %>' ><i class="fa-solid fa-pen-to-square"></i>編輯</asp:LinkButton>
+                            CommandName="cattleEdit" CommandArgument='<%# Eval("cattleID") %>' ><i class="fa-solid fa-pen-to-square"></i>編輯</asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
