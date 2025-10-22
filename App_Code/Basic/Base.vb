@@ -122,6 +122,10 @@ Namespace taifCattle
             Property orderBy_menu As Integer
             Property isActive As Boolean
             Property isShow As Boolean
+            Property canCreate As Boolean
+            Property canRead As Boolean
+            Property canUpdate As Boolean
+            Property canDelete As Boolean
         End Structure
 
         ''' <summary>
@@ -452,10 +456,14 @@ Namespace taifCattle
         ''' <returns>List(Of stru_MenuItem)</returns>
         Public Function Get_MenuData(auTypeID As Integer) As List(Of stru_MenuItem)
             Dim sqlString As String =
-                "SELECT System_Menu.* " &
+                "SELECT System_Menu.*, " &
+                "       System_MenuAu.canCreate, " &
+                "       System_MenuAu.canRead, " &
+                "       System_MenuAu.canUpdate, " &
+                "       System_MenuAu.canDelete " &
                 "FROM System_MenuAu " &
                 "LEFT JOIN System_Menu ON System_MenuAu.menuID = System_Menu.menuID " &
-                "WHERE System_Menu.isActive = 1 AND System_MenuAu.auTypeID = @auTypeID " &
+                "WHERE System_Menu.isActive = 1 AND System_MenuAu.auTypeID = @auTypeID AND System_MenuAu.canRead = 1 " &
                 "ORDER BY System_Menu.orderBy_group, System_Menu.orderBy_menu"
 
             Dim para As New Data.SqlClient.SqlParameter("@auTypeID", auTypeID)
@@ -475,7 +483,11 @@ Namespace taifCattle
                         .orderBy_group = row.Field(Of Integer)("orderBy_group"),
                         .orderBy_menu = row.Field(Of Integer)("orderBy_menu"),
                         .isActive = row.Field(Of Boolean)("isActive"),
-                        .isShow = row.Field(Of Boolean)("isShow")
+                        .isShow = row.Field(Of Boolean)("isShow"),
+                        .canCreate = row.Field(Of Boolean)("canCreate"),
+                        .canRead = row.Field(Of Boolean)("canRead"),
+                        .canUpdate = row.Field(Of Boolean)("canUpdate"),
+                        .canDelete = row.Field(Of Boolean)("canDelete")
                     }
                     menuList.Add(item)
                 Next

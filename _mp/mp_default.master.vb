@@ -69,7 +69,7 @@ Public Class mp_default
         Dim sb As New StringBuilder()
 
         ' 依群組分組
-        Dim groups = menuList.Where(Function(x) x.isShow).GroupBy(Function(m) m.groupName).
+        Dim groups = menuList.Where(Function(x) x.isShow AndAlso x.canRead).GroupBy(Function(m) m.groupName).
                           OrderBy(Function(g) g.First().orderBy_group)
 
         For Each grp In groups
@@ -125,7 +125,7 @@ Public Class mp_default
 
             Dim hasPermission As Boolean =
             userInfo.liMenu.Any(Function(m) _
-                String.Equals(NormalizePath(m.menuURL), currentPage, StringComparison.OrdinalIgnoreCase))
+                m.canRead AndAlso String.Equals(NormalizePath(m.menuURL), currentPage, StringComparison.OrdinalIgnoreCase))
 
             If Not hasPermission Then
                 Response.Redirect("~/Login.aspx")
