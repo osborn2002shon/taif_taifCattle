@@ -381,8 +381,12 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[System_MenuAu](
-	[auTypeID] [int] NOT NULL,
-	[menuID] [int] NOT NULL
+        [auTypeID] [int] NOT NULL,
+        [menuID] [int] NOT NULL,
+        [canCreate] [bit] NOT NULL DEFAULT ((0)),
+        [canRead] [bit] NOT NULL DEFAULT ((0)),
+        [canUpdate] [bit] NOT NULL DEFAULT ((0)),
+        [canDelete] [bit] NOT NULL DEFAULT ((0))
 ) ON [PRIMARY]
 GO
 /****** Object:  Table [dbo].[System_MilkSetting]    Script Date: 2025/10/20 下午 12:22:51 ******/
