@@ -331,7 +331,7 @@ Namespace taifCattle
                 userInfo.isEmailVerified = dt.Rows(0)("isEmailVerified")
 
                 userInfo.slauID = Convert_DBNullToString(dt.Rows(0)("slauID"), -1)
-                'userInfo.govID = Convert_DBNullToString(dt.Rows(0)("govID"), -1)
+                userInfo.govID = Convert_DBNullToString(dt.Rows(0)("govID"), -1)
                 'userInfo.govCityID = Convert_DBNullToString(dt.Rows(0)("govCityID"), -1)
                 'userInfo.govTwID = Convert_DBNullToString(dt.Rows(0)("govTwID"), -1)
                 'userInfo.govName = Convert_DBNullToString(dt.Rows(0)("govName"), "無資料")
