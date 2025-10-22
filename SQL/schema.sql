@@ -383,10 +383,11 @@ GO
 CREATE TABLE [dbo].[System_MenuAu](
         [auTypeID] [int] NOT NULL,
         [menuID] [int] NOT NULL,
-        [canCreate] [bit] NOT NULL DEFAULT ((0)),
-        [canRead] [bit] NOT NULL DEFAULT ((0)),
-        [canUpdate] [bit] NOT NULL DEFAULT ((0)),
-        [canDelete] [bit] NOT NULL DEFAULT ((0))
+ CONSTRAINT [PK_System_MenuAu] PRIMARY KEY CLUSTERED
+(
+        [auTypeID] ASC,
+        [menuID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 /****** Object:  Table [dbo].[System_MilkSetting]    Script Date: 2025/10/20 下午 12:22:51 ******/

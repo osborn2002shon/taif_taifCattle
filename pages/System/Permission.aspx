@@ -13,22 +13,11 @@
             <h5 class="mb-0">系統權限設定</h5>
         </div>
         <div class="card-body">
-            <div class="row g-3 align-items-end mb-3">
-                <div class="col-md-4">
-                    <label for="DropDownList_role" class="form-label">請選擇系統權限角色</label>
-                    <asp:DropDownList ID="DropDownList_role" runat="server" CssClass="form-select" AutoPostBack="True" OnSelectedIndexChanged="DropDownList_role_SelectedIndexChanged"></asp:DropDownList>
-                </div>
-                <div class="col-md-8">
-                    <asp:Label ID="Label_status" runat="server" CssClass="text-muted"></asp:Label>
-                </div>
+            <div class="mb-3">
+                <asp:Label ID="Label_status" runat="server" CssClass="text-muted"></asp:Label>
             </div>
 
             <asp:Panel ID="Panel_permission" runat="server" Visible="False">
-                <div class="alert alert-info" role="alert">
-                    <strong>目前設定角色：</strong>
-                    <asp:Literal ID="Literal_roleName" runat="server"></asp:Literal>
-                </div>
-
                 <asp:Repeater ID="Repeater_groups" runat="server" OnItemDataBound="Repeater_groups_ItemDataBound">
                     <ItemTemplate>
                         <div class="mb-4 border rounded">
@@ -40,14 +29,15 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col" style="width:45%;">功能名稱</th>
-                                            <th scope="col" class="text-center" style="width:12%;">查詢</th>
-                                            <th scope="col" class="text-center" style="width:12%;">新增</th>
-                                            <th scope="col" class="text-center" style="width:12%;">修改</th>
-                                            <th scope="col" class="text-center" style="width:12%;">刪除</th>
+                                            <asp:Repeater ID="Repeater_roleHeader" runat="server">
+                                                <ItemTemplate>
+                                                    <th scope="col" class="text-center"><%# Eval("AuTypeName") %></th>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <asp:Repeater ID="Repeater_menus" runat="server">
+                                        <asp:Repeater ID="Repeater_menus" runat="server" OnItemDataBound="Repeater_menus_ItemDataBound">
                                             <ItemTemplate>
                                                 <tr>
                                                     <td>
@@ -55,18 +45,14 @@
                                                         <div class="fw-semibold"><%# Eval("MenuName") %></div>
                                                         <div class="text-muted small"><%# Eval("MenuURL") %></div>
                                                     </td>
-                                                    <td class="text-center">
-                                                        <asp:CheckBox ID="CheckBox_read" runat="server" CssClass="position-static" Checked='<%# Eval("CanRead") %>' />
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <asp:CheckBox ID="CheckBox_create" runat="server" CssClass="position-static" Checked='<%# Eval("CanCreate") %>' />
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <asp:CheckBox ID="CheckBox_update" runat="server" CssClass="position-static" Checked='<%# Eval("CanUpdate") %>' />
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <asp:CheckBox ID="CheckBox_delete" runat="server" CssClass="position-static" Checked='<%# Eval("CanDelete") %>' />
-                                                    </td>
+                                                    <asp:Repeater ID="Repeater_rolePermissions" runat="server">
+                                                        <ItemTemplate>
+                                                            <td class="text-center">
+                                                                <asp:HiddenField ID="HiddenField_roleID" runat="server" Value='<%# Eval("AuTypeID") %>' />
+                                                                <asp:CheckBox ID="CheckBox_enabled" runat="server" CssClass="position-static" Checked='<%# Eval("IsEnabled") %>' />
+                                                            </td>
+                                                        </ItemTemplate>
+                                                    </asp:Repeater>
                                                 </tr>
                                             </ItemTemplate>
                                         </asp:Repeater>
