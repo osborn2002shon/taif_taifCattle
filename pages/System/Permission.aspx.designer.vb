@@ -1,4 +1,4 @@
-'------------------------------------------------------------------------------
+﻿'------------------------------------------------------------------------------
 ' <自動產生>
 '     這段程式碼是由工具產生的。
 '
@@ -84,4 +84,13 @@ Partial Public Class Permission
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents Button_save As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Button_cancel 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Button_cancel As Global.System.Web.UI.WebControls.Button
 End Class

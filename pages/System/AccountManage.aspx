@@ -132,7 +132,7 @@
                 <asp:LinkButton ID="LinkButton_export" runat="server" CssClass="btn btn-outline-success" CausesValidation="False">
                     <span><i class="fas fa-download me-1"></i>匯出Excel</span>
                 </asp:LinkButton>
-                <asp:LinkButton ID="LinkButton_permission" PostBackUrl="~/pages/System/PermissionSetting.aspx" runat="server" CssClass="btn btn-outline-success" CausesValidation="False">
+                <asp:LinkButton ID="LinkButton_permission" PostBackUrl="~/pages/System/Permission.aspx" runat="server" CssClass="btn btn-outline-success" CausesValidation="False">
                     <span><i class="fas fa-download me-1"></i>權限設定</span>
                 </asp:LinkButton>
             </div>

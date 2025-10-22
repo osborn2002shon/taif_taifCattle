@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="Permission.aspx.vb" Inherits="taifCattle.Permission" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="Permission.aspx.vb" Inherits="taifCattle.Permission" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
@@ -56,16 +56,16 @@
                                                         <div class="text-muted small"><%# Eval("MenuURL") %></div>
                                                     </td>
                                                     <td class="text-center">
-                                                        <asp:CheckBox ID="CheckBox_read" runat="server" CssClass="form-check-input position-static" Checked='<%# Eval("CanRead") %>' />
+                                                        <asp:CheckBox ID="CheckBox_read" runat="server" CssClass="position-static" Checked='<%# Eval("CanRead") %>' />
                                                     </td>
                                                     <td class="text-center">
-                                                        <asp:CheckBox ID="CheckBox_create" runat="server" CssClass="form-check-input position-static" Checked='<%# Eval("CanCreate") %>' />
+                                                        <asp:CheckBox ID="CheckBox_create" runat="server" CssClass="position-static" Checked='<%# Eval("CanCreate") %>' />
                                                     </td>
                                                     <td class="text-center">
-                                                        <asp:CheckBox ID="CheckBox_update" runat="server" CssClass="form-check-input position-static" Checked='<%# Eval("CanUpdate") %>' />
+                                                        <asp:CheckBox ID="CheckBox_update" runat="server" CssClass="position-static" Checked='<%# Eval("CanUpdate") %>' />
                                                     </td>
                                                     <td class="text-center">
-                                                        <asp:CheckBox ID="CheckBox_delete" runat="server" CssClass="form-check-input position-static" Checked='<%# Eval("CanDelete") %>' />
+                                                        <asp:CheckBox ID="CheckBox_delete" runat="server" CssClass="position-static" Checked='<%# Eval("CanDelete") %>' />
                                                     </td>
                                                 </tr>
                                             </ItemTemplate>
@@ -82,6 +82,7 @@
             <asp:Label ID="Label_result" runat="server" CssClass="me-auto text-start d-inline-block"></asp:Label>
             <asp:Button ID="Button_reload" runat="server" CssClass="btn btn-outline-secondary me-2" Text="重新載入" CausesValidation="False" OnClick="Button_reload_Click" />
             <asp:Button ID="Button_save" runat="server" CssClass="btn btn-primary" Text="儲存設定" />
+            <asp:Button ID="Button_cancel" PostBackUrl="~/pages/System/AccountManage.aspx" runat="server" CssClass="btn btn-outline-secondary" Text="返回" CausesValidation="False" />
         </div>
     </div>
 </asp:Content>
