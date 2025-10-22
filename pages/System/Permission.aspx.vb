@@ -40,6 +40,11 @@ Public Class Permission
         Public Property IsEnabled As Boolean
     End Class
 
+    Private Class MenuInfo
+        Public Property MenuID As Integer
+        Public Property MenuName As String
+    End Class
+
     Private _roleCache As List(Of RoleModel)
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -99,7 +104,7 @@ Public Class Permission
 
         Dim sqlMenus As String =
             "SELECT menuID, groupName, menuName, menuURL, orderBy_group, orderBy_menu " &
-            "FROM System_Menu WHERE isActive = 1 ORDER BY orderBy_group, orderBy_menu"
+            "FROM System_Menu WHERE isActive = 1 AND isShow = 1 ORDER BY orderBy_group, orderBy_menu"
 
         Dim sqlMenuAu As String = "SELECT auTypeID, menuID FROM System_MenuAu"
 
@@ -164,6 +169,22 @@ Public Class Permission
         Return roles
     End Function
 
+    Private Function LoadAllMenuInfos() As List(Of MenuInfo)
+        Dim menus As New List(Of MenuInfo)
+        Dim sqlString As String = "SELECT menuID, menuName FROM System_Menu WHERE isActive = 1"
+
+        Using da As New DataAccess.MS_SQL
+            Dim dt As DataTable = da.GetDataTable(sqlString)
+            menus = (From row In dt.AsEnumerable()
+                     Select New MenuInfo With {
+                         .MenuID = row.Field(Of Integer)("menuID"),
+                         .MenuName = row.Field(Of String)("menuName")
+                     }).ToList()
+        End Using
+
+        Return menus
+    End Function
+
     Protected Sub Repeater_groups_ItemDataBound(sender As Object, e As RepeaterItemEventArgs)
         If e.Item.ItemType <> ListItemType.Item AndAlso e.Item.ItemType <> ListItemType.AlternatingItem Then
             Return
@@ -207,6 +228,8 @@ Public Class Permission
         ResetResultMessage()
 
         Dim selections As List(Of MenuRoleSelectionModel) = CollectPermissionsFromUI()
+        Dim allMenus = LoadAllMenuInfos()
+        Dim menuLookup As Dictionary(Of Integer, String) = allMenus.ToDictionary(Function(m) m.MenuID, Function(m) m.MenuName)
 
         Using da As New DataAccess.MS_SQL
             da.StartTransaction()
@@ -220,17 +243,38 @@ Public Class Permission
                         Continue For
                     End If
 
-                    Dim key = $"{selection.MenuID}_{selection.AuTypeID}"
-                    If Not insertedKeys.Add(key) Then
+                    Dim menuName As String = Nothing
+                    If Not menuLookup.TryGetValue(selection.MenuID, menuName) Then
                         Continue For
                     End If
 
-                    Dim parameters As Data.SqlClient.SqlParameter() = {
-                        New Data.SqlClient.SqlParameter("@auTypeID", selection.AuTypeID),
-                        New Data.SqlClient.SqlParameter("@menuID", selection.MenuID)
-                    }
+                    If String.IsNullOrWhiteSpace(menuName) Then
+                        Continue For
+                    End If
 
-                    da.ExecNonQuery("INSERT INTO System_MenuAu (auTypeID, menuID) VALUES (@auTypeID, @menuID)", parameters)
+                    Dim menuPrefix As String = menuName.Trim()
+                    If String.IsNullOrEmpty(menuPrefix) Then
+                        Continue For
+                    End If
+
+                    Dim relatedMenuIDs = allMenus.
+                        Where(Function(m) Not String.IsNullOrEmpty(m.MenuName) AndAlso m.MenuName.Trim().StartsWith(menuPrefix, StringComparison.Ordinal)).
+                        Select(Function(m) m.MenuID).
+                        ToList()
+
+                    For Each relatedMenuID In relatedMenuIDs
+                        Dim key = $"{relatedMenuID}_{selection.AuTypeID}"
+                        If Not insertedKeys.Add(key) Then
+                            Continue For
+                        End If
+
+                        Dim parameters As Data.SqlClient.SqlParameter() = {
+                            New Data.SqlClient.SqlParameter("@auTypeID", selection.AuTypeID),
+                            New Data.SqlClient.SqlParameter("@menuID", relatedMenuID)
+                        }
+
+                        da.ExecNonQuery("INSERT INTO System_MenuAu (auTypeID, menuID) VALUES (@auTypeID, @menuID)", parameters)
+                    Next
                 Next
 
                 da.Commit()
