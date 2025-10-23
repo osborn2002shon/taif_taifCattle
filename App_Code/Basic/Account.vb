@@ -51,6 +51,13 @@ Namespace taifCattle
             Public Property updateUserID As Integer
         End Class
 
+        Public Class LoginFailStatus
+            Public Property FailCount As Integer
+            Public Property LastFailTime As Nullable(Of DateTime)
+            Public Property UnlockTime As Nullable(Of DateTime)
+            Public Property IsLocked As Boolean
+        End Class
+
         ''' <summary>
         ''' 變更使用者密碼
         ''' </summary>
@@ -307,6 +314,43 @@ Namespace taifCattle
             Return cfg
         End Function
 
+        Public Function GetLoginFailStatus(accountID As Integer, maxFailAttempts As Integer, lockoutDurationMinutes As Integer, Optional lastSuccess As Nullable(Of DateTime) = Nothing) As LoginFailStatus
+            Dim status As New LoginFailStatus With {
+                .FailCount = 0,
+                .IsLocked = False,
+                .LastFailTime = Nothing,
+                .UnlockTime = Nothing
+            }
+
+            If accountID <= 0 OrElse maxFailAttempts <= 0 OrElse lockoutDurationMinutes <= 0 Then
+                Return status
+            End If
+
+            Dim sinceTime As DateTime = Date.Now.AddMinutes(-lockoutDurationMinutes)
+
+            If lastSuccess.HasValue AndAlso lastSuccess.Value > sinceTime Then
+                sinceTime = lastSuccess.Value
+            End If
+
+            Dim dtFail As Data.DataTable = taifCattle_dao.Get_LoginFailLogs(accountID, sinceTime, taifCattle.Base.enum_UserLogItem.登入.ToString())
+
+            status.FailCount = dtFail.Rows.Count
+
+            If status.FailCount > 0 Then
+                Dim lastFailDate As DateTime = Convert.ToDateTime(dtFail.Rows(0)("logDateTime"))
+                status.LastFailTime = lastFailDate
+
+                Dim unlockTime As DateTime = lastFailDate.AddMinutes(lockoutDurationMinutes)
+                status.UnlockTime = unlockTime
+
+                If status.FailCount >= maxFailAttempts AndAlso unlockTime > Date.Now Then
+                    status.IsLocked = True
+                End If
+            End If
+
+            Return status
+        End Function
+
         ''' <summary>
         ''' 檢查密碼是否重複使用（依歷史紀錄）
         ''' </summary>
@@ -548,6 +592,30 @@ Namespace taifCattle.DAO
 
             Dim para As New List(Of Data.SqlClient.SqlParameter) From {
                 New Data.SqlClient.SqlParameter("account", account)
+            }
+
+            Using da As New DataAccess.MS_SQL
+                Return da.GetDataTable(sql, para.ToArray)
+            End Using
+        End Function
+
+        Function Get_LoginFailLogs(accountID As Integer, since As DateTime, logItem As String) As Data.DataTable
+            Dim sql =
+                <sql>
+                    select logDateTime, memo
+                    from System_UserLog
+                    where accountID = @accountID
+                      and logItem = @logItem
+                      and memo like @memoPrefix
+                      and logDateTime >= @since
+                    order by logDateTime desc
+                </sql>.Value
+
+            Dim para As New List(Of Data.SqlClient.SqlParameter) From {
+                New Data.SqlClient.SqlParameter("accountID", accountID),
+                New Data.SqlClient.SqlParameter("logItem", logItem),
+                New Data.SqlClient.SqlParameter("memoPrefix", "登入失敗%"),
+                New Data.SqlClient.SqlParameter("since", since)
             }
 
             Using da As New DataAccess.MS_SQL
