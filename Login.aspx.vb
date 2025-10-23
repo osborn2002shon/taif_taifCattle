@@ -1,4 +1,4 @@
-﻿Public Class Login
+Public Class Login
     Inherits taifCattle.Base
 
     Dim taifCattle_account As New taifCattle.Account
@@ -11,6 +11,11 @@
         Dim accountService As New taifCattle.Account
         Dim ac As String = TextBox_ac.Text.Trim
         Dim pw As String = TextBox_pw.Text.Trim
+
+        Dim maxFailAttempts As Integer = 0
+        Dim lockoutDuration As Integer = 0
+        Dim accountID As Integer = -1
+        Dim lastSuccess As Nullable(Of DateTime) = Nothing
 
         '=====機器人驗證
         If IsNothing(Session("CAPTCHA")) Then
@@ -27,6 +32,34 @@
         End If
 
         Session("CAPTCHA") = Nothing '避免POST重送封包Try帳密
+
+        Dim cfg As taifCattle.Account.System_Config = accountService.Get_SystemConfig()
+        If cfg IsNot Nothing Then
+            maxFailAttempts = cfg.maxFailAttempts
+            lockoutDuration = cfg.lockoutDuration
+        End If
+
+        Dim accountRow As System.Data.DataRow = accountService.GetSystemAccountByAccount(ac)
+        If accountRow IsNot Nothing Then
+            accountID = Convert.ToInt32(accountRow("accountID"))
+            If Not IsDBNull(accountRow("lastLoginDateTime")) Then
+                lastSuccess = CType(accountRow("lastLoginDateTime"), DateTime)
+            End If
+        End If
+
+        If accountID > 0 AndAlso maxFailAttempts > 0 AndAlso lockoutDuration > 0 Then
+            Dim failStatus = accountService.GetLoginFailStatus(accountID, maxFailAttempts, lockoutDuration, lastSuccess)
+            If failStatus IsNot Nothing AndAlso failStatus.IsLocked Then
+                Dim unlockTimeText As String = failStatus.UnlockTime.Value.ToString("yyyy/MM/dd HH:mm")
+                Dim message As String = $"帳號已鎖定，請於 {unlockTimeText} 後再試。"
+                If failStatus.FailCount > 0 Then
+                    message &= $" (目前已失敗 {failStatus.FailCount} 次)"
+                End If
+                Insert_UserLog(accountID, enum_UserLogItem.登入, enum_UserLogType.其他, $"登入失敗：帳號鎖定至 {unlockTimeText}")
+                Label_msg.Text = message
+                Exit Sub
+            End If
+        End If
 
         '=====使用者帳密驗證
         Using md5Hash As System.Security.Cryptography.MD5 = System.Security.Cryptography.MD5.Create()
@@ -93,7 +126,26 @@
                 End Select
 
             Case False
-                Label_msg.Text = userInfo.msg
+                Dim message As String = userInfo.msg
+
+                If accountID > 0 Then
+                    Dim failureReason As String = If(String.IsNullOrWhiteSpace(userInfo.msg), "登入失敗", userInfo.msg)
+                    Insert_UserLog(accountID, enum_UserLogItem.登入, enum_UserLogType.其他, $"登入失敗：{failureReason}")
+
+                    If maxFailAttempts > 0 AndAlso lockoutDuration > 0 Then
+                        Dim failStatus = accountService.GetLoginFailStatus(accountID, maxFailAttempts, lockoutDuration, lastSuccess)
+
+                        If failStatus.FailCount > 0 Then
+                            message &= $" (目前已失敗 {failStatus.FailCount} 次)"
+                        End If
+
+                        If failStatus.IsLocked AndAlso failStatus.UnlockTime.HasValue Then
+                            message &= $"，請於 {failStatus.UnlockTime.Value:yyyy/MM/dd HH:mm} 後再試。"
+                        End If
+                    End If
+                End If
+
+                Label_msg.Text = message
         End Select
     End Sub
 End Class
