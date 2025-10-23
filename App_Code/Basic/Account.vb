@@ -76,8 +76,11 @@ Namespace taifCattle
                 ' 更新密碼
                 taifCattle_dao.Update_UserPassword(accountID, updateAccountID, md5pw)
 
-                '寫入密碼變更紀錄
-                taifCattle_dao.Insert_UserPasswordLog(accountID, updateAccountID, md5pw, logItem.ToString())
+                If logItem <> Base.enum_UserLogItem.系統帳號管理 Then
+                    '寫入密碼變更紀錄（重設密碼的時候不寫入，避免觸發不能改密碼）
+                    taifCattle_dao.Insert_UserPasswordLog(accountID, updateAccountID, md5pw, logItem.ToString())
+                End If
+
 
                 ' 寫入操作紀錄
                 taifCattle_base.Insert_UserLog(updateAccountID, logItem, taifCattle.Base.enum_UserLogType.修改, $"accountID:{accountID}")
