@@ -74,6 +74,7 @@ Public Class FarmManage
         End Set
     End Property
 #End Region
+
 #Region "Fun/Sub"
     Private Sub SwitchView(mode As enum_EditMode)
         Select Case mode
@@ -116,8 +117,8 @@ Public Class FarmManage
 
         Dim code As String = value.ToString().Trim()
         If code.Length = 10 Then
-            ' 例：A123456789 → A12***6789
-            Return code.Substring(0, 3) & "***" & code.Substring(6)
+            ' 例：A123456789 → A123***789
+            Return code.Substring(0, 4) & "***" & code.Substring(7)
         End If
 
         ' 不是 10 碼就不處理
@@ -239,7 +240,7 @@ Public Class FarmManage
 
         ' === 顯示錯誤訊息 ===
         If msg.Count > 0 Then
-            Label_msg.Text = "以下欄位未填寫：<br/>" & String.Join("<br/>", msg)
+            Label_msg.Text = String.Join("<br/>", msg)
             Return False
         End If
 
@@ -273,7 +274,7 @@ Public Class FarmManage
         ' === 其他欄位 ===
         info.animalCount = TextBox_animalCount.Text.Trim()
         info.memo = TextBox_memo.Text.Trim()
-        info.insertType = "人工網頁建檔"
+        info.insertType = enum_InsertType.人工網頁建檔
 
         ' === 操作者資訊 ===
         Dim userInfo As taifCattle.Base.stru_LoginUserInfo = Session("userInfo")
@@ -284,6 +285,7 @@ Public Class FarmManage
         Return info
     End Function
 #End Region
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
             '預設畫面

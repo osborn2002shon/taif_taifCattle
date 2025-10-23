@@ -22,7 +22,7 @@ Namespace taifCattle
             Property address As String
             Property animalCount As String
             Property memo As String
-            Property insertType As String
+            Property insertType As taifCattle.Base.enum_InsertType
             Property insertAccountID As Integer
             Property updateAccountID As Integer
         End Structure
@@ -50,7 +50,7 @@ Namespace taifCattle
                     .address = taifCattle_base.Convert_DBNullToString(dr("address")),
                     .animalCount = taifCattle_base.Convert_DBNullToString(dr("animalCount")),
                     .memo = taifCattle_base.Convert_DBNullToString(dr("memo")),
-                    .insertType = taifCattle_base.Convert_DBNullToString(dr("insertType")),
+                    .insertType = taifCattle_base.Convert_DBToEnum(Of taifCattle.Base.enum_InsertType)(dr("insertType")),
                     .insertAccountID = If(IsDBNull(dr("insertAccountID")), 0, Convert.ToInt32(dr("insertAccountID")))
                 }
 
@@ -88,7 +88,7 @@ Namespace taifCattle
             f.address = taifCattle_base.Convert_DBNullToString(dr("address"))
             f.animalCount = taifCattle_base.Convert_DBNullToString(dr("animalCount"))
             f.memo = taifCattle_base.Convert_DBNullToString(dr("memo"))
-            f.insertType = taifCattle_base.Convert_DBNullToString(dr("insertType"))
+            f.insertType = taifCattle_base.Convert_DBToEnum(Of taifCattle.Base.enum_InsertType)(dr("insertType"))
             f.insertAccountID = If(IsDBNull(dr("insertAccountID")), 0, Convert.ToInt32(dr("insertAccountID")))
 
             Return f
@@ -228,7 +228,7 @@ Namespace taifCattle.DAO
             para.Add(New SqlClient.SqlParameter("address", info.address))
             para.Add(New SqlClient.SqlParameter("animalCount", taifCattle_base.Convert_EmptyToObject(info.animalCount, DBNull.Value)))
             para.Add(New SqlClient.SqlParameter("memo", taifCattle_base.Convert_EmptyToObject(info.memo, DBNull.Value)))
-            para.Add(New SqlClient.SqlParameter("insertType", info.insertType))
+            para.Add(New SqlClient.SqlParameter("insertType", info.insertType.ToString))
             para.Add(New SqlClient.SqlParameter("insertDateTime", Now))
             para.Add(New SqlClient.SqlParameter("insertAccountID", info.insertAccountID))
 

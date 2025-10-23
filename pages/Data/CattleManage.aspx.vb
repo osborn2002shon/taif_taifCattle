@@ -21,7 +21,7 @@ Public Class CattleManage
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
-            Session("CattleManage") = enum_cattleEditMode.list
+            Session("CattleManage") = enum_EditMode.預設
             taifCattle_cattle.Bind_DropDownList_cattleGroup(DropDownList_groupName, True)
             taifCattle_cattle.Bind_DropDownList_cattleType(DropDownList_typeName, True, DropDownList_groupName.SelectedValue)
             taifCattle_cattle.Bind_DropDownList_cattleStatus(DropDownList_cattleStatus, True)
@@ -40,7 +40,7 @@ Public Class CattleManage
     Private Sub GridView_data_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles GridView_data.RowCommand
         Select Case e.CommandName
             Case "cattleEdit"
-                Session("CattleManage") = enum_cattleEditMode.edit
+                Session("CattleManage") = enum_EditMode.編輯
                 Response.Redirect("CattleManage_Detail.aspx")
             Case Else
                 'nothing
@@ -48,7 +48,7 @@ Public Class CattleManage
     End Sub
 
     Private Sub LinkButton_addNew_Click(sender As Object, e As EventArgs) Handles LinkButton_addNew.Click
-        Session("CattleManage") = enum_cattleEditMode.add
+        Session("CattleManage") = enum_EditMode.新增
         Response.Redirect("CattleManage_Detail.aspx")
     End Sub
 

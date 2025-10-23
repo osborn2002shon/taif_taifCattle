@@ -40,7 +40,6 @@
                         <asp:TextBox ID="TextBox_birthYear" runat="server" CssClass="form-control" TextMode="Number" MaxLength="4" min="2000"></asp:TextBox>
                             <span class="input-group-text" onclick="clearControl('<%= TextBox_birthYear.ClientID %>')" style="cursor: pointer;"><i class="fa-solid fa-xmark"></i></span>
                     </div>
-
                 </div>
                 <div class="col">
                     <label>牛籍歲齡</label>
@@ -70,7 +69,7 @@
         </div>
     </div>
     <div class="table-responsive gv-tb">
-        <asp:GridView ID="GridView_data" runat="server" PageSize="25" AllowPaging="true" CssClass="gv" AutoGenerateColumns="false">
+        <asp:GridView ID="GridView_data" runat="server" PageSize="25" AllowPaging="true" CssClass="gv" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true">
             <Columns>
                 <asp:TemplateField HeaderText="牛籍類型">
                     <ItemTemplate>

@@ -55,25 +55,25 @@
             </div>
             <div class="table-responsive  gv-tb">
                 <asp:GridView ID="GridView_farmList" runat="server" CssClass="gv" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" 
-                    ShowHeaderWhenEmpty="true" HeaderStyle-CssClass="text-center" HeaderStyle-VerticalAlign="Middle">
+                    ShowHeaderWhenEmpty="true">
                     <Columns>
-                        <%-- <asp:TemplateField HeaderText="系統<br>流水號" ItemStyle-Width="5%" ItemStyle-CssClass="text-center">
+                        <%-- <asp:TemplateField HeaderText="系統<br>流水號" ItemStyle-Width="5%">
                             <ItemTemplate>
                                 <%# Eval("farmID") %>
                             </ItemTemplate>
                         </asp:TemplateField>--%>
-                        <asp:BoundField DataField="city" HeaderText="縣市" ItemStyle-Width="5%" ItemStyle-CssClass="text-center" />
-                        <asp:BoundField DataField="town" HeaderText="鄉鎮" ItemStyle-Width="5%" ItemStyle-CssClass="text-center"/>
-                        <asp:BoundField DataField="farmName" HeaderText="畜牧場名稱" ItemStyle-Width="10%" ItemStyle-CssClass="text-center"/>
-                        <asp:TemplateField HeaderText="畜牧場證號<br/><div style='font-size:0.8rem;'>(畜牧場證號/畜禽飼養登記證<br/>/負責人證號)</div>" ItemStyle-Width="15%" ItemStyle-CssClass="text-center">
+                        <asp:BoundField DataField="city" HeaderText="縣市" ItemStyle-Width="5%" />
+                        <asp:BoundField DataField="town" HeaderText="鄉鎮" ItemStyle-Width="5%"/>
+                        <asp:BoundField DataField="farmName" HeaderText="畜牧場名稱" ItemStyle-Width="10%"/>
+                        <asp:TemplateField HeaderText="畜牧場證號<br/><div style='font-size:0.8rem;'>(畜牧場證號/畜禽飼養登記證<br/>/負責人證號)</div>" ItemStyle-Width="15%">
                             <ItemTemplate>
                                 <%# MaskFarmCode(Eval("farmCode")) %>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:BoundField DataField="owner" HeaderText="負責人" ItemStyle-Width="5%" ItemStyle-CssClass="text-center"/>
+                        <asp:BoundField DataField="owner" HeaderText="負責人" ItemStyle-Width="5%"/>
                     <%-- <asp:BoundField DataField="ownerID" HeaderText="負責人證號" ItemStyle-Width="8%" />--%>
                         <asp:BoundField DataField="address" HeaderText="畜牧場地址" ItemStyle-Width="25%" ItemStyle-CssClass="txt_left"/>
-                    <%--    <asp:BoundField DataField="insertType" HeaderText="新增來源" ItemStyle-Width="8%" ItemStyle-CssClass="text-center"/>--%>
+                    <%--    <asp:BoundField DataField="insertType" HeaderText="新增來源" ItemStyle-Width="8%"/>--%>
                         <asp:TemplateField ItemStyle-Width="5%">
                             <ItemTemplate>
                                  <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-warning"
@@ -183,9 +183,9 @@
                         </div>
 
                         <!-- 備註 -->
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="form-label fw-bold">備註</label>
-                            <asp:TextBox ID="TextBox_memo" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3" placeholder="可輸入備註說明"></asp:TextBox>
+                            <asp:TextBox ID="TextBox_memo" runat="server" CssClass="form-control" placeholder="可輸入備註說明"></asp:TextBox>
                         </div>
                     </div>
                 </div>

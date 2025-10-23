@@ -1,4 +1,5 @@
-﻿.queryBox {
+﻿/** 查詢條件樣式 **/
+.queryBox {
     /*border: 1px solid black;*/
     border-radius: 12px 12px;
     background: linear-gradient(135deg, #0f2350, #1a3b6b);
@@ -26,6 +27,7 @@
             /*font-weight:700;*/
         }
 
+/** 列表樣式 **/
 .gv-tb {
     box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
 }
@@ -39,10 +41,10 @@
     .gv tr th {
         background: #d3d3d3;
         /*color: #0f2350;*/
+        font-size: 1rem;
         font-weight: 600;
         border: none;
         padding: 15px 10px;
-        font-size: 0.9rem;
         white-space: nowrap;
     }
 
@@ -63,3 +65,39 @@
         .gv tr td table {
             margin:0 auto;
         }
+
+/** 填寫表單樣式 **/
+.formCard {
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+}
+
+    .formCard .card-header {
+        background: linear-gradient(135deg, #0f2350, #1a3b6b);
+        color: white;
+        padding: 20px;
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+    .formCard .card-body {
+        background-color:white;
+    }
+
+        .formCard .card-body label {
+            font-weight:500;
+        }
+
+        .formCard .card-body .row:not(:last-child) {
+            margin-bottom: 15px;
+        }
+
+    .formCard .star {
+        color:red;
+    }
+    .formCard .info {
+        font-size:0.85rem;
+        color:gray;
+    }
+    .formCard .card-footer .msg {
+        text-align:center;
+        color:tomato;
+    }

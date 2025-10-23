@@ -76,17 +76,31 @@
                         userInfo.lastLoginDateTime = Now
                         userInfo.isEmailVerified = True
                         Session("UserInfo") = userInfo
-                        Select Case userInfo.auTypeID
-                            Case 1 '系統管理員(農業保險基金)
-                                Response.Redirect("~/pages/System/AccountManage.aspx")
-                            Case 2 '一般管理員(畜牧司草食產業科)
-                                Response.Redirect("~/pages/System/AccountManage.aspx")
-                            Case 3 '一般使用者(縣市政府農業局處)
-                                Response.Redirect("~/pages/System/AccountManage.aspx")
-                            Case 4 '查詢使用者(其他 (ex防檢署/畜產會))
-                                Response.Redirect("~/pages/System/AccountManage.aspx")
 
-                        End Select
+                        If userInfo.liMenu IsNot Nothing AndAlso userInfo.liMenu.Count > 0 Then
+
+                            ' 取得第一筆目錄
+                            Dim firstMenuPath As String = userInfo.liMenu(0).menuURL.Trim()
+
+                            ' 若是相對路徑 "../"，改成實際網站路徑 "~/pages/"
+                            If firstMenuPath.StartsWith("../") Then
+                                firstMenuPath = "~/pages/" & firstMenuPath.Replace("../", "")
+                            End If
+
+                            ' 若沒有 ~ 或 / 開頭，補上 ~/pages/
+                            If Not firstMenuPath.StartsWith("~") AndAlso Not firstMenuPath.StartsWith("/") Then
+                                firstMenuPath = "~/pages/" & firstMenuPath
+                            End If
+
+                            ' 轉換為實際 URL
+                            Dim targetUrl As String = ResolveUrl(firstMenuPath)
+
+                            ' 導向
+                            Response.Redirect(targetUrl)
+                        Else
+                            Label_msg.Text = "目前您的帳號尚未設定任何可用功能，<br />如需使用系統，請聯絡系統管理員協助。"
+                        End If
+
                     Case False
                         Insert_UserLog(userInfo.accountID, enum_UserLogItem.登入, enum_UserLogType.其他, "停用中")
                         Label_msg.Text = "您的帳號已被停用，<br />若有任何問題請洽詢系統管理員。"

@@ -30,6 +30,13 @@ Namespace taifCattle
             唯讀
         End Enum
 
+        Enum enum_InsertType
+            人工網頁建檔
+            耳標來源建檔
+            屠宰來源建檔
+            牧登來源建檔
+        End Enum
+
         ''' <summary>
         ''' enum 操作紀錄：功能項目
         ''' </summary>
@@ -257,7 +264,36 @@ Namespace taifCattle
                 Case False
                     Return CType(input, DateTime).ToString(formatStr)
             End Select
+            Return Nothing
         End Function
+
+        ''' <summary>
+        ''' 轉換DB值成指定的Enum型別
+        ''' </summary>
+        Public Shared Function Convert_DBToEnum(Of T As Structure)(value As Object, Optional defaultValue As T = Nothing) As T
+            If value Is Nothing OrElse IsDBNull(value) Then
+                Return defaultValue
+            End If
+
+            Dim strValue As String = value.ToString().Trim()
+
+            ' 如果資料庫存的是 Enum 名稱（字串）
+            If [Enum].IsDefined(GetType(T), strValue) Then
+                Return CType([Enum].Parse(GetType(T), strValue), T)
+            End If
+
+            ' 如果資料庫存的是整數代碼
+            Dim intValue As Integer
+            If Integer.TryParse(strValue, intValue) Then
+                If [Enum].IsDefined(GetType(T), intValue) Then
+                    Return CType([Enum].ToObject(GetType(T), intValue), T)
+                End If
+            End If
+
+            ' 都不符合則回傳預設值
+            Return defaultValue
+        End Function
+
 
         ''' <summary>
         ''' 取得指定長度隨機字串

@@ -32,22 +32,76 @@ Partial Public Class CattleManage_Detail
     Protected WithEvents View_new As Global.System.Web.UI.WebControls.View
 
     '''<summary>
-    '''Button_save 控制項。
+    '''TextBox_tagNo 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Button_save As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents TextBox_tagNo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Button_cancel 控制項。
+    '''TextBox_tagMemo 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Button_cancel As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents TextBox_tagMemo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''DropDownList_typeName 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents DropDownList_typeName As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''TextBox_birthYear 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents TextBox_birthYear As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''TextBox_memo 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents TextBox_memo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Label_addMsg 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Label_addMsg As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''LinkButton_save 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents LinkButton_save As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''LinkButton_cancel 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents LinkButton_cancel As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''View_edit 控制項。
