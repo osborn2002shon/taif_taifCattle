@@ -32,31 +32,31 @@ Partial Public Class MyAccount
     Protected WithEvents Label_basicMessage As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''TextBox_account 控制項。
+    '''Label_account 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents TextBox_account As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents Label_account As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''TextBox_name 控制項。
+    '''Label_name 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents TextBox_name As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents Label_name As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''TextBox_role 控制項。
+    '''Label_role 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents TextBox_role As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents Label_role As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Panel_govCity 控制項。
@@ -68,13 +68,13 @@ Partial Public Class MyAccount
     Protected WithEvents Panel_govCity As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''TextBox_govCity 控制項。
+    '''Label_govCity 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents TextBox_govCity As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents Label_govCity As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''TextBox_mobile 控制項。
@@ -95,22 +95,22 @@ Partial Public Class MyAccount
     Protected WithEvents TextBox_unit As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''TextBox_lastLogin 控制項。
+    '''Label_lastLogin 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents TextBox_lastLogin As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents Label_lastLogin As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''TextBox_passwordChanged 控制項。
+    '''Label_passwordChanged 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents TextBox_passwordChanged As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents Label_passwordChanged As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Button_saveBasic 控制項。

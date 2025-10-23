@@ -29,26 +29,26 @@ Public Class MyAccount
         Dim accountRow = taifCattle_account.GetSystemAccount(currentUser.accountID)
 
         Panel_govCity.Visible = False
-        TextBox_govCity.Text = String.Empty
+        Label_govCity.Text = String.Empty
 
         If accountRow Is Nothing Then
             ShowBasicMessage("找不到帳號資料，請聯絡系統管理員。", True)
             Return
         End If
 
-        TextBox_account.Text = accountRow("account").ToString()
-        TextBox_name.Text = accountRow("name").ToString()
-        TextBox_role.Text = accountRow("auTypeName").ToString()
+        Label_account.Text = accountRow("account").ToString()
+        Label_name.Text = accountRow("name").ToString()
+        Label_role.Text = accountRow("auTypeName").ToString()
         TextBox_unit.Text = If(Convert.IsDBNull(accountRow("unit")), String.Empty, accountRow("unit").ToString())
         TextBox_mobile.Text = If(Convert.IsDBNull(accountRow("mobile")), String.Empty, accountRow("mobile").ToString())
-        TextBox_lastLogin.Text = FormatDateTimeValue(currentUser.lastLoginDateTime)
-        TextBox_passwordChanged.Text = FormatDateTimeValue(currentUser.pwUpdateDateTime)
+        Label_lastLogin.Text = FormatDateTimeValue(currentUser.lastLoginDateTime)
+        Label_passwordChanged.Text = FormatDateTimeValue(currentUser.pwUpdateDateTime)
 
         Dim auTypeID As Integer = Convert.ToInt32(accountRow("auTypeID"))
         If auTypeID = 3 Then
             Dim govCityName = GetGovCityName(accountRow("govID"))
             Panel_govCity.Visible = Not String.IsNullOrWhiteSpace(govCityName)
-            TextBox_govCity.Text = govCityName
+            Label_govCity.Text = govCityName
         End If
     End Sub
 

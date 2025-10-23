@@ -37,19 +37,19 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">登入帳號</label>
-                            <asp:TextBox ID="TextBox_account" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                            <asp:Label ID="Label_account" runat="server" CssClass="form-control-plaintext d-block border rounded px-3 py-2 bg-light"></asp:Label>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">使用者姓名</label>
-                            <asp:TextBox ID="TextBox_name" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                            <asp:Label ID="Label_name" runat="server" CssClass="form-control-plaintext d-block border rounded px-3 py-2 bg-light"></asp:Label>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">系統權限</label>
-                            <asp:TextBox ID="TextBox_role" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                            <asp:Label ID="Label_role" runat="server" CssClass="form-control-plaintext d-block border rounded px-3 py-2 bg-light"></asp:Label>
                         </div>
                         <asp:Panel ID="Panel_govCity" runat="server" CssClass="col-md-6" Visible="false">
                             <label class="form-label">縣市</label>
-                            <asp:TextBox ID="TextBox_govCity" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                            <asp:Label ID="Label_govCity" runat="server" CssClass="form-control-plaintext d-block border rounded px-3 py-2 bg-light"></asp:Label>
                         </asp:Panel>
                         <div class="col-md-6">
                             <label class="form-label">聯絡電話</label>
@@ -61,11 +61,11 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">最後登入時間</label>
-                            <asp:TextBox ID="TextBox_lastLogin" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                            <asp:Label ID="Label_lastLogin" runat="server" CssClass="form-control-plaintext d-block border rounded px-3 py-2 bg-light"></asp:Label>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">密碼最後變更時間</label>
-                            <asp:TextBox ID="TextBox_passwordChanged" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                            <asp:Label ID="Label_passwordChanged" runat="server" CssClass="form-control-plaintext d-block border rounded px-3 py-2 bg-light"></asp:Label>
                         </div>
                     </div>
                     <div class="text-end mt-4">
