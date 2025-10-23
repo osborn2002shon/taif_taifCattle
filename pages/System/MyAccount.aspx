@@ -32,7 +32,7 @@
         </div>
         <div class="card-body">
             <div class="tab-content" id="accountTabContent">
-                <asp:Panel ID="Panel_basic" runat="server" CssClass="tab-pane fade show active" role="tabpanel" aria-labelledby="tabBasicLink" DefaultButton="Button_saveBasic">
+                <div class="tab-pane fade show active" id="tabBasic" role="tabpanel" aria-labelledby="tabBasicLink">
                     <asp:Label ID="Label_basicMessage" runat="server" CssClass="d-block fw-bold mb-3"></asp:Label>
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -71,8 +71,8 @@
                     <div class="text-end mt-4">
                         <asp:Button ID="Button_saveBasic" runat="server" CssClass="btn btn-primary" Text="儲存基本資料" />
                     </div>
-                </asp:Panel>
-                <asp:Panel ID="Panel_password" runat="server" CssClass="tab-pane fade" role="tabpanel" aria-labelledby="tabPasswordLink" DefaultButton="Button_changePassword">
+                </div>
+                <div class="tab-pane fade" id="tabPassword" role="tabpanel" aria-labelledby="tabPasswordLink">
                     <asp:Label ID="Label_passwordMessage" runat="server" CssClass="d-block fw-bold mb-3"></asp:Label>
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -87,7 +87,7 @@
                     <div class="text-end mt-4">
                         <asp:Button ID="Button_changePassword" runat="server" CssClass="btn btn-warning" Text="變更密碼" />
                     </div>
-                </asp:Panel>
+                </div>
             </div>
         </div>
     </div>
