@@ -1,5 +1,11 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="MyAccount.aspx.vb" Inherits="taifCattle.MyAccount" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
+    <style type="text/css">
+
+        .nav-tabs .nav-link {
+            color:#000;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
     我的帳號管理
