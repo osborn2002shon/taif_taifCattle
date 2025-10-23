@@ -36,7 +36,7 @@
                     <asp:Label ID="Label_basicMessage" runat="server" CssClass="d-block fw-bold mb-3"></asp:Label>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label">登入帳號／電子信箱</label>
+                            <label class="form-label">登入帳號</label>
                             <asp:TextBox ID="TextBox_account" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
                         </div>
                         <div class="col-md-6">
@@ -47,10 +47,10 @@
                             <label class="form-label">系統權限</label>
                             <asp:TextBox ID="TextBox_role" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label">電子信箱</label>
-                            <asp:TextBox ID="TextBox_email" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
-                        </div>
+                        <asp:Panel ID="Panel_govCity" runat="server" CssClass="col-md-6" Visible="false">
+                            <label class="form-label">縣市</label>
+                            <asp:TextBox ID="TextBox_govCity" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                        </asp:Panel>
                         <div class="col-md-6">
                             <label class="form-label">聯絡電話</label>
                             <asp:TextBox ID="TextBox_mobile" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>

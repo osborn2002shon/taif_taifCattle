@@ -1,4 +1,5 @@
 Imports System
+Imports System.Collections.Generic
 
 Public Class MyAccount
     Inherits taifCattle.Base
@@ -27,6 +28,9 @@ Public Class MyAccount
         Dim currentUser = InfoSession
         Dim accountRow = taifCattle_account.GetSystemAccount(currentUser.accountID)
 
+        Panel_govCity.Visible = False
+        TextBox_govCity.Text = String.Empty
+
         If accountRow Is Nothing Then
             ShowBasicMessage("找不到帳號資料，請聯絡系統管理員。", True)
             Return
@@ -35,12 +39,43 @@ Public Class MyAccount
         TextBox_account.Text = accountRow("account").ToString()
         TextBox_name.Text = accountRow("name").ToString()
         TextBox_role.Text = accountRow("auTypeName").ToString()
-        TextBox_email.Text = If(Convert.IsDBNull(accountRow("email")), String.Empty, accountRow("email").ToString())
         TextBox_unit.Text = If(Convert.IsDBNull(accountRow("unit")), String.Empty, accountRow("unit").ToString())
         TextBox_mobile.Text = If(Convert.IsDBNull(accountRow("mobile")), String.Empty, accountRow("mobile").ToString())
         TextBox_lastLogin.Text = FormatDateTimeValue(currentUser.lastLoginDateTime)
         TextBox_passwordChanged.Text = FormatDateTimeValue(currentUser.pwUpdateDateTime)
+
+        Dim auTypeID As Integer = Convert.ToInt32(accountRow("auTypeID"))
+        If auTypeID = 3 Then
+            Dim govCityName = GetGovCityName(accountRow("govID"))
+            Panel_govCity.Visible = Not String.IsNullOrWhiteSpace(govCityName)
+            TextBox_govCity.Text = govCityName
+        End If
     End Sub
+
+    Private Function GetGovCityName(govIdValue As Object) As String
+        If govIdValue Is Nothing OrElse Convert.IsDBNull(govIdValue) Then
+            Return String.Empty
+        End If
+
+        Dim govId As Integer
+        If Not Integer.TryParse(govIdValue.ToString(), govId) Then
+            Return String.Empty
+        End If
+
+        Dim sql As String = "select top 1 city from System_Taiwan where cityID = @cityID"
+        Dim para As New List(Of Data.SqlClient.SqlParameter) From {
+            New Data.SqlClient.SqlParameter("cityID", govId)
+        }
+
+        Using da As New DataAccess.MS_SQL()
+            Dim dt = da.GetDataTable(sql, para.ToArray())
+            If dt.Rows.Count > 0 Then
+                Return dt.Rows(0)("city").ToString()
+            End If
+        End Using
+
+        Return String.Empty
+    End Function
 
     Private Function FormatDateTimeValue(value As Object) As String
         If value Is Nothing OrElse Convert.IsDBNull(value) Then
