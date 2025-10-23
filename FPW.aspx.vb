@@ -283,6 +283,14 @@ Public Class FPW
                 Exit Sub
             End If
 
+            '檢查密碼最短使用期限
+            Dim minAge As stru_checkResult = taifCattle_account.Check_PasswordMinAge(results(0).accountID)
+            If minAge.isPass = False Then
+                Label_msg.Text = minAge.msg
+                Exit Sub
+            End If
+
+            '檢查寄信間隔
             If IsRecentFPWRequest(mail, FPW_EMAIL_INTERVAL) Then
                 Label_msg.Text = "您剛剛已寄送重設密碼信，請稍候再試。"
                 Exit Sub
@@ -317,6 +325,14 @@ Public Class FPW
                 Label_msg_account.Text = "帳號已被停用，無法重設密碼。"
             Else
 
+                '檢查密碼最短使用期限
+                Dim minAge As stru_checkResult = taifCattle_account.Check_PasswordMinAge(results(0).accountID)
+                If minAge.isPass = False Then
+                    Label_msg_account.Text = minAge.msg
+                    Exit Sub
+                End If
+
+                '檢查寄信間隔
                 If IsRecentFPWRequest(mail, FPW_EMAIL_INTERVAL) Then
                     Label_msg_account.Text = "您剛剛已寄送重設密碼信，請稍候再試。"
                     Exit Sub
@@ -345,14 +361,30 @@ Public Class FPW
             Exit Sub
         End If
 
-        '檢查密碼
+        '檢查是否填寫
         If String.IsNullOrEmpty(pw1) OrElse String.IsNullOrEmpty(pw2) Then
             Label_resetMsg.Text = "請輸入新密碼與確認密碼。"
             Exit Sub
         End If
 
-        If pw1 <> pw2 Then
-            Label_resetMsg.Text = "兩次輸入的密碼不一致，請重新確認。"
+        '檢查密碼最短使用期限
+        Dim minAge As stru_checkResult = taifCattle_account.Check_PasswordMinAge(result.accountID)
+        If minAge.isPass = False Then
+            Label_resetMsg.Text = minAge.msg
+            Exit Sub
+        End If
+
+        '檢查密碼及複雜度
+        Dim pwRegResult As stru_checkResult = taifCattle_account.Check_PasswordRegFromDB(pw1, pw2)
+        If pwRegResult.isPass = False Then
+            Label_resetMsg.Text = pwRegResult.msg
+            Exit Sub
+        End If
+
+        '檢查密碼是否重複
+        Dim pwHistory As stru_checkResult = taifCattle_account.Check_PasswordHistory(result.accountID, pw1)
+        If pwHistory.isPass = False Then
+            Label_resetMsg.Text = pwHistory.msg
             Exit Sub
         End If
 

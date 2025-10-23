@@ -274,8 +274,8 @@ Namespace taifCattle
             End If
 
             ' 依照 Enum 定義順序產生項目
-            For Each logType As taifCattle.Base.enum_UserLogItem In [Enum].GetValues(GetType(taifCattle.Base.enum_UserLogItem))
-                ddl.Items.Add(New ListItem(logType.ToString(), CInt(logType).ToString()))
+            For Each name As String In [Enum].GetNames(GetType(taifCattle.Base.enum_UserLogItem))
+                ddl.Items.Add(New ListItem(name, name))
             Next
 
         End Sub
@@ -295,8 +295,8 @@ Namespace taifCattle
             End If
 
             ' 依照 Enum 定義順序產生項目
-            For Each logType As taifCattle.Base.enum_UserLogType In [Enum].GetValues(GetType(taifCattle.Base.enum_UserLogType))
-                ddl.Items.Add(New ListItem(logType.ToString(), CInt(logType).ToString()))
+            For Each name As String In [Enum].GetNames(GetType(taifCattle.Base.enum_UserLogType))
+                ddl.Items.Add(New ListItem(name, name))
             Next
 
         End Sub

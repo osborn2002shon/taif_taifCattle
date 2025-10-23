@@ -33,6 +33,24 @@ Namespace taifCattle
 
         End Structure
 
+        Public Class System_Config
+            Public Property passwordMinLength As Integer
+            Public Property requireUppercase As Boolean
+            Public Property requireLowercase As Boolean
+            Public Property requireNumbers As Boolean
+            Public Property requireSymbols As Boolean
+
+            Public Property passwordMaxAge As Integer
+            Public Property passwordHistoryCount As Integer
+            Public Property passwordMinAge As Integer
+
+            Public Property maxFailAttempts As Integer
+            Public Property lockoutDuration As Integer
+
+            Public Property updateDateTime As DateTime
+            Public Property updateUserID As Integer
+        End Class
+
         ''' <summary>
         ''' 變更使用者密碼
         ''' </summary>
@@ -43,13 +61,16 @@ Namespace taifCattle
 
             Try
                 '密碼加密
-                Dim md5pw As String = ""
+                Dim md5pw As String
                 Using md5Hash As System.Security.Cryptography.MD5 = System.Security.Cryptography.MD5.Create()
                     md5pw = taifCattle_base.Convert_MD5(md5Hash, pw)
                 End Using
 
                 ' 更新密碼
                 taifCattle_dao.Update_UserPassword(accountID, updateAccountID, md5pw)
+
+                '寫入密碼變更紀錄
+                taifCattle_dao.Insert_UserPasswordLog(accountID, updateAccountID, md5pw, logItem.ToString())
 
                 ' 寫入操作紀錄
                 taifCattle_base.Insert_UserLog(updateAccountID, logItem, taifCattle.Base.enum_UserLogType.修改, $"accountID:{accountID}")
@@ -87,6 +108,72 @@ Namespace taifCattle
                 pwr.msg = ""
                 Return pwr
             End If
+        End Function
+
+        ''' <summary>
+        ''' 檢查密碼是否符合系統設定規則，並驗證密碼確認是否一致
+        ''' </summary>
+        ''' <param name="pw1">密碼</param>
+        ''' <param name="pw2">密碼確認</param>
+        ''' <returns>stru_checkResult</returns>
+        ''' <remarks></remarks>
+        Function Check_PasswordRegFromDB(pw1 As String, pw2 As String) As taifCattle.Base.stru_checkResult
+            Dim pwr As New taifCattle.Base.stru_checkResult
+            Dim cfg As System_Config = Get_SystemConfig()
+
+            ' === 若系統設定不存在 ===
+            If cfg Is Nothing Then
+                pwr.isPass = False
+                pwr.msg = "系統密碼設定未載入，請聯絡系統管理員！"
+                Return pwr
+            End If
+
+            ' === 檢查密碼一致性 ===
+            If pw1 <> pw2 Then
+                pwr.isPass = False
+                pwr.msg = "密碼確認不符！"
+                Return pwr
+            End If
+
+            ' === 長度檢查 ===
+            If pw1.Length < cfg.passwordMinLength Then
+                pwr.isPass = False
+                pwr.msg = $"密碼長度不足，至少需 {cfg.passwordMinLength} 個字元！"
+                Return pwr
+            End If
+
+            ' === 大寫字母 ===
+            If cfg.requireUppercase AndAlso Not Regex.IsMatch(pw1, "[A-Z]") Then
+                pwr.isPass = False
+                pwr.msg = "密碼必須包含至少一個大寫英文字母！"
+                Return pwr
+            End If
+
+            ' === 小寫字母 ===
+            If cfg.requireLowercase AndAlso Not Regex.IsMatch(pw1, "[a-z]") Then
+                pwr.isPass = False
+                pwr.msg = "密碼必須包含至少一個小寫英文字母！"
+                Return pwr
+            End If
+
+            ' === 數字 ===
+            If cfg.requireNumbers AndAlso Not Regex.IsMatch(pw1, "[0-9]") Then
+                pwr.isPass = False
+                pwr.msg = "密碼必須包含至少一個數字！"
+                Return pwr
+            End If
+
+            ' === 特殊符號 ===
+            If cfg.requireSymbols AndAlso Not Regex.IsMatch(pw1, "[!@#$%^&*]") Then
+                pwr.isPass = False
+                pwr.msg = "密碼必須包含至少一個特殊符號！"
+                Return pwr
+            End If
+
+            ' === 若全部通過 ===
+            pwr.isPass = True
+            pwr.msg = ""
+            Return pwr
         End Function
 
         ''' <summary>
@@ -182,6 +269,172 @@ Namespace taifCattle
         Public Sub DeactivateDormantAccounts(referenceDate As DateTime, updateAccountID As Integer)
             taifCattle_dao.DeactivateDormantAccounts(referenceDate, updateAccountID)
         End Sub
+
+        ''' <summary>
+        ''' 取得系統設定
+        ''' </summary>
+        ''' <returns>System_Config</returns>
+        Public Function Get_SystemConfig() As System_Config
+            Dim dt As Data.DataTable = taifCattle_dao.Get_SystemConfig()
+            Dim cfg As New System_Config
+
+            If dt.Rows.Count = 0 Then
+                Return Nothing
+            End If
+
+            Dim dr As Data.DataRow = dt.Rows(0)
+
+            ' === 密碼規則 ===
+            cfg.passwordMinLength = Convert.ToInt32(taifCattle_base.Convert_EmptyToObject(dr("passwordMinLength").ToString, 0))
+            cfg.requireUppercase = Convert.ToBoolean(taifCattle_base.Convert_EmptyToObject(dr("requireUppercase").ToString, False))
+            cfg.requireLowercase = Convert.ToBoolean(taifCattle_base.Convert_EmptyToObject(dr("requireLowercase").ToString, False))
+            cfg.requireNumbers = Convert.ToBoolean(taifCattle_base.Convert_EmptyToObject(dr("requireNumbers").ToString, False))
+            cfg.requireSymbols = Convert.ToBoolean(taifCattle_base.Convert_EmptyToObject(dr("requireSymbols").ToString, False))
+
+            ' === 密碼期限與歷史 ===
+            cfg.passwordMaxAge = Convert.ToInt32(taifCattle_base.Convert_EmptyToObject(dr("passwordMaxAge").ToString, 0))
+            cfg.passwordHistoryCount = Convert.ToInt32(taifCattle_base.Convert_EmptyToObject(dr("passwordHistoryCount").ToString, 0))
+            cfg.passwordMinAge = Convert.ToInt32(taifCattle_base.Convert_EmptyToObject(dr("passwordMinAge").ToString, 0))
+
+            ' === 登入與鎖定 ===
+            cfg.maxFailAttempts = Convert.ToInt32(taifCattle_base.Convert_EmptyToObject(dr("maxFailAttempts").ToString, 0))
+            cfg.lockoutDuration = Convert.ToInt32(taifCattle_base.Convert_EmptyToObject(dr("lockoutDuration").ToString, 0))
+
+            ' === 系統維護資訊 ===
+            cfg.updateDateTime = Convert.ToDateTime(taifCattle_base.Convert_EmptyToObject(dr("updateDateTime").ToString, Now))
+            cfg.updateUserID = Convert.ToInt32(taifCattle_base.Convert_EmptyToObject(dr("updateUserID").ToString, 0))
+
+            Return cfg
+        End Function
+
+        ''' <summary>
+        ''' 檢查密碼是否重複使用（依歷史紀錄）
+        ''' </summary>
+        ''' <param name="accountID">使用者帳號 ID</param>
+        ''' <param name="newPassword">密碼</param>
+        ''' <remarks></remarks>
+        Function Check_PasswordHistory(accountID As Integer, newPassword As String) As taifCattle.Base.stru_checkResult
+            Dim pwr As New taifCattle.Base.stru_checkResult
+            Dim cfg As System_Config = Get_SystemConfig()
+
+            ' === 檢查設定是否存在 ===
+            If cfg Is Nothing Then
+                pwr.isPass = False
+                pwr.msg = "系統密碼設定未載入，請聯絡系統管理員！"
+                Return pwr
+            End If
+
+            ' === 沒有設定歷史檢查次數 ===
+            If cfg.passwordHistoryCount <= 0 Then
+                pwr.isPass = True
+                Return pwr
+            End If
+
+            ' === 取得歷史紀錄（取最新 N 筆） ===
+            Dim dt As Data.DataTable = taifCattle_dao.Get_UserPasswordHistory(accountID, cfg.passwordHistoryCount)
+
+            If dt.Rows.Count = 0 Then
+                pwr.isPass = True
+                Return pwr
+            End If
+
+            ' === 將新密碼雜湊 ===
+            Dim newHash As String
+            Using md5Hash As System.Security.Cryptography.MD5 = System.Security.Cryptography.MD5.Create()
+                newHash = taifCattle_base.Convert_MD5(md5Hash, newPassword)
+            End Using
+
+            ' === 比對歷史雜湊 ===
+            For Each dr As Data.DataRow In dt.Rows
+                Dim oldHash As String = dr("pwdHash").ToString()
+                If String.Equals(newHash, oldHash, StringComparison.OrdinalIgnoreCase) Then
+                    pwr.isPass = False
+                    pwr.msg = $"密碼與過去 {cfg.passwordHistoryCount} 次密碼重複，請設定不同密碼。"
+                    Return pwr
+                End If
+            Next
+
+            ' === 若無重複 ===
+            pwr.isPass = True
+            Return pwr
+        End Function
+
+        ''' <summary>
+        ''' 檢查密碼是否達最短使用期限
+        ''' </summary>
+        ''' <param name="accountID">使用者帳號 ID</param>
+        ''' <returns>stru_checkResult</returns>
+        Function Check_PasswordMinAge(accountID As Integer) As taifCattle.Base.stru_checkResult
+            Dim pwr As New taifCattle.Base.stru_checkResult
+            Dim cfg As System_Config = Get_SystemConfig()
+
+            If cfg Is Nothing Then
+                pwr.isPass = False
+                pwr.msg = "系統設定未載入，請聯絡系統管理員！"
+                Return pwr
+            End If
+
+            If cfg.passwordMinAge <= 0 Then
+                pwr.isPass = True
+                Return pwr
+            End If
+
+            Dim dt As Data.DataTable = taifCattle_dao.Get_UserPasswordHistory(accountID, 1) ' 只撈最新一筆
+
+            If dt.Rows.Count = 0 Then
+                pwr.isPass = True
+                Return pwr
+            End If
+
+            Dim lastChangeTime As DateTime = Convert.ToDateTime(dt.Rows(0)("changeDateTime"))
+            Dim nextAllowDate As DateTime = lastChangeTime.AddDays(cfg.passwordMinAge)
+
+            If Now < nextAllowDate Then
+                pwr.isPass = False
+                pwr.msg = $"密碼變更過於頻繁，請於 {nextAllowDate:yyyy/MM/dd HH:mm} 後再試。"
+                Return pwr
+            End If
+
+            pwr.isPass = True
+            Return pwr
+        End Function
+
+        ''' <summary>
+        ''' 檢查密碼是否已達最長使用期限
+        ''' </summary>
+        ''' <param name="accountID">使用者帳號 ID</param>
+        ''' <returns>stru_checkResult</returns>
+        Function Check_PasswordMaxAge(accountID As Integer) As taifCattle.Base.stru_checkResult
+            Dim pwr As New taifCattle.Base.stru_checkResult
+            Dim cfg As System_Config = Get_SystemConfig()
+
+            ' === 沒有設定期限 ===
+            If cfg Is Nothing OrElse cfg.passwordMaxAge <= 0 Then
+                pwr.isPass = True
+                Return pwr
+            End If
+
+            ' === 撈取最新一次密碼變更時間 ===
+            Dim dt As Data.DataTable = taifCattle_dao.Get_UserPasswordHistory(accountID, 1)
+            If dt.Rows.Count = 0 Then
+                ' 沒有歷史紀錄 → 視為需變更（初始帳號）
+                pwr.isPass = False
+                pwr.msg = "系統尚未設定密碼，請立即變更密碼。"
+                Return pwr
+            End If
+
+            Dim lastChangeTime As DateTime = Convert.ToDateTime(dt.Rows(0)("changeDateTime"))
+            Dim expireDate As DateTime = lastChangeTime.AddDays(cfg.passwordMaxAge)
+
+            If Now >= expireDate Then
+                pwr.isPass = False
+                pwr.msg = $"密碼已使用超過 {cfg.passwordMaxAge} 天，請立即變更密碼。"
+                Return pwr
+            Else
+                pwr.isPass = True
+                Return pwr
+            End If
+        End Function
     End Class
 
 End Namespace
@@ -465,6 +718,96 @@ Namespace taifCattle.DAO
 
             Using da As New DataAccess.MS_SQL
                 da.ExecNonQuery(sql, para.ToArray)
+            End Using
+        End Sub
+
+        ''' <summary>
+        ''' 取得系統設定
+        ''' </summary>
+        ''' <returns>DataTable</returns>
+        Function Get_SystemConfig() As Data.DataTable
+            Dim sqlString =
+                <xml sql="
+               SELECT TOP 1
+                    passwordMinLength,
+                    requireUppercase,
+                    requireLowercase,
+                    requireNumbers,
+                    requireSymbols,
+                    passwordMaxAge,
+                    passwordHistoryCount,
+                    passwordMinAge,
+                    maxFailAttempts,
+                    lockoutDuration,
+                    updateDateTime,
+                    updateUserID
+                FROM dbo.System_Config
+            "></xml>.FirstAttribute.Value
+
+            Using da As New DataAccess.MS_SQL
+                Return da.GetDataTable(sqlString)
+            End Using
+        End Function
+        ''' <summary>
+        ''' 取得使用者密碼歷史紀錄（最新 N 筆）
+        ''' </summary>
+        Public Function Get_UserPasswordHistory(accountID As Integer, topCount As Integer) As Data.DataTable
+            Dim sqlString =
+                <xml sql="
+                SELECT TOP (@topCount)
+                    pwdHash, changeDateTime
+                FROM System_UserCPWLog
+                WHERE accountID = @accountID
+                ORDER BY changeDateTime DESC
+            "></xml>.FirstAttribute.Value
+
+            Dim para As New List(Of Data.SqlClient.SqlParameter)
+            para.Add(New Data.SqlClient.SqlParameter("accountID", accountID))
+            para.Add(New Data.SqlClient.SqlParameter("topCount", topCount))
+
+            Using da As New DataAccess.MS_SQL
+                Return da.GetDataTable(sqlString, para.ToArray)
+            End Using
+        End Function
+
+        ''' <summary>
+        ''' 新增使用者密碼變更紀錄
+        ''' </summary>
+        ''' <param name="accountID">被變更帳號 ID</param>
+        ''' <param name="exAccountID">執行變更者帳號 ID（自己、管理員、系統）</param>
+        ''' <param name="pwdHash">密碼雜湊值</param>
+        ''' <param name="changeType">變更類型</param>
+        ''' <remarks></remarks>
+        Sub Insert_UserPasswordLog(accountID As Integer, exAccountID As Integer, pwdHash As String, changeType As String)
+            Dim sqlString =
+                <xml sql="
+                    INSERT INTO System_UserCPWLog (
+                        accountID,
+                        exAccountID,
+                        pwdHash,
+                        changeType,
+                        changeDateTime
+                    )
+                    VALUES (
+                        @accountID,
+                        @exAccountID,
+                        @pwdHash,
+                        @changeType,
+                        @changeDateTime
+                    )
+                "></xml>.FirstAttribute.Value
+
+
+            Dim para As New List(Of Data.SqlClient.SqlParameter)
+
+            para.Add(New Data.SqlClient.SqlParameter("accountID", accountID))
+            para.Add(New Data.SqlClient.SqlParameter("exAccountID", exAccountID))
+            para.Add(New Data.SqlClient.SqlParameter("pwdHash", pwdHash))
+            para.Add(New Data.SqlClient.SqlParameter("changeType", changeType))
+            para.Add(New Data.SqlClient.SqlParameter("changeDateTime", Now))
+
+            Using da As New DataAccess.MS_SQL
+                da.ExecNonQuery(sqlString, para.ToArray)
             End Using
         End Sub
 

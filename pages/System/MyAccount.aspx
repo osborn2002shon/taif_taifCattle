@@ -68,7 +68,6 @@
                 </div>
                 <div class="tab-pane fade" id="tabPassword" role="tabpanel" aria-labelledby="tabPasswordLink">
                     <asp:Label ID="Label_passwordMessage" runat="server" CssClass="d-block fw-bold mb-3"></asp:Label>
-                    <p class="text-muted">密碼需至少7個字元，並由英文及數字組成。</p>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">新密碼<span class="text-danger">*</span></label>

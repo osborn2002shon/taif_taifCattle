@@ -1,6 +1,7 @@
 ﻿Public Class Login
     Inherits taifCattle.Base
 
+    Dim taifCattle_account As New taifCattle.Account
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
     End Sub
@@ -51,12 +52,22 @@
 
                 Select Case userInfo.isActive
                     Case True
+
+                        '初次變更檢查
                         If Not userInfo.isEmailVerified Then
                             Session("CPW_accountID") = userInfo.accountID
-                            Session.Remove("userInfo")
                             Session.Remove("UserInfo")
                             Insert_UserLog(userInfo.accountID, enum_UserLogItem.登入, enum_UserLogType.其他, "初次登入，導向密碼變更")
                             Response.Redirect("CPW.aspx?mode=init")
+                            Exit Sub
+                        End If
+
+                        '定期變更檢查
+                        If taifCattle_account.Check_PasswordMaxAge(userInfo.accountID).isPass = False Then
+                            Session("CPW_accountID") = userInfo.accountID
+                            Session.Remove("UserInfo")
+                            Insert_UserLog(userInfo.accountID, enum_UserLogItem.登入, enum_UserLogType.其他, "密碼到期，導向密碼變更")
+                            Response.Redirect("CPW.aspx?mode=expired")
                             Exit Sub
                         End If
 
@@ -64,7 +75,6 @@
                         accountService.UpdateAccountLoginInfo(userInfo.accountID, Now, True)
                         userInfo.lastLoginDateTime = Now
                         userInfo.isEmailVerified = True
-                        Session("userInfo") = userInfo
                         Session("UserInfo") = userInfo
                         Select Case userInfo.auTypeID
                             Case 1 '系統管理員(農業保險基金)

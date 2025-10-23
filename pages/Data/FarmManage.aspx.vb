@@ -435,7 +435,7 @@ Public Class FarmManage
         BindGridView()
     End Sub
 
-    Private Sub Button_cancel_Click(sender As Object, e As EventArgs) Handles Button_cancel.Click
+    Private Sub LinkButton_cancel_Click(sender As Object, e As EventArgs) Handles LinkButton_cancel.Click
         SwitchView(enum_EditMode.預設)
     End Sub
 
@@ -462,7 +462,7 @@ Public Class FarmManage
         taifCattle_con.BindDropDownList_area(DropDownList_editTown, DropDownList_editCity.SelectedValue, False)
     End Sub
 
-    Private Sub Button_save_Click(sender As Object, e As EventArgs) Handles Button_save.Click
+    Private Sub LinkButton_save_Click(sender As Object, e As EventArgs) Handles LinkButton_save.Click
         Dim isAddMode As Boolean = (Property_farmID = -1)
 
         '驗證必填欄位

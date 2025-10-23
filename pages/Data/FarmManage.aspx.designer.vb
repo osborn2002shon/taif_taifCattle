@@ -32,15 +32,6 @@ Partial Public Class FarmManage
     Protected WithEvents View_list As Global.System.Web.UI.WebControls.View
 
     '''<summary>
-    '''LinkButton_addFarm 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents LinkButton_addFarm As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''DropDownList_city 控制項。
     '''</summary>
     '''<remarks>
@@ -75,6 +66,15 @@ Partial Public Class FarmManage
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents LinkButton_query As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''LinkButton_addFarm 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents LinkButton_addFarm As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''LinkButton_excel 控制項。
@@ -230,20 +230,20 @@ Partial Public Class FarmManage
     Protected WithEvents Label_msg As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Button_save 控制項。
+    '''LinkButton_save 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Button_save As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents LinkButton_save As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Button_cancel 控制項。
+    '''LinkButton_cancel 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Button_cancel As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents LinkButton_cancel As Global.System.Web.UI.WebControls.LinkButton
 End Class

@@ -46,20 +46,7 @@ Public Class CPW
             Exit Sub
         End If
 
-        Dim accountID As Integer = Convert.ToInt32(ViewState("accountID"))
-        Dim pw1 As String = TextBox_pw.Text.Trim()
-        Dim pw2 As String = TextBox_pwConfirm.Text.Trim()
-
-        If String.IsNullOrEmpty(pw1) OrElse String.IsNullOrEmpty(pw2) Then
-            Label_resetMsg.Text = "請輸入新密碼與確認密碼。"
-            Exit Sub
-        End If
-
-        If pw1 <> pw2 Then
-            Label_resetMsg.Text = "兩次輸入的密碼不一致，請重新確認。"
-            Exit Sub
-        End If
-
+        ' 檢查狀態
         Dim mode As String = Request.QueryString("mode")
         Dim logItem As enum_UserLogItem
         Select Case mode
@@ -72,8 +59,38 @@ Public Class CPW
                 Exit Sub
         End Select
 
+        Dim accountID As Integer = Convert.ToInt32(ViewState("accountID"))
+        Dim pw1 As String = TextBox_pw.Text.Trim()
+        Dim pw2 As String = TextBox_pwConfirm.Text.Trim()
+
+        If String.IsNullOrEmpty(pw1) OrElse String.IsNullOrEmpty(pw2) Then
+            Label_resetMsg.Text = "請輸入新密碼與確認密碼。"
+            Exit Sub
+        End If
+
+        ' 檢查密碼最短使用期限
+        Dim minAge As stru_checkResult = taifCattle_account.Check_PasswordMinAge(accountID)
+        If minAge.isPass = False Then
+            Label_resetMsg.Text = minAge.msg
+            Exit Sub
+        End If
+
+        ' 檢查密碼及複雜度
+        Dim pwRegResult As stru_checkResult = taifCattle_account.Check_PasswordRegFromDB(pw1, pw2)
+        If pwRegResult.isPass = False Then
+            Label_resetMsg.Text = pwRegResult.msg
+            Exit Sub
+        End If
+
+        '檢查密碼是否重複
+        Dim pwHistory As stru_checkResult = taifCattle_account.Check_PasswordHistory(accountID, pw1)
+        If pwHistory.isPass = False Then
+            Label_resetMsg.Text = pwHistory.msg
+            Exit Sub
+        End If
+
         Try
-            Dim success As Boolean = taifCattle_account.ChangeUserPassword(accountID, pw1, accountID, logItem)
+            Dim success As Boolean = taifCattle_account.ChangeUserPassword(accountID, accountID, pw1, logItem)
 
             If success Then
                 taifCattle_account.UpdateAccountLoginInfo(accountID, Now, True)

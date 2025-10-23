@@ -89,10 +89,11 @@
     <script type="text/javascript">
         $(document).ready(function() {
             //密碼顯示/隱藏切換
-            $('.password-toggle').on('click', function() {
-                const passwordInput = $('#<%= TextBox_pw.ClientID%>');
+            $('.password-toggle').on('click', function () {
+                const container = $(this).closest('.form-floating');
+                const passwordInput = container.find('input[type="password"], input[type="text"]');
                 const toggleIcon = $(this).find('i');
-                
+
                 if (passwordInput.attr('type') === 'password') {
                     passwordInput.attr('type', 'text');
                     toggleIcon.removeClass('fa-eye').addClass('fa-eye-slash');

@@ -151,19 +151,40 @@ Public Class MyAccount
 
         ShowBasicMessage(String.Empty, False)
 
-        Dim newPassword = TextBox_newPassword.Text.Trim()
-        Dim confirmPassword = TextBox_confirmPassword.Text.Trim()
+        Dim pw1 = TextBox_newPassword.Text.Trim()
+        Dim pw2 = TextBox_confirmPassword.Text.Trim()
 
-        Dim checkResult = taifCattle_account.Check_PasswordReg(newPassword, confirmPassword)
-        If Not checkResult.isPass Then
-            ShowPasswordMessage(checkResult.msg, True)
-            Return
+
+        If String.IsNullOrEmpty(pw1) OrElse String.IsNullOrEmpty(pw2) Then
+            Label_passwordMessage.Text = "請輸入新密碼與確認密碼。"
+            Exit Sub
+        End If
+
+        ' 檢查密碼最短使用期限
+        Dim minAge As stru_checkResult = taifCattle_account.Check_PasswordMinAge(currentUser.accountID)
+        If minAge.isPass = False Then
+            Label_passwordMessage.Text = minAge.msg
+            Exit Sub
+        End If
+
+        ' 檢查密碼及複雜度
+        Dim pwRegResult As stru_checkResult = taifCattle_account.Check_PasswordRegFromDB(pw1, pw2)
+        If pwRegResult.isPass = False Then
+            Label_passwordMessage.Text = pwRegResult.msg
+            Exit Sub
+        End If
+
+        '檢查密碼是否重複
+        Dim pwHistory As stru_checkResult = taifCattle_account.Check_PasswordHistory(currentUser.accountID, pw1)
+        If pwHistory.isPass = False Then
+            Label_passwordMessage.Text = pwHistory.msg
+            Exit Sub
         End If
 
         Try
             Dim success = taifCattle_account.ChangeUserPassword(accountID:=currentUser.accountID,
                                                                 updateAccountID:=currentUser.accountID,
-                                                                pw:=newPassword,
+                                                                pw:=pw1,
                                                                 logItem:=taifCattle.Base.enum_UserLogItem.我的帳號管理)
 
             If success Then
