@@ -114,6 +114,10 @@ Public Class Login
 
                             ' 取得第一筆目錄
                             Dim firstMenuPath As String = userInfo.liMenu(0).menuURL.Trim()
+                            If userInfo.liMenu.Count > 1 Then
+                                firstMenuPath = userInfo.liMenu(1).menuURL.Trim()   '第一筆通常是我的帳號管理，所以如果有第二筆就取第二筆
+
+                            End If
 
                             ' 若是相對路徑 "../"，改成實際網站路徑 "~/pages/"
                             If firstMenuPath.StartsWith("../") Then
