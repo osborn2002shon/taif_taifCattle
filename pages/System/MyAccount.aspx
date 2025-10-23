@@ -109,6 +109,26 @@
                     tab.show();
                 }
             }
+
+            var passwordTab = document.getElementById('tabPassword');
+            var changePasswordButton = document.getElementById('<%= Button_changePassword.ClientID %>');
+            var passwordInputs = [
+                document.getElementById('<%= TextBox_newPassword.ClientID %>'),
+                document.getElementById('<%= TextBox_confirmPassword.ClientID %>')
+            ].filter(function (input) { return input; });
+
+            var handlePasswordEnter = function (event) {
+                if (event.key === 'Enter' && passwordTab && passwordTab.classList.contains('show') && passwordTab.classList.contains('active')) {
+                    event.preventDefault();
+                    if (changePasswordButton) {
+                        changePasswordButton.click();
+                    }
+                }
+            };
+
+            passwordInputs.forEach(function (input) {
+                input.addEventListener('keydown', handlePasswordEnter);
+            });
         });
     </script>
 </asp:Content>
