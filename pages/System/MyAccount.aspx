@@ -8,4 +8,102 @@
     我的帳號管理
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder_content" runat="server">
+    <asp:HiddenField ID="HiddenField_activeTab" runat="server" />
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <ul class="nav nav-tabs card-header-tabs" id="accountTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tabBasicLink" data-bs-toggle="tab" data-bs-target="#tabBasic" type="button" role="tab" aria-controls="tabBasic" aria-selected="true">
+                        <i class="fa-solid fa-id-card me-1"></i>基本資料
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tabPasswordLink" data-bs-toggle="tab" data-bs-target="#tabPassword" type="button" role="tab" aria-controls="tabPassword" aria-selected="false">
+                        <i class="fa-solid fa-key me-1"></i>變更密碼
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="accountTabContent">
+                <div class="tab-pane fade show active" id="tabBasic" role="tabpanel" aria-labelledby="tabBasicLink">
+                    <asp:Label ID="Label_basicMessage" runat="server" CssClass="d-block fw-bold mb-3"></asp:Label>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">登入帳號／電子信箱</label>
+                            <asp:TextBox ID="TextBox_account" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">使用者姓名</label>
+                            <asp:TextBox ID="TextBox_name" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">系統權限</label>
+                            <asp:TextBox ID="TextBox_role" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">電子信箱</label>
+                            <asp:TextBox ID="TextBox_email" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">聯絡電話</label>
+                            <asp:TextBox ID="TextBox_mobile" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">服務單位</label>
+                            <asp:TextBox ID="TextBox_unit" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">最後登入時間</label>
+                            <asp:TextBox ID="TextBox_lastLogin" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">密碼最後變更時間</label>
+                            <asp:TextBox ID="TextBox_passwordChanged" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="text-end mt-4">
+                        <asp:Button ID="Button_saveBasic" runat="server" CssClass="btn btn-primary" Text="儲存基本資料" />
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tabPassword" role="tabpanel" aria-labelledby="tabPasswordLink">
+                    <asp:Label ID="Label_passwordMessage" runat="server" CssClass="d-block fw-bold mb-3"></asp:Label>
+                    <p class="text-muted">密碼需至少7個字元，並由英文及數字組成。</p>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">新密碼<span class="text-danger">*</span></label>
+                            <asp:TextBox ID="TextBox_newPassword" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">確認新密碼<span class="text-danger">*</span></label>
+                            <asp:TextBox ID="TextBox_confirmPassword" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="text-end mt-4">
+                        <asp:Button ID="Button_changePassword" runat="server" CssClass="btn btn-warning" Text="變更密碼" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var activeField = document.getElementById('<%= HiddenField_activeTab.ClientID %>');
+            var triggerTabList = document.querySelectorAll('#accountTab button[data-bs-toggle="tab"]');
+            triggerTabList.forEach(function (triggerEl) {
+                triggerEl.addEventListener('shown.bs.tab', function (event) {
+                    if (activeField) {
+                        activeField.value = event.target.getAttribute('data-bs-target');
+                    }
+                });
+            });
+            if (activeField && activeField.value) {
+                var tabTrigger = document.querySelector('#accountTab button[data-bs-target="' + activeField.value + '"]');
+                if (tabTrigger && typeof bootstrap !== 'undefined') {
+                    var tab = new bootstrap.Tab(tabTrigger);
+                    tab.show();
+                }
+            }
+        });
+    </script>
 </asp:Content>
