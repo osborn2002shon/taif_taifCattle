@@ -75,11 +75,25 @@ Namespace taifCattle
                 Case CellType.String
                     Return cell.StringCellValue.Trim()
                 Case CellType.Numeric
-                    If DateUtil.IsCellDateFormatted(cell) Then
-                        Return cell.DateCellValue.ToString("yyyy/MM/dd")
-                    Else
-                        Return cell.NumericCellValue.ToString()
-                    End If
+                    ' 可能是日期或純數字
+                    Try
+                        If DateUtil.IsCellDateFormatted(cell) Then
+                            ' 真正的日期型別（Excel 儲存格為日期格式）
+                            Return cell.DateCellValue.ToString("yyyy/MM/dd")
+                        Else
+                            ' 純數值
+                            Return cell.NumericCellValue.ToString()
+                        End If
+                    Catch ex As Exception
+                        ' 有時候 Excel 儲存格不是日期但仍誤判 → 嘗試解析字串
+                        Dim raw As String = cell.ToString().Trim()
+                        Dim tmpDate As Date
+                        If Date.TryParse(raw, tmpDate) Then
+                            Return tmpDate.ToString("yyyy/MM/dd")
+                        Else
+                            Return raw
+                        End If
+                    End Try
                 Case CellType.Boolean
                     Return cell.BooleanCellValue.ToString()
                 Case CellType.Formula
