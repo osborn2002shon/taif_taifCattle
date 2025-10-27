@@ -166,6 +166,7 @@
     <Content Include="FPW.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="pages\Data\CattleManage.aspx" />
+    <Content Include="pages\Data\CattleManage_Batch.aspx" />
     <Content Include="pages\Data\CattleManage_Detail.aspx" />
     <Content Include="pages\Data\FarmManage.aspx" />
     <Content Include="pages\sample\sample.aspx" />
@@ -241,6 +242,13 @@
     </Compile>
     <Compile Include="pages\Data\CattleManage.aspx.vb">
       <DependentUpon>CattleManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Data\CattleManage_Batch.aspx.designer.vb">
+      <DependentUpon>CattleManage_Batch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Data\CattleManage_Batch.aspx.vb">
+      <DependentUpon>CattleManage_Batch.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="pages\Data\CattleManage_Detail.aspx.designer.vb">
