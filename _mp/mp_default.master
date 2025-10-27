@@ -17,6 +17,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager_main" runat="server"></asp:ScriptManager>
         <div class="layout-container">
             <!-- 側邊欄 -->
             <div class="sidebar" id="sidebar">

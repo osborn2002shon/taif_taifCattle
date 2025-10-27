@@ -25,14 +25,14 @@
             <div class="login-body">
                 <form id="loginForm" runat="server">
                     <div class="form-floating">
-                        <asp:TextBox ID="TextBox_ac" runat="server" CssClass="form-control" placeholder="請輸入帳號"></asp:TextBox>
+                        <asp:TextBox ID="TextBox_ac" runat="server" CssClass="form-control" placeholder="請輸入帳號" TabIndex="1"></asp:TextBox>
                        <asp:Label ID="Label_ac" runat="server" AssociatedControlID="TextBox_ac">
                             <i class="fas fa-user me-2"></i>帳號
                         </asp:Label>
                     </div>
                     
                     <div class="form-floating position-relative">
-                        <asp:TextBox ID="TextBox_pw" runat="server" CssClass="form-control" placeholder="請輸入密碼" TextMode="Password"></asp:TextBox>
+                        <asp:TextBox ID="TextBox_pw" runat="server" CssClass="form-control" placeholder="請輸入密碼" TextMode="Password" TabIndex="2"></asp:TextBox>
                         <asp:Label ID="Label_pw" runat="server" AssociatedControlID="TextBox_pw">
                             <i class="fas fa-lock me-2"></i>密碼
                         </asp:Label>
@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="form-floating position-relative">
-                        <asp:TextBox ID="TextBox_Captcha" runat="server" class="form-control" placeholder="請輸入驗證碼" autocomplete="off" Width="100%" ></asp:TextBox>
+                        <asp:TextBox ID="TextBox_Captcha" runat="server" class="form-control" placeholder="請輸入驗證碼" autocomplete="off" Width="100%" TabIndex="3"></asp:TextBox>
                         <asp:Label ID="Label_Captcha" runat="server" AssociatedControlID="TextBox_Captcha">
                             <i class="fa-solid fa-hashtag me-2"></i>驗證碼
                         </asp:Label>

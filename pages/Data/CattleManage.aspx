@@ -6,26 +6,28 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_title" runat="server">
 </asp:Content>
-<asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder_content" runat="server">
+<asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder_content" runat="server">    
     <div class="queryBox">
         <div class="queryBox-header">
             牛籍查詢與列表
         </div>
         <div class="queryBox-body">
-            <div class="row">
-                <div class="col">
-                    <label>牛籍類型</label>
-                    <asp:DropDownList ID="DropDownList_groupName" runat="server" CssClass="form-select" AutoPostBack="true"></asp:DropDownList>
-                </div>
-                <div class="col">
-                    <label>牛籍規格</label>
-                    <asp:DropDownList ID="DropDownList_typeName" runat="server" CssClass="form-select"></asp:DropDownList>
-                </div>
-                <div class="col">
-                    <label>牛籍狀態</label>
-                    <asp:DropDownList ID="DropDownList_cattleStatus" runat="server" CssClass="form-select"></asp:DropDownList>
-                </div>
-            </div>
+            <asp:UpdatePanel runat="server" class="row">
+                <ContentTemplate>
+                    <div class="col">
+                        <label>牛籍類型</label>
+                        <asp:DropDownList ID="DropDownList_groupName" runat="server" CssClass="form-select" AutoPostBack="true"></asp:DropDownList>
+                    </div>
+                    <div class="col">
+                        <label>牛籍規格</label>
+                        <asp:DropDownList ID="DropDownList_typeName" runat="server" CssClass="form-select"></asp:DropDownList>
+                    </div>
+                    <div class="col">
+                        <label>牛籍狀態</label>
+                        <asp:DropDownList ID="DropDownList_cattleStatus" runat="server" CssClass="form-select"></asp:DropDownList>
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
             <div class="row">
                 <div class="col">
                     <label>牛籍編號</label>
@@ -68,50 +70,52 @@
             共 <asp:Label ID="Label_datCount" runat="server"></asp:Label> 筆
         </div>
     </div>
-    <div class="table-responsive gv-tb">
-        <asp:GridView ID="GridView_data" runat="server" PageSize="25" AllowPaging="true" CssClass="gv" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true">
-            <Columns>
-                <asp:TemplateField HeaderText="牛籍類型">
-                    <ItemTemplate>
-                        <%# Eval("groupName") %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="牛籍規格">
-                    <ItemTemplate>
-                        <%# Eval("typeName") %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="牛籍編號">
-                    <ItemTemplate>
-                        <%# Eval("tagNo") %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="牛籍狀態">
-                    <ItemTemplate>
-                        <%# Eval("cattleStatus") %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="出生年度">
-                    <ItemTemplate>
-                        <%# IIf(Eval("birthYear") = -1, "-", Eval("birthYear")) %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="牛籍歲齡">
-                    <ItemTemplate>
-                        <%# IIf(Eval("cattleAge") = -1, "-", Eval("cattleAge")) %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField ItemStyle-CssClass="text-end">
-                    <ItemTemplate>
-                        <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-warning"
-                            CommandName="cattleEdit" CommandArgument='<%# Eval("cattleID") %>' ><i class="fa-solid fa-pen-to-square"></i>編輯</asp:LinkButton>
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <EmptyDataTemplate>
-                查無資料。
-            </EmptyDataTemplate>
-        </asp:GridView>
+    <div class="container-fluid gv-tb">
+        <div class="table-responsive">
+            <asp:GridView ID="GridView_data" runat="server" PageSize="25" AllowPaging="true" CssClass="gv" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true">
+                <Columns>
+                    <asp:TemplateField HeaderText="牛籍類型">
+                        <ItemTemplate>
+                            <%# Eval("groupName") %>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="牛籍規格">
+                        <ItemTemplate>
+                            <%# Eval("typeName") %>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="牛籍編號">
+                        <ItemTemplate>
+                            <%# Eval("tagNo") %>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="牛籍狀態">
+                        <ItemTemplate>
+                            <%# Eval("cattleStatus") %>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="出生年度">
+                        <ItemTemplate>
+                            <%# IIf(Eval("birthYear") = -1, "-", Eval("birthYear")) %>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="牛籍歲齡">
+                        <ItemTemplate>
+                            <%# IIf(Eval("cattleAge") = -1, "-", Eval("cattleAge")) %>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="操作">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-warning"
+                                CommandName="cattleEdit" CommandArgument='<%# Eval("cattleID") %>' ><i class="fa-solid fa-pen-to-square"></i>編輯</asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+                <EmptyDataTemplate>
+                    查無資料。
+                </EmptyDataTemplate>
+            </asp:GridView>
+        </div>
     </div>
     <script type="text/javascript">
         function clearControl(controlId) {

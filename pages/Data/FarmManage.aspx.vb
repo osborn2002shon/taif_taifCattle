@@ -103,7 +103,7 @@ Public Class FarmManage
     End Sub
 
     Sub BindGridView()
-        Dim liFarm As List(Of taifCattle.Farm.stru_farmInfo) = taifCattle_farm.GetFarmList(Property_Query_city, Property_Query_town, Property_Query_keyWord)
+        Dim liFarm As List(Of taifCattle.Farm.stru_farmInfo) = taifCattle_farm.Get_FarmList(Property_Query_city, Property_Query_town, Property_Query_keyWord)
         GridView_farmList.DataSource = liFarm
         GridView_farmList.DataBind()
 
@@ -132,7 +132,7 @@ Public Class FarmManage
     Private Sub LoadFarmData(farmID As Integer)
         ClearFarmForm()
 
-        Dim info As taifCattle.Farm.stru_farmInfo = taifCattle_farm.GetFarmByID(farmID)
+        Dim info As taifCattle.Farm.stru_farmInfo = taifCattle_farm.Get_FarmByID(farmID)
 
         If info.farmID = 0 Then
             ' 查無資料處理
@@ -209,7 +209,7 @@ Public Class FarmManage
                 If CheckFarmID(TextBox_farmCode.Text.Trim()) = False Then
                     msg.Add("請輸入正確的畜牧場證號或負責人證號。")
                 Else
-                    If taifCattle_farm.CheckFarmCodeExists(TextBox_farmCode.Text.Trim()) Then
+                    If taifCattle_farm.Check_FarmCodeExists(TextBox_farmCode.Text.Trim()) Then
                         msg.Add("畜牧場證號或負責人證號重複。")
                     End If
 
@@ -325,7 +325,7 @@ Public Class FarmManage
 
     Private Sub LinkButton_excel_Click(sender As Object, e As EventArgs) Handles LinkButton_excel.Click
         ' 取得資料
-        Dim liFarm As List(Of taifCattle.Farm.stru_farmInfo) = taifCattle_farm.GetFarmList(Property_Query_city, Property_Query_town, Property_Query_keyWord)
+        Dim liFarm As List(Of taifCattle.Farm.stru_farmInfo) = taifCattle_farm.Get_FarmList(Property_Query_city, Property_Query_town, Property_Query_keyWord)
 
         ' 建立 Workbook & Sheet
         Dim wb As New XSSFWorkbook()
@@ -475,10 +475,12 @@ Public Class FarmManage
         Dim info As taifCattle.Farm.stru_farmInfo = CollectFarmData()
 
         If isAddMode Then
-            taifCattle_farm.InsertFarm(info)
+            taifCattle_farm.Insert_Farm(info)
+            Insert_UserLog(info.insertAccountID, taifCattle.Base.enum_UserLogItem.牧場資料管理, taifCattle.Base.enum_UserLogType.新增, $"farmCode:{info.farmCode}")
             Label_msg.Text = "牧場資料已新增成功！"
         Else
-            taifCattle_farm.UpdateFarm(info)
+            taifCattle_farm.Update_Farm(info)
+            Insert_UserLog(info.updateAccountID, taifCattle.Base.enum_UserLogItem.牧場資料管理, taifCattle.Base.enum_UserLogType.修改, $"farmID:{info.farmID}")
             Label_msg.Text = "牧場資料已更新成功！"
         End If
 

@@ -9,7 +9,7 @@ Namespace taifCattle
     ''' Class 基底函式庫
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Base
+    Partial Public Class Base
         Inherits System.Web.UI.Page
 
         '主板號.次版號.修訂號.編譯日期
@@ -171,129 +171,6 @@ Namespace taifCattle
             End If
             Return clientIP
         End Function
-
-        ''' <summary>
-        ''' 轉換字串成為MD5加密
-        ''' </summary>
-        ''' <param name="md5Hash"></param>
-        ''' <param name="inputStr"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Function Convert_MD5(md5Hash As System.Security.Cryptography.MD5, inputStr As String) As String
-            '舊的轉碼方式，於Framework 4.5過時
-            'Return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5")
-
-            'Convert the input string to a byte array and compute the hash.
-            Dim dataStr As Byte() = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(inputStr))
-
-            'Create a new Stringbuilder to collect the bytes
-            'and create a string.
-            Dim sBuilder As New StringBuilder()
-
-            'Loop through each byte of the hashed data 
-            'and format each one as a hexadecimal string.
-            Dim i As Integer
-            For i = 0 To dataStr.Length - 1
-                sBuilder.Append(dataStr(i).ToString("x2"))
-            Next i
-
-            'Return the hexadecimal string.
-            Return sBuilder.ToString()
-        End Function
-
-        ''' <summary>
-        ''' 轉換空值變成指定物件(DBNULL／字串／數值...etc)
-        ''' </summary>
-        ''' <param name="input"></param>
-        ''' <param name="output"></param>
-        ''' <returns></returns>
-        Function Convert_EmptyToObject(input As String, output As Object) As Object
-            Select Case String.IsNullOrEmpty(input)
-                Case True
-                    Return output
-                Case False
-                    Return input
-            End Select
-        End Function
-
-        ''' <summary>
-        ''' 轉換DBNULL變成指定／預設文字
-        ''' </summary>
-        ''' <param name="input"></param>
-        ''' <param name="output"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Function Convert_DBNullToString(input As Object, Optional output As String = "") As String
-            Select Case IsDBNull(input)
-                Case True
-                    Return output
-                Case False
-                    Return input
-            End Select
-        End Function
-
-        ''' <summary>
-        ''' 轉換DBNULL變成物件
-        ''' </summary>
-        ''' <param name="input"></param>
-        ''' <param name="output"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Function Convert_DBNullToObject(input As Object, output As Object) As Object
-            Select Case IsDBNull(input)
-                Case True
-                    Return output
-                Case False
-                    Return input
-            End Select
-            Return Nothing
-        End Function
-
-        ''' <summary>
-        ''' 轉換日期欄位的DBNULL變成指定格式
-        ''' </summary>
-        ''' <param name="input"></param>
-        ''' <param name="formatStr"></param>
-        ''' <param name="output"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Function Convert_DateNullToString(input As Object, output As Object, Optional formatStr As String = "yyyy/MM/dd") As String
-            Select Case IsDBNull(input)
-                Case True
-                    Return output
-                Case False
-                    Return CType(input, DateTime).ToString(formatStr)
-            End Select
-            Return Nothing
-        End Function
-
-        ''' <summary>
-        ''' 轉換DB值成指定的Enum型別
-        ''' </summary>
-        Public Shared Function Convert_DBToEnum(Of T As Structure)(value As Object, Optional defaultValue As T = Nothing) As T
-            If value Is Nothing OrElse IsDBNull(value) Then
-                Return defaultValue
-            End If
-
-            Dim strValue As String = value.ToString().Trim()
-
-            ' 如果資料庫存的是 Enum 名稱（字串）
-            If [Enum].IsDefined(GetType(T), strValue) Then
-                Return CType([Enum].Parse(GetType(T), strValue), T)
-            End If
-
-            ' 如果資料庫存的是整數代碼
-            Dim intValue As Integer
-            If Integer.TryParse(strValue, intValue) Then
-                If [Enum].IsDefined(GetType(T), intValue) Then
-                    Return CType([Enum].ToObject(GetType(T), intValue), T)
-                End If
-            End If
-
-            ' 都不符合則回傳預設值
-            Return defaultValue
-        End Function
-
 
         ''' <summary>
         ''' 取得指定長度隨機字串
@@ -523,7 +400,6 @@ Namespace taifCattle
             Return menuList
         End Function
 
-
         '========== USER_LOG
         ''' <summary>
         ''' 新增使用者操作紀錄
@@ -553,7 +429,6 @@ Namespace taifCattle
                 da.ExecNonQuery(sqlString, para.ToArray)
             End Using
         End Sub
-
         '========== Reg
         ''' <summary>
         ''' 檢查EMAIL格式是否正確
@@ -602,175 +477,7 @@ Namespace taifCattle
             Dim reg As New Regex("^[0-9]{5}$|^[0-9]{8}$|^[a-zA-z]{1}[0-9]{9}$")
             Return reg.IsMatch(farmID)
         End Function
-        Property CurrentNewsID As Integer
-            Get
-                If IsNothing(Session("_temp_CurrentNewsID")) Then
-                    Return -1
-                Else
-                    Return CInt(Session("_temp_CurrentNewsID"))
-                End If
-            End Get
-            Set(value As Integer)
-                Session("_temp_CurrentNewsID") = value
-            End Set
-        End Property
-
-        Class CurrentBaphiqCompareInfo
-            Property type As Integer
-            Property queryDate_Beg As Date
-            Property queryDate_End As Date
-            Property isEmpty As Boolean
-            Property slauID As Integer
-            Sub New()
-                isEmpty = True
-            End Sub
-        End Class
-
-        Property CurrentBaphiqCompare As CurrentBaphiqCompareInfo
-            Get
-                If IsNothing(Session("_temp_CurrentBaphiqCompare")) Then
-                    Return New CurrentBaphiqCompareInfo
-                Else
-                    Return Session("_temp_CurrentBaphiqCompare")
-                End If
-            End Get
-            Set(value As CurrentBaphiqCompareInfo)
-                Session("_temp_CurrentBaphiqCompare") = value
-            End Set
-        End Property
-
-        Class CurrentTagTraceInfo
-            Enum type_query
-                依日期區間
-                依耳標號區間
-                empty
-            End Enum
-
-            Property QueryType As type_query
-            Property QueryDate_beg As Date
-            Property QueryDate_end As Date
-            Property SearchTrack_beg As String
-            Property SearchTrack_end As String
-            Property IssuerUnitType As String
-
-        End Class
-
-        Property CurrentTagTrace As CurrentTagTraceInfo
-            Get
-                If IsNothing(Session("_temp_CurrentTagTrace")) Then
-                    Return New CurrentTagTraceInfo With {.QueryType = CurrentTagTraceInfo.type_query.empty, .IssuerUnitType = "%"}
-                Else
-                    Return Session("_temp_CurrentTagTrace")
-                End If
-            End Get
-            Set(value As CurrentTagTraceInfo)
-                Session("_temp_CurrentTagTrace") = value
-            End Set
-        End Property
-
-        Property menuGroup As String
-            Get
-                Return Session("menuGroup")
-            End Get
-            Set(value As String)
-                Session("menuGroup") = value
-            End Set
-        End Property
-        Property menuItemURL As String
-            Get
-                Return Session("menuItemURL")
-            End Get
-            Set(value As String)
-                Session("menuItemURL") = value
-            End Set
-        End Property
-
-        Property fromUrl As String
-            Get
-                If IsNothing(Session("fromUrl")) Then
-                    Return String.Empty
-                Else
-                    Return Session("fromUrl")
-                End If
-            End Get
-            Set(value As String)
-                Session("fromUrl") = value
-            End Set
-        End Property
-
-        '========== Check
-        Enum enum_systemSetting
-            tagNoCheck '用於屠宰登打時的耳標編號檢核開關
-        End Enum
-
-        ''' <summary>
-        ''' 取得系統設定值
-        ''' </summary>
-        ''' <param name="systemSetting"></param>
-        ''' <returns></returns>
-        Function Get_SystemSetting(systemSetting As enum_systemSetting) As Object
-            Dim sqlString As String =
-                "select settingResult from System_Setting where settingName = @settingName "
-            Dim para As New Data.SqlClient.SqlParameter("settingName", systemSetting.ToString())
-            Using da As New DataAccess.MS_SQL
-                Return da.ExecuteScalar(sqlString, para)
-            End Using
-        End Function
-
-        ''' <summary>
-        ''' 更新系統設定值
-        ''' </summary>
-        ''' <param name="systemSetting"></param>
-        ''' <param name="settingResult"></param>
-        ''' <param name="updateAccountID"></param>
-        Sub Update_SystemSetting(systemSetting As enum_systemSetting, settingResult As String, updateAccountID As Integer)
-            Dim sqlString As String =
-                "update System_Setting set settingResult = @settingResult, updateAccountID = @updateAccountID, updateDateTime = @updateDateTime " &
-                "where settingName = @settingName "
-            Dim para As New List(Of Data.SqlClient.SqlParameter)
-            para.Add(New Data.SqlClient.SqlParameter("settingName", systemSetting.ToString()))
-            para.Add(New Data.SqlClient.SqlParameter("settingResult", settingResult))
-            para.Add(New Data.SqlClient.SqlParameter("updateAccountID", updateAccountID))
-            para.Add(New Data.SqlClient.SqlParameter("updateDateTime", Now))
-            Using da As New DataAccess.MS_SQL
-                da.ExecNonQuery(sqlString, para.ToArray())
-            End Using
-        End Sub
 
     End Class
 
 End Namespace
-
-
-
-Public Module Extensions
-    <Extension()>
-    Public Function ToDateTime(ByVal unixTimestamp As Long) As DateTime
-        Dim base_time As New DateTime(1970, 1, 1)
-        Return base_time.AddSeconds(unixTimestamp / 1000)
-    End Function
-    <Extension()>
-    Public Function ToUnixTimeStamp(ByVal time As DateTime) As Long
-        Dim base_time As New DateTime(1970, 1, 1)
-        Return DateDiff(DateInterval.Second, base_time, time) * 1000
-    End Function
-    <Extension()>
-    Public Function ToMD5Hash(ByVal input As String) As String
-        Dim md5Hasher As System.Security.Cryptography.MD5 = System.Security.Cryptography.MD5.Create()
-
-        ' 將input轉換成MD5，並且以Bytes傳回，由於ComputeHash只接受Bytes型別參數，所以要先轉型別為Bytes
-        Dim data As Byte() = md5Hasher.ComputeHash(System.Text.Encoding.Default.GetBytes(input))
-
-        ' 建立一個StringBuilder物件
-        Dim sBuilder As New System.Text.StringBuilder()
-
-        ' 將Bytes轉型別為String，並且以16進位存放
-        Dim i As Integer
-        For i = 0 To data.Length - 1
-            sBuilder.Append(data(i).ToString("x2"))
-        Next i
-
-        '傳回
-        Return sBuilder.ToString().ToUpper
-    End Function
-End Module

@@ -103,6 +103,7 @@ body {
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
+    width:calc(100vw - 280px); /*避免被內容撐開導致MENU縮減*/
 }
 
     .main-content.expanded {

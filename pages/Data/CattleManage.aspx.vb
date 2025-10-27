@@ -41,6 +41,7 @@ Public Class CattleManage
         Select Case e.CommandName
             Case "cattleEdit"
                 Session("CattleManage") = enum_EditMode.編輯
+                Session("CattleManage_cid") = e.CommandArgument
                 Response.Redirect("CattleManage_Detail.aspx")
             Case Else
                 'nothing
@@ -49,7 +50,12 @@ Public Class CattleManage
 
     Private Sub LinkButton_addNew_Click(sender As Object, e As EventArgs) Handles LinkButton_addNew.Click
         Session("CattleManage") = enum_EditMode.新增
+        Session("CattleManage_cid") = -1
         Response.Redirect("CattleManage_Detail.aspx")
     End Sub
 
+    Private Sub GridView_data_PageIndexChanging(sender As Object, e As GridViewPageEventArgs) Handles GridView_data.PageIndexChanging
+        GridView_data.PageIndex = e.NewPageIndex
+        Bind_GridView()
+    End Sub
 End Class
