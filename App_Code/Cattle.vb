@@ -271,17 +271,21 @@ Namespace taifCattle
         ''' </summary>
         ''' <param name="tagNo"></param>
         ''' <returns></returns>
-        Function Check_IsCattleExist(tagNo As String) As Boolean
+        Function Check_IsCattleExist(tagNo As String) As taifCattle.Base.stru_checkResult
             Dim sqlString As String = "select * from Cattle_List where tagNo = @tagNo and removeDateTime is null "
             Dim para As New Data.SqlClient.SqlParameter("tagNo", tagNo)
+            Dim result As New taifCattle.Base.stru_checkResult
             Using da As New DataAccess.MS_SQL
                 Dim dt As Data.DataTable = da.GetDataTable(sqlString, para)
                 If dt.Rows.Count > 0 Then
-                    Return True
+                    result.isPass = True
+                    result.msg = dt.Rows(0)("cattleID")
                 Else
-                    Return False
+                    result.isPass = False
+                    result.msg = "-1"
                 End If
             End Using
+            Return result
         End Function
 
         ''' <summary>

@@ -108,7 +108,7 @@ Public Class CattleManage_Detail
             Label_addMsg.Text = "新增失敗，請確認已輸入牛籍編號！"
             Exit Sub
         End If
-        If taifCattle_cattle.Check_IsCattleExist(cattleInfo.tagNo) Then
+        If taifCattle_cattle.Check_IsCattleExist(cattleInfo.tagNo).isPass Then
             Label_addMsg.Text = "新增失敗，牛籍編號已存在！"
             Exit Sub
         End If

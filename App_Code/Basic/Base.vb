@@ -32,9 +32,13 @@ Namespace taifCattle
 
         Enum enum_InsertType
             人工網頁建檔
+            人工批次建檔
             耳標來源建檔
             屠宰來源建檔
             牧登來源建檔
+            投保來源建檔
+            化製來源建檔
+            勸售來源建檔
         End Enum
 
         ''' <summary>

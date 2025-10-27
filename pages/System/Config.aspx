@@ -157,6 +157,20 @@
                 </div>
             </div>
             
+             <div class="p-4 border-bottom">
+                <h4 class="section-title">
+                    <i class="fas fa-envelope-open-text"></i>報表寄送設定
+                </h4>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-users"></i>自動寄送報表收件人
+                    </label>
+                    <asp:TextBox ID="TextBox_ReportRecipients" runat="server" CssClass="form-control" TextMode="SingleLine" Placeholder="example1@domain.com;example2@domain.com"></asp:TextBox>
+                    <div class="form-text">輸入一個或多個電子信箱，請以半形分號 (;) 區隔。</div>
+                </div>
+            </div>
+
             <div class="p-4 border-bottom">
                  <!-- 按鈕群組 -->
                 <div class="btn-group-custom">

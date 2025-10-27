@@ -1,6 +1,7 @@
 ﻿Imports System.Collections.Generic
 Imports System.Data
 Imports System.Data.SqlClient
+Imports System.Text.RegularExpressions
 
 Public Class Config
     Inherits taifCattle.Base
@@ -23,6 +24,7 @@ Public Class Config
         Public PasswordMinAge As Integer
         Public MaxFailAttempts As Integer
         Public LockoutDuration As Integer
+        Public ReportRecipients As String
     End Structure
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -63,7 +65,7 @@ Public Class Config
 
     Private Sub LoadConfig()
         Dim sql As String = "SELECT TOP 1 passwordMinLength, requireUppercase, requireLowercase, requireNumbers, requireSymbols, " &
-                            "passwordMaxAge, passwordHistoryCount, passwordMinAge, maxFailAttempts, lockoutDuration FROM System_Config ORDER BY configID"
+                            "passwordMaxAge, passwordHistoryCount, passwordMinAge, maxFailAttempts, lockoutDuration, reportRecipients FROM System_Config ORDER BY configID"
 
         Using da As New DataAccess.MS_SQL
             Dim dt As DataTable = da.GetDataTable(sql)
@@ -82,6 +84,7 @@ Public Class Config
                 TextBox_MinAge.Text = row("passwordMinAge").ToString()
                 TextBox_MaxFailAttempts.Text = row("maxFailAttempts").ToString()
                 TextBox_LockoutDuration.Text = row("lockoutDuration").ToString()
+                TextBox_ReportRecipients.Text = row("reportRecipients").ToString()
             End If
         End Using
 
@@ -99,6 +102,7 @@ Public Class Config
         TextBox_MinAge.Text = DEFAULT_MIN_AGE.ToString()
         TextBox_MaxFailAttempts.Text = DEFAULT_MAX_FAIL_ATTEMPTS.ToString()
         TextBox_LockoutDuration.Text = DEFAULT_LOCKOUT_DURATION.ToString()
+        TextBox_ReportRecipients.Text = String.Empty
     End Sub
 
     Private Sub ShowMessage(message As String, cssClass As String)
@@ -151,13 +155,14 @@ Public Class Config
                             "        passwordMinAge = @passwordMinAge, " &
                             "        maxFailAttempts = @maxFailAttempts, " &
                             "        lockoutDuration = @lockoutDuration, " &
+                            "        reportRecipients = @reportRecipients, " &
                             "        updateDateTime = GETDATE(), " &
                             "        updateUserID = @updateUserID; " &
                             "END " &
                             "ELSE " &
                             "BEGIN " &
-                            "    INSERT INTO System_Config (passwordMinLength, requireUppercase, requireLowercase, requireNumbers, requireSymbols, passwordMaxAge, passwordHistoryCount, passwordMinAge, maxFailAttempts, lockoutDuration, updateDateTime, updateUserID) " &
-                            "    VALUES (@passwordMinLength, @requireUppercase, @requireLowercase, @requireNumbers, @requireSymbols, @passwordMaxAge, @passwordHistoryCount, @passwordMinAge, @maxFailAttempts, @lockoutDuration, GETDATE(), @updateUserID); " &
+                            "    INSERT INTO System_Config (passwordMinLength, requireUppercase, requireLowercase, requireNumbers, requireSymbols, passwordMaxAge, passwordHistoryCount, passwordMinAge, maxFailAttempts, lockoutDuration, reportRecipients, updateDateTime, updateUserID) " &
+                            "    VALUES (@passwordMinLength, @requireUppercase, @requireLowercase, @requireNumbers, @requireSymbols, @passwordMaxAge, @passwordHistoryCount, @passwordMinAge, @maxFailAttempts, @lockoutDuration, @reportRecipients, GETDATE(), @updateUserID); " &
                             "END"
 
         Dim parameters As SqlParameter() = {
@@ -171,6 +176,7 @@ Public Class Config
             New SqlParameter("@passwordMinAge", SqlDbType.Int) With {.Value = values.PasswordMinAge},
             New SqlParameter("@maxFailAttempts", SqlDbType.Int) With {.Value = values.MaxFailAttempts},
             New SqlParameter("@lockoutDuration", SqlDbType.Int) With {.Value = values.LockoutDuration},
+            New SqlParameter("@reportRecipients", SqlDbType.NVarChar, 500) With {.Value = values.ReportRecipients},
             New SqlParameter("@updateUserID", SqlDbType.Int) With {.Value = updateUserId}
         }
 
@@ -186,6 +192,32 @@ Public Class Config
         values.RequireLowercase = CheckBox_RequireLowercase.Checked
         values.RequireNumbers = CheckBox_RequireNumbers.Checked
         values.RequireSymbols = CheckBox_RequireSymbols.Checked
+
+        Dim rawRecipients As String = TextBox_ReportRecipients.Text.Trim()
+        If rawRecipients.Length = 0 Then
+            values.ReportRecipients = String.Empty
+        Else
+            Dim emailPattern As String = "^[^@\s]+@[^@\s]+\.[^@\s]+$"
+            Dim normalizedEmails As New List(Of String)
+
+            For Each recipient As String In rawRecipients.Split(";"c)
+                Dim trimmed As String = recipient.Trim()
+
+                If trimmed.Length = 0 Then
+                    errors.Add("請確認收件人信箱之間以半形分號區隔，且沒有空白的收件人。")
+                    Exit For
+                ElseIf Not Regex.IsMatch(trimmed, emailPattern) Then
+                    errors.Add($"收件人信箱格式不正確：{trimmed}")
+                    Exit For
+                Else
+                    normalizedEmails.Add(trimmed)
+                End If
+            Next
+
+            If errors.Count = 0 Then
+                values.ReportRecipients = String.Join(";", normalizedEmails)
+            End If
+        End If
 
         If Not Integer.TryParse(TextBox_MinLength.Text, values.PasswordMinLength) Then
             errors.Add("密碼最小長度需為數字。")
