@@ -196,6 +196,7 @@
     <Compile Include="App_Code\Basic\DataAccess_MSSQL.vb" />
     <Compile Include="App_Code\Basic\Control.vb" />
     <Compile Include="App_Code\Basic\Mail.vb" />
+    <Compile Include="App_Code\Cattle_Control.vb" />
     <Compile Include="App_Code\Farm.vb" />
     <Compile Include="CPW.aspx.designer.vb">
       <DependentUpon>CPW.aspx</DependentUpon>

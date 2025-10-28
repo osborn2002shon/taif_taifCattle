@@ -150,7 +150,7 @@ Public Class CattleManage_Batch
                 reasons.Add("品項錯誤")
             End If
 
-            Dim birthYearValue As Object = DBNull.Value
+            Dim birthYearValue As Object = ""
             Dim isDairyCattle As Boolean = String.Equals(itemName, "乳公牛", StringComparison.OrdinalIgnoreCase) OrElse String.Equals(itemName, "乳母牛", StringComparison.OrdinalIgnoreCase)
             If Not String.IsNullOrEmpty(birthYearText) Then
                 Dim yearValue As Integer
@@ -171,7 +171,7 @@ Public Class CattleManage_Batch
                 If TryGetDerivedBirthYear(tagNo, derivedYear) Then
                     birthYearValue = derivedYear
                 Else
-                    reasons.Add("出生年度錯誤")
+                    birthYearValue = ""
                 End If
             End If
 
@@ -263,6 +263,7 @@ Public Class CattleManage_Batch
 
                 Insert_UserLog(insertUserId, enum_UserLogItem.牛籍批次新增功能, enum_UserLogType.新增, $"cattleID:{cattleId}")
             Catch ex As Exception
+
                 If cattleId > 0 Then
                     CleanUpInsertedData(cattleId)
                 End If

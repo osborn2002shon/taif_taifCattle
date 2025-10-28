@@ -5,11 +5,12 @@ Namespace taifCattle
     ''' <summary>
     ''' Class Cattle
     ''' </summary>
-    Public Class Cattle
+    Partial Public Class Cattle
 
         Dim taifCattle_Base As New taifCattle.Base
 
 #Region "Structure / Enum"
+
         ''' <summary>
         ''' stru stru_cattleInfo
         ''' </summary>
@@ -99,135 +100,6 @@ Namespace taifCattle
             Property insertType As taifCattle.Base.enum_InsertType
             Property insertDateTime As Date
         End Structure
-#End Region
-
-#Region "Control"
-        ''' <summary>
-        ''' DDL：牛籍類型
-        ''' </summary>
-        ''' <param name="ddl"></param>
-        ''' <param name="isNeedAll"></param>
-        Sub Bind_DropDownList_cattleGroup(ddl As DropDownList, isNeedAll As Boolean)
-            Dim sqlString As String =
-                "select distinct groupOrder, groupName from Cattle_TypeCattle order by groupOrder "
-            Dim dt As New Data.DataTable
-            Using da As New DataAccess.MS_SQL
-                dt = da.GetDataTable(sqlString)
-            End Using
-
-            ddl.Items.Clear()
-
-            If isNeedAll = True Then
-                ddl.Items.Add(New ListItem("*牛籍類型不拘", "%"))
-            End If
-
-            For i = 0 To dt.Rows.Count - 1
-                ddl.Items.Add(New ListItem(dt.Rows(i)("groupName"), dt.Rows(i)("groupOrder")))
-            Next
-        End Sub
-
-        ''' <summary>
-        ''' DDL：牛籍規格
-        ''' </summary>
-        ''' <param name="ddl"></param>
-        ''' <param name="isNeedAll"></param>
-        ''' <param name="groupOrder"></param>
-        Sub Bind_DropDownList_cattleType(ddl As DropDownList, isNeedAll As Boolean, groupOrder As String, Optional isNeedGroupName As Boolean = False)
-            Dim sqlString As String =
-                "select cattleTypeID, groupName, typeName from Cattle_TypeCattle where groupOrder like @groupOrder order by groupOrder, cattleTypeID "
-            Dim para As New List(Of Data.SqlClient.SqlParameter)
-            para.Add(New Data.SqlClient.SqlParameter("groupOrder", groupOrder))
-            Dim dt As New Data.DataTable
-            Using da As New DataAccess.MS_SQL
-                dt = da.GetDataTable(sqlString, para.ToArray())
-            End Using
-            ddl.Items.Clear()
-            If isNeedAll = True Then
-                ddl.Items.Add(New ListItem("*牛籍規格不拘", "%"))
-            End If
-            For i = 0 To dt.Rows.Count - 1
-                If isNeedGroupName Then
-                    ddl.Items.Add(New ListItem(dt.Rows(i)("GroupName") & "：" & dt.Rows(i)("typeName"), dt.Rows(i)("cattleTypeID")))
-                Else
-                    ddl.Items.Add(New ListItem(dt.Rows(i)("typeName"), dt.Rows(i)("cattleTypeID")))
-                End If
-            Next
-        End Sub
-
-        ''' <summary>
-        ''' DDL：牛籍狀態
-        ''' </summary>
-        ''' <param name="ddl"></param>
-        ''' <param name="isNeedAll"></param>
-        Sub Bind_DropDownList_cattleStatus(ddl As DropDownList, isNeedAll As Boolean)
-            ddl.Items.Clear()
-            If isNeedAll = True Then
-                ddl.Items.Add(New ListItem("*牛籍狀態不拘", "%"))
-            End If
-            ddl.Items.Add(New ListItem("正常", "正常"))
-            ddl.Items.Add(New ListItem("除籍", "除籍"))
-        End Sub
-
-        ''' <summary>
-        ''' DDL：資料類型
-        ''' </summary>
-        ''' <param name="ddl"></param>
-        ''' <param name="groupName"></param>
-        Sub Bind_DropDownList_hisType(ddl As DropDownList, groupName As String)
-            Dim sqlString As String =
-                "select * from Cattle_TypeHistory where groupName like @groupName order by hisTypeID"
-            Dim para As New List(Of Data.SqlClient.SqlParameter)
-            para.Add(New Data.SqlClient.SqlParameter("groupName", groupName))
-            Dim dt As New Data.DataTable
-            Using da As New DataAccess.MS_SQL
-                dt = da.GetDataTable(sqlString, para.ToArray())
-            End Using
-            ddl.Items.Clear()
-            For i = 0 To dt.Rows.Count - 1
-                ddl.Items.Add(New ListItem(dt.Rows(i)("typeName"), dt.Rows(i)("hisTypeID")))
-            Next
-        End Sub
-
-        ''' <summary>
-        ''' DDL：屠宰場清單
-        ''' </summary>
-        ''' <param name="ddl"></param>
-        Sub Bind_DropDownList_slau(ddl As DropDownList, isNeedAll As Boolean)
-            Dim sqlString As String =
-                "select * from List_Slaughterhouse where isActive = 1 order by slauID"
-            Dim dt As New Data.DataTable
-            Using da As New DataAccess.MS_SQL
-                dt = da.GetDataTable(sqlString)
-            End Using
-            ddl.Items.Clear()
-            If isNeedAll = True Then
-                ddl.Items.Add(New ListItem("*屠宰場不拘", "%"))
-            End If
-            For i = 0 To dt.Rows.Count - 1
-                ddl.Items.Add(New ListItem(dt.Rows(i)("slauName"), dt.Rows(i)("slauID")))
-            Next
-        End Sub
-
-        ''' <summary>
-        ''' DDL：屠宰場清單
-        ''' </summary>
-        ''' <param name="ddl"></param>
-        Sub Bind_DropDownList_plant(ddl As DropDownList, isNeedAll As Boolean)
-            Dim sqlString As String =
-                "select * from List_RenderingPlant where isActive = 1 order by plantID"
-            Dim dt As New Data.DataTable
-            Using da As New DataAccess.MS_SQL
-                dt = da.GetDataTable(sqlString)
-            End Using
-            ddl.Items.Clear()
-            If isNeedAll = True Then
-                ddl.Items.Add(New ListItem("*化製場不拘", "%"))
-            End If
-            For i = 0 To dt.Rows.Count - 1
-                ddl.Items.Add(New ListItem(dt.Rows(i)("plantName"), dt.Rows(i)("plantID")))
-            Next
-
-        End Sub
 
 #End Region
 
@@ -519,7 +391,6 @@ Namespace taifCattle
             End Using
 
         End Function
-
 
     End Class
 
