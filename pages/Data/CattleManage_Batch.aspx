@@ -46,7 +46,7 @@
                         <strong>牛籍編號備註 <span class="badge bg-secondary ms-1">選填</span></strong>：可留空，未填寫時系統會以空值儲存。
                     </li>
                     <li class="mb-2">
-                        <strong>品項 <span class="badge bg-danger ms-1">必填</span></strong>：請輸入系統既有的品項名稱（對照 <code>Cattle_TypeCattle</code> 的品項清單），若品項名稱不存在，將判定為「品項錯誤」。
+                        <strong>品項 <span class="badge bg-danger ms-1">必填</span></strong>：請輸入系統既有的品項名稱（對照 <code class="text-nowrap" data-bs-toggle="tooltip" data-bs-placement="top" title="乳公牛、乳母牛、黃雜牛、水牛、安格斯牛、其他、無資料">Cattle_TypeCattle</code> 的品項清單），若品項名稱不存在，將判定為「品項錯誤」。
                     </li>
                     <li class="mb-2">
                         <strong>出生年度 <span class="badge bg-secondary ms-1">選填</span></strong>：可輸入西元或民國年份。若填寫民國年（如 109），系統會自動加上 1911 轉換為 2020。有效範圍為 1911 年至當年度，超出範圍或格式錯誤會顯示「出生年度錯誤」。
@@ -55,7 +55,7 @@
                         <strong>牛籍備註 <span class="badge bg-secondary ms-1">選填</span></strong>：可留空，未填寫時系統會以空值儲存。
                     </li>
                     <li class="mb-2">
-                        <strong>類型 <span class="badge bg-secondary ms-1">視情況填寫</span></strong>：當需要記錄旅程資訊時，請輸入 <code>Cattle_TypeHistory</code> 中且群組為「旅程」的類型名稱，才能新增對應的牛籍旅程紀錄。輸入不存在的類型將顯示「類型錯誤」。
+                        <strong>類型 <span class="badge bg-secondary ms-1">視情況填寫</span></strong>：當需要記錄旅程資訊時，請輸入 <code class="text-nowrap" data-bs-toggle="tooltip" data-bs-placement="top" title="出生、轉入、勸售">Cattle_TypeHistory</code> 中且群組為「旅程」的類型名稱，才能新增對應的牛籍旅程紀錄。輸入不存在的類型將顯示「類型錯誤」。
                     </li>
                     <li class="mb-2">
                         <strong>日期 <span class="badge bg-secondary ms-1">視情況填寫</span></strong>：需為有效日期格式且不可晚於今日，否則匯入會失敗並顯示「日期錯誤」。未填寫時不會新增旅程紀錄。
@@ -122,4 +122,22 @@
             </div>
         </div>
     </asp:Panel>
+    <script type="text/javascript">
+        (function () {
+            function initTooltips() {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+                    if (!bootstrap.Tooltip.getInstance(tooltipTriggerEl)) {
+                        new bootstrap.Tooltip(tooltipTriggerEl);
+                    }
+                });
+            }
+
+            if (window.Sys && Sys.Application) {
+                Sys.Application.add_load(initTooltips);
+            } else {
+                document.addEventListener('DOMContentLoaded', initTooltips);
+            }
+        })();
+    </script>
 </asp:Content>

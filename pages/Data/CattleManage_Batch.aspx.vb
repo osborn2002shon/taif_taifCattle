@@ -151,6 +151,7 @@ Public Class CattleManage_Batch
             End If
 
             Dim birthYearValue As Object = DBNull.Value
+            Dim isDairyCattle As Boolean = String.Equals(itemName, "乳公牛", StringComparison.OrdinalIgnoreCase) OrElse String.Equals(itemName, "乳母牛", StringComparison.OrdinalIgnoreCase)
             If Not String.IsNullOrEmpty(birthYearText) Then
                 Dim yearValue As Integer
                 If Integer.TryParse(birthYearText, yearValue) Then
@@ -162,6 +163,13 @@ Public Class CattleManage_Batch
                     Else
                         birthYearValue = yearValue
                     End If
+                Else
+                    reasons.Add("出生年度錯誤")
+                End If
+            ElseIf isDairyCattle AndAlso Not String.IsNullOrEmpty(tagNo) Then
+                Dim derivedYear As Integer
+                If TryGetDerivedBirthYear(tagNo, derivedYear) Then
+                    birthYearValue = derivedYear
                 Else
                     reasons.Add("出生年度錯誤")
                 End If
@@ -391,6 +399,31 @@ Public Class CattleManage_Batch
             Next
         End Using
         Return dict
+    End Function
+
+    Private Function TryGetDerivedBirthYear(tagNo As String, ByRef derivedYear As Integer) As Boolean
+        If String.IsNullOrEmpty(tagNo) Then
+            Return False
+        End If
+
+        Dim length As Integer = tagNo.Length
+        If length <> 7 AndAlso length <> 8 Then
+            Return False
+        End If
+
+        Dim prefix As String = tagNo.Substring(0, 2)
+        Dim prefixValue As Integer
+        If Not Integer.TryParse(prefix, prefixValue) Then
+            Return False
+        End If
+
+        Dim candidate As Integer = prefixValue + 100 + 1911
+        If candidate < 1911 OrElse candidate > DateTime.Now.Year Then
+            Return False
+        End If
+
+        derivedYear = candidate
+        Return True
     End Function
 
     Private Sub UpdateInsertType(tableName As String, keyColumn As String, keyValue As Integer)
