@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
-    <i class="fa-solid fa-file-import"></i> 牛籍批次匯入
+    <i class="fa-solid fa-cow"></i> 牛籍批次新增
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_title" runat="server">
 </asp:Content>
