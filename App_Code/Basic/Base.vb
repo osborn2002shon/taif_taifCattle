@@ -32,7 +32,9 @@ Namespace taifCattle
 
         Enum enum_InsertType
             人工網頁建檔
-            人工批次建檔
+            牛籍批次建檔
+            旅程批次建檔
+            除籍批次建檔
             耳標來源建檔
             屠宰來源建檔
             牧登來源建檔

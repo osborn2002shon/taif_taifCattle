@@ -1,4 +1,4 @@
-Imports System.Data
+﻿Imports System.Data
 Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Linq
@@ -118,11 +118,7 @@ Public Class HisManage_Batch
         Dim historyTypeLookup As Dictionary(Of String, Integer) = GetHistoryTypeLookup()
         Dim farmLookup As Dictionary(Of String, Integer) = GetFarmLookup()
 
-        Dim userInfo As taifCattle.Base.stru_LoginUserInfo = TryCast(Session("userInfo"), taifCattle.Base.stru_LoginUserInfo)
-        If userInfo Is Nothing Then
-            Label_message.Text = "登入資訊已失效，請重新登入。"
-            Return
-        End If
+        Dim userInfo As taifCattle.Base.stru_LoginUserInfo = Session("userInfo")
 
         Dim insertUserId As Integer = userInfo.accountID
         Dim insertDate As DateTime = DateTime.Now
@@ -193,13 +189,12 @@ Public Class HisManage_Batch
                     .plantID = Nothing,
                     .slauID = Nothing,
                     .memo = If(String.IsNullOrEmpty(memo), Nothing, memo),
-                    .insertType = taifCattle.Base.enum_InsertType.人工批次建檔,
+                    .insertType = taifCattle.Base.enum_InsertType.旅程批次建檔,
                     .insertDateTime = insertDate,
                     .insertAccountID = insertUserId
                 }
 
                 Dim hisId As Integer = Convert.ToInt32(taifCattle_cattle.Insert_CattleHistory(hisInfo))
-                UpdateInsertType("Cattle_History", "hisID", hisId)
 
                 Dim successRow As DataRow = successTable.NewRow()
                 FillCommonRowValues(successRow, tagNo, dataDateValue.ToString("yyyy/MM/dd"), hisTypeName, farmCode, memo)
@@ -318,12 +313,4 @@ Public Class HisManage_Batch
         Return dict
     End Function
 
-    Private Sub UpdateInsertType(tableName As String, keyColumn As String, keyValue As Integer)
-        Dim sql As String = $"update {tableName} set insertType = @insertType where {keyColumn} = @keyValue"
-        Using da As New DataAccess.MS_SQL()
-            da.ExecNonQuery(sql,
-                            New SqlParameter("insertType", enum_UserLogItem.旅程批次新增功能.ToString()),
-                            New SqlParameter("keyValue", keyValue))
-        End Using
-    End Sub
 End Class

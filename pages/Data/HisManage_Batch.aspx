@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="HisManage_Batch.aspx.vb" Inherits="taifCattle.HisManage_Batch" MaintainScrollPositionOnPostback="true" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="HisManage_Batch.aspx.vb" Inherits="taifCattle.HisManage_Batch" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
@@ -44,6 +44,10 @@
                     <li class="mb-2"><strong>畜牧場證號 <span class="badge bg-danger ms-1">必填</span></strong>：需為既有牧場證號，若不存在則會顯示「畜牧場錯誤」。</li>
                     <li><strong>旅程備註 <span class="badge bg-secondary ms-1">選填</span></strong>：可留空，未填寫時系統會以空值儲存。</li>
                 </ul>
+                <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入填寫範例</h5>
+                <div style="height:200px; overflow:hidden;">
+                    <img src="../../_img/history_batch_sample.png" style="width:100%; " class="img-fluid border" />
+                </div>
             </div>
         </div>
     </div>

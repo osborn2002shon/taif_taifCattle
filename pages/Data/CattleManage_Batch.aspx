@@ -68,7 +68,7 @@
                     ※ 需同時填寫「類型」、「日期」、「畜牧場證號」才會建立旅程紀錄，任一欄位未填寫時將不會新增旅程資料。
                 </div>
                 <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入填寫範例</h5>
-                <div>
+                <div style="height:250px; overflow:hidden;">
                     <img src="../../_img/cattle_batch_sample.png" style="width:100%;" />
                 </div>
             </div>

@@ -227,7 +227,7 @@ Public Class CattleManage_Batch
                     .tagMemo = tagMemo,
                     .birthYear = birthYearValue,
                     .cattleMemo = cattleMemo,
-                    .insertType = taifCattle.Base.enum_InsertType.人工批次建檔,
+                    .insertType = taifCattle.Base.enum_InsertType.牛籍批次建檔,
                     .insertDateTime = insertDate,
                     .updateDateTime = insertDate,
                     .insertAccountID = insertUserId,
@@ -235,7 +235,6 @@ Public Class CattleManage_Batch
                 }
 
                 cattleId = Convert.ToInt32(taifCattle_cattle.Insert_Cattle(cattleInfo))
-                UpdateInsertType("Cattle_List", "cattleID", cattleId)
 
                 If needHistory Then
                     Dim hisInfo As New taifCattle.Cattle.stru_cattleHistory With {
@@ -246,12 +245,11 @@ Public Class CattleManage_Batch
                         .plantID = Nothing,
                         .slauID = Nothing,
                         .memo = Nothing,
-                        .insertType = taifCattle.Base.enum_InsertType.人工批次建檔,
+                        .insertType = taifCattle.Base.enum_InsertType.牛籍批次建檔,
                         .insertDateTime = insertDate,
                         .insertAccountID = insertUserId
                     }
                     Dim hisId As Integer = Convert.ToInt32(taifCattle_cattle.Insert_CattleHistory(hisInfo))
-                    UpdateInsertType("Cattle_History", "hisID", hisId)
                 End If
 
                 Dim successRow As DataRow = successTable.NewRow()
@@ -426,15 +424,6 @@ Public Class CattleManage_Batch
         derivedYear = candidate
         Return True
     End Function
-
-    Private Sub UpdateInsertType(tableName As String, keyColumn As String, keyValue As Integer)
-        Dim sql As String = $"update {tableName} set insertType = @insertType where {keyColumn} = @keyValue"
-        Using da As New DataAccess.MS_SQL()
-            da.ExecNonQuery(sql,
-                            New SqlParameter("insertType", enum_UserLogItem.牛籍批次新增功能.ToString()),
-                            New SqlParameter("keyValue", keyValue))
-        End Using
-    End Sub
 
     Private Sub CleanUpInsertedData(cattleId As Integer)
         Using da As New DataAccess.MS_SQL()
