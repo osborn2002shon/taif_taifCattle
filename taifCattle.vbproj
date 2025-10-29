@@ -176,6 +176,7 @@
     <Content Include="pages\Data\CattleManage_Batch.aspx" />
     <Content Include="pages\Data\CattleManage_Detail.aspx" />
     <Content Include="pages\Data\FarmManage.aspx" />
+    <Content Include="pages\Data\FarmManage_Batch.aspx" />
     <Content Include="pages\Data\HisEndManage_Batch.aspx" />
     <Content Include="pages\Data\HisManage_Batch.aspx" />
     <Content Include="pages\sample\sample.aspx" />
@@ -196,7 +197,7 @@
     <Content Include="_css\mp_default.css" />
     <Content Include="_img\cattle_batch_sample.png" />
     <Content Include="_img\history_batch_sample.png" />
-    <Content Include="_img\history_end_batch_sample..png" />
+    <Content Include="_img\history_end_batch_sample.png" />
     <Content Include="_img\logo.png" />
     <Content Include="_js\bootstrap.bundle.js" />
     <Content Include="_js\jquery-3.7.1.js" />
@@ -306,6 +307,13 @@
     <Compile Include="pages\Data\FarmManage.aspx.vb">
       <DependentUpon>FarmManage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Data\FarmManage_Batch.aspx.designer.vb">
+      <DependentUpon>FarmManage_Batch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Data\FarmManage_Batch.aspx.vb">
+      <DependentUpon>FarmManage_Batch.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="pages\Data\HisEndManage_Batch.aspx.designer.vb">
       <DependentUpon>HisEndManage_Batch.aspx</DependentUpon>
