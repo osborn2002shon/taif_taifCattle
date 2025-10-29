@@ -1,4 +1,4 @@
-Imports System.Collections.Generic
+﻿Imports System.Collections.Generic
 Imports System.Data
 Imports System.Data.SqlClient
 Imports System.IO
@@ -90,8 +90,8 @@ Public Class HisEndManage_Batch
         Dim headers As String() = {
             "牛籍編號",
             "除籍日期",
-            "類型（其他／未使用）",
-            "畜牧場證號（牧場登記證、飼養登記證、身分證）",
+            "類型",
+            "畜牧場證號",
             "除籍備註",
             "失敗原因"
         }
@@ -136,8 +136,8 @@ Public Class HisEndManage_Batch
 
             Dim tagNo As String = Convert.ToString(row("牛籍編號")).Trim()
             Dim removeDateText As String = Convert.ToString(row("除籍日期")).Trim()
-            Dim hisTypeName As String = Convert.ToString(row("類型（其他／未使用）")).Trim()
-            Dim farmCode As String = Convert.ToString(row("畜牧場證號（牧場登記證、飼養登記證、身分證）")).Trim()
+            Dim hisTypeName As String = Convert.ToString(row("類型")).Trim()
+            Dim farmCode As String = Convert.ToString(row("畜牧場證號")).Trim()
             Dim memo As String = Convert.ToString(row("除籍備註")).Trim()
 
             Dim cattleId As Integer = -1
@@ -306,8 +306,8 @@ Public Class HisEndManage_Batch
         Dim dt As New DataTable()
         dt.Columns.Add("牛籍編號", GetType(String))
         dt.Columns.Add("除籍日期", GetType(String))
-        dt.Columns.Add("類型（其他／未使用）", GetType(String))
-        dt.Columns.Add("畜牧場證號（牧場登記證、飼養登記證、身分證）", GetType(String))
+        dt.Columns.Add("類型", GetType(String))
+        dt.Columns.Add("畜牧場證號", GetType(String))
         dt.Columns.Add("除籍備註", GetType(String))
         Return dt
     End Function
@@ -316,8 +316,8 @@ Public Class HisEndManage_Batch
         Dim dt As New DataTable()
         dt.Columns.Add("牛籍編號", GetType(String))
         dt.Columns.Add("除籍日期", GetType(String))
-        dt.Columns.Add("類型（其他／未使用）", GetType(String))
-        dt.Columns.Add("畜牧場證號（牧場登記證、飼養登記證、身分證）", GetType(String))
+        dt.Columns.Add("類型", GetType(String))
+        dt.Columns.Add("畜牧場證號", GetType(String))
         dt.Columns.Add("除籍備註", GetType(String))
         If includeFailureReason Then
             dt.Columns.Add("失敗原因", GetType(String))
@@ -330,8 +330,8 @@ Public Class HisEndManage_Batch
     Private Sub FillCommonRowValues(targetRow As DataRow, tagNo As String, dataDate As String, hisType As String, farmCode As String, memo As String)
         targetRow("牛籍編號") = tagNo
         targetRow("除籍日期") = dataDate
-        targetRow("類型（其他／未使用）") = hisType
-        targetRow("畜牧場證號（牧場登記證、飼養登記證、身分證）") = farmCode
+        targetRow("類型") = hisType
+        targetRow("畜牧場證號") = farmCode
         targetRow("除籍備註") = memo
     End Sub
 
@@ -367,7 +367,7 @@ Public Class HisEndManage_Batch
 
     Private Function CreateCattleShell(tagNo As String, insertUserId As Integer, insertDate As DateTime) As Integer
         Using da As New DataAccess.MS_SQL()
-            Dim sql As String = "insert into Cattle_List (cattleTypeID, tagNo, insertType, insertDateTime, insertAccountID) values (@cattleTypeID, @tagNo, @insertType, @insertDateTime, @insertAccountID); select scope_identity();"
+            Dim sql As String = "insert into Cattle_List (cattleTypeID, tagNo, insertType, insertDateTime, insertAccountID, updateDateTime, updateAccountID) values (@cattleTypeID, @tagNo, @insertType, @insertDateTime, @insertAccountID, @insertDateTime, @insertAccountID); select scope_identity();"
             Dim para As SqlParameter() = {
                 New SqlParameter("cattleTypeID", 6),
                 New SqlParameter("tagNo", tagNo),

@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="HisEndManage_Batch.aspx.vb" Inherits="taifCattle.HisEndManage_Batch" MaintainScrollPositionOnPostback="true" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="HisEndManage_Batch.aspx.vb" Inherits="taifCattle.HisEndManage_Batch" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
@@ -58,8 +58,8 @@
                     <Columns>
                         <asp:BoundField DataField="牛籍編號" HeaderText="牛籍編號" />
                         <asp:BoundField DataField="除籍日期" HeaderText="除籍日期" />
-                        <asp:BoundField DataField="類型（其他／未使用）" HeaderText="類型（其他／未使用）" />
-                        <asp:BoundField DataField="畜牧場證號（牧場登記證、飼養登記證、身分證）" HeaderText="畜牧場證號（牧場登記證、飼養登記證、身分證）" />
+                        <asp:BoundField DataField="類型" HeaderText="類型（其他／未使用）" />
+                        <asp:BoundField DataField="畜牧場證號" HeaderText="畜牧場證號（牧場登記證、飼養登記證、身分證）" />
                         <asp:BoundField DataField="除籍備註" HeaderText="除籍備註" />
                         <asp:BoundField DataField="匯入結果" HeaderText="匯入結果" />
                     </Columns>
@@ -81,8 +81,8 @@
                     <Columns>
                         <asp:BoundField DataField="牛籍編號" HeaderText="牛籍編號" />
                         <asp:BoundField DataField="除籍日期" HeaderText="除籍日期" />
-                        <asp:BoundField DataField="類型（其他／未使用）" HeaderText="類型（其他／未使用）" />
-                        <asp:BoundField DataField="畜牧場證號（牧場登記證、飼養登記證、身分證）" HeaderText="畜牧場證號（牧場登記證、飼養登記證、身分證）" />
+                        <asp:BoundField DataField="類型" HeaderText="類型（其他／未使用）" />
+                        <asp:BoundField DataField="畜牧場證號" HeaderText="畜牧場證號（牧場登記證、飼養登記證、身分證）" />
                         <asp:BoundField DataField="除籍備註" HeaderText="除籍備註" />
                         <asp:BoundField DataField="失敗原因" HeaderText="失敗原因" />
                     </Columns>
