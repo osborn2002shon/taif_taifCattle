@@ -64,6 +64,9 @@
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.3.0.1\lib\netstandard2.0\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NPOI.Core, Version=2.7.5.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.7.5\lib\net472\NPOI.Core.dll</HintPath>
     </Reference>
@@ -169,6 +172,7 @@
     <Content Include="pages\Data\CattleManage_Batch.aspx" />
     <Content Include="pages\Data\CattleManage_Detail.aspx" />
     <Content Include="pages\Data\FarmManage.aspx" />
+    <Content Include="pages\Data\HisEndManage_Batch.aspx" />
     <Content Include="pages\Data\HisManage_Batch.aspx" />
     <Content Include="pages\sample\sample.aspx" />
     <Content Include="pages\System\AccountManage.aspx" />
@@ -178,6 +182,7 @@
     <Content Include="pages\System\Permission.aspx" />
     <Content Include="pages\System\UserLog.aspx" />
     <Content Include="Web.config" />
+    <Compile Include="App_Code\WebService.vb" />
     <Content Include="_css\bootstrap-icons.css" />
     <Content Include="_css\bootstrap.css" />
     <Content Include="_css\control.css" />
@@ -269,6 +274,13 @@
       <DependentUpon>FarmManage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="pages\Data\HisEndManage_Batch.aspx.designer.vb">
+      <DependentUpon>HisEndManage_Batch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Data\HisEndManage_Batch.aspx.vb">
+      <DependentUpon>HisEndManage_Batch.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="pages\Data\HisManage_Batch.aspx.designer.vb">
       <DependentUpon>HisManage_Batch.aspx</DependentUpon>
     </Compile>
@@ -324,6 +336,22 @@
     <Compile Include="pages\System\UserLog.aspx.vb">
       <DependentUpon>UserLog.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Content Include="WebService\CattleHistory.aspx" />
+    <Compile Include="WebService\CattleHistory.aspx.designer.vb">
+      <DependentUpon>CattleHistory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebService\CattleHistory.aspx.vb">
+      <DependentUpon>CattleHistory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Content Include="WebService\Verify.aspx" />
+    <Compile Include="WebService\Verify.aspx.designer.vb">
+      <DependentUpon>Verify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebService\Verify.aspx.vb">
+      <DependentUpon>Verify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="_mp\mp_default.master.designer.vb">
       <DependentUpon>mp_default.master</DependentUpon>

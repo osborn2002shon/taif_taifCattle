@@ -1,0 +1,1 @@
+﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="CattleHistory.aspx.vb" Inherits="taifCattle.CattleHistory" %>
