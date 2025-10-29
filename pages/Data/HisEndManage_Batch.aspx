@@ -44,6 +44,10 @@
                     <li class="mb-2"><strong>畜牧場證號（牧場登記證、飼養登記證、身分證） <span class="badge bg-danger ms-1">必填</span></strong>：需為既有牧場證號，若不存在則會顯示「畜牧場錯誤」。</li>
                     <li><strong>除籍備註 <span class="badge bg-secondary ms-1">選填</span></strong>：可留空，未填寫時系統會以空值儲存。</li>
                 </ul>
+                 <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入填寫範例</h5>
+                 <div style="height:200px; overflow:hidden;">
+                     <img src="../../_img/history_end_batch_sample.png" style="width:100%; " class="img-fluid border" />
+                 </div>
             </div>
         </div>
     </div>

@@ -196,6 +196,7 @@
     <Content Include="_css\mp_default.css" />
     <Content Include="_img\cattle_batch_sample.png" />
     <Content Include="_img\history_batch_sample.png" />
+    <Content Include="_img\history_end_batch_sample..png" />
     <Content Include="_img\logo.png" />
     <Content Include="_js\bootstrap.bundle.js" />
     <Content Include="_js\jquery-3.7.1.js" />
