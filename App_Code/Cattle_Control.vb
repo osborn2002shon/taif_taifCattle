@@ -109,7 +109,7 @@
         End Sub
 
         ''' <summary>
-        ''' DDL：屠宰場清單
+        ''' DDL：化製廠清單
         ''' </summary>
         ''' <param name="ddl"></param>
         Sub Bind_DropDownList_plant(ddl As DropDownList, isNeedAll As Boolean)
@@ -128,6 +128,31 @@
             Next
 
         End Sub
+
+        ''' <summary>
+        ''' CheckBoxList：資料類型
+        ''' </summary>
+        ''' <param name="cbl"></param>
+        ''' <param name="groupName"></param>
+        Sub Bind_CheckBoxList_hisType(cbl As CheckBoxList, groupName As String)
+            Dim sqlString As String =
+                "SELECT * FROM Cattle_TypeHistory WHERE groupName LIKE @groupName ORDER BY hisTypeID"
+
+            Dim para As New List(Of Data.SqlClient.SqlParameter)
+            para.Add(New Data.SqlClient.SqlParameter("groupName", groupName))
+
+            Dim dt As New Data.DataTable
+            Using da As New DataAccess.MS_SQL
+                dt = da.GetDataTable(sqlString, para.ToArray())
+            End Using
+
+            cbl.Items.Clear()
+            For i = 0 To dt.Rows.Count - 1
+                Dim li As New ListItem(dt.Rows(i)("typeName").ToString(), dt.Rows(i)("hisTypeID").ToString())
+                cbl.Items.Add(li)
+            Next
+        End Sub
+
 
     End Class
 

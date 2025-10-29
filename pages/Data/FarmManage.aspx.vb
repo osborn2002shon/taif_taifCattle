@@ -76,6 +76,10 @@ Public Class FarmManage
 #End Region
 
 #Region "Fun/Sub"
+    Public Function MaskFarmCode(value As Object) As String
+        Return taifCattle_farm.MaskFarmCode(value)
+    End Function
+
     Private Sub SwitchView(mode As enum_EditMode)
         Select Case mode
             Case enum_EditMode.預設
@@ -109,21 +113,6 @@ Public Class FarmManage
 
         Label_recordCount.Text = liFarm.Count.ToString("N0")
     End Sub
-
-    Function MaskFarmCode(value As Object) As String
-        If value Is Nothing OrElse IsDBNull(value) Then
-            Return ""
-        End If
-
-        Dim code As String = value.ToString().Trim()
-        If code.Length = 10 Then
-            ' 例：A123456789 → A123***789
-            Return code.Substring(0, 4) & "***" & code.Substring(7)
-        End If
-
-        ' 不是 10 碼就不處理
-        Return code
-    End Function
 
     ''' <summary>
     ''' 載入指定畜牧場資料至表單
@@ -397,7 +386,7 @@ Public Class FarmManage
             c2.CellStyle = cellStyleCenter
 
             Dim c3 = dataRow.CreateCell(3)
-            c3.SetCellValue(MaskFarmCode(f.farmCode))
+            c3.SetCellValue(taifCattle_farm.MaskFarmCode(f.farmCode))
             c3.CellStyle = cellStyleText
 
             Dim c4 = dataRow.CreateCell(4)

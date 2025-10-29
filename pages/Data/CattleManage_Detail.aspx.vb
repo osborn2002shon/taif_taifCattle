@@ -35,6 +35,16 @@ Public Class CattleManage_Detail
         Dim cattleHis_end As List(Of taifCattle.Cattle.stru_cattleHistory_view) = taifCattle_cattle.Get_CattleHistoryList(cattleID, enum_hisType.endHis)
         GridView_his_end.DataSource = cattleHis_end
         GridView_his_end.DataBind()
+
+        '====保險&理賠紀錄
+        Dim list_cattleInsCla As List(Of taifCattle.Cattle.stru_cattleInsClaStatus) = taifCattle_cattle.Get_InsClaimStatus(cattleInfo.tagNo)
+        If list_cattleInsCla.Count > 0 Then
+            TextBox_insStatus_ins.Text = If(list_cattleInsCla(0).isInsurance, "已投保", "未投保")
+            TextBox_insStatus_claim.Text = IIf(list_cattleInsCla(0).isClaim, "已理賠", "未理賠")
+        Else
+            TextBox_insStatus_ins.Text = "--"
+            TextBox_insStatus_claim.Text = "--"
+        End If
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load

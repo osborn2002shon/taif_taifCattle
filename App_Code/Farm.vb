@@ -25,7 +25,20 @@ Namespace taifCattle
             Property insertAccountID As Integer
             Property updateAccountID As Integer
         End Structure
+        Function MaskFarmCode(value As Object) As String
+            If value Is Nothing OrElse IsDBNull(value) Then
+                Return ""
+            End If
 
+            Dim code As String = value.ToString().Trim()
+            If code.Length = 10 Then
+                ' 例：A123456789 → A123***789
+                Return code.Substring(0, 4) & "***" & code.Substring(7)
+            End If
+
+            ' 不是 10 碼就不處理
+            Return code
+        End Function
         ''' <summary>
         ''' 檢查畜牧場證號是否重複
         ''' </summary>

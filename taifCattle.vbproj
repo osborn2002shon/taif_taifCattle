@@ -168,13 +168,15 @@
     <Content Include="CPW.aspx" />
     <Content Include="FPW.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="pages\Analysis\StaticsCattle.aspx" />
+    <Content Include="pages\Analysis\StaticsCityCattle.aspx" />
+    <Content Include="pages\Analysis\StaticsFarm.aspx" />
+    <Content Include="pages\Analysis\StaticsNationCattle.aspx" />
     <Content Include="pages\Data\CattleManage.aspx" />
     <Content Include="pages\Data\CattleManage_Batch.aspx" />
     <Content Include="pages\Data\CattleManage_Detail.aspx" />
     <Content Include="pages\Data\FarmManage.aspx" />
-    <Content Include="pages\Data\HisEndManage_Batch.aspx" />
     <Content Include="pages\Data\HisManage_Batch.aspx" />
-    <Content Include="pages\Data\hisEndManage_Batch.aspx" />
     <Content Include="pages\sample\sample.aspx" />
     <Content Include="pages\System\AccountManage.aspx" />
     <Content Include="pages\System\Config.aspx" />
@@ -247,6 +249,34 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="pages\Analysis\StaticsCattle.aspx.designer.vb">
+      <DependentUpon>StaticsCattle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Analysis\StaticsCattle.aspx.vb">
+      <DependentUpon>StaticsCattle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Analysis\StaticsCityCattle.aspx.designer.vb">
+      <DependentUpon>StaticsCityCattle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Analysis\StaticsCityCattle.aspx.vb">
+      <DependentUpon>StaticsCityCattle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Analysis\StaticsFarm.aspx.designer.vb">
+      <DependentUpon>StaticsFarm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Analysis\StaticsFarm.aspx.vb">
+      <DependentUpon>StaticsFarm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Analysis\StaticsNationCattle.aspx.designer.vb">
+      <DependentUpon>StaticsNationCattle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Analysis\StaticsNationCattle.aspx.vb">
+      <DependentUpon>StaticsNationCattle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="pages\Data\CattleManage.aspx.designer.vb">
       <DependentUpon>CattleManage.aspx</DependentUpon>
     </Compile>
@@ -275,25 +305,11 @@
       <DependentUpon>FarmManage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="pages\Data\HisEndManage_Batch.aspx.designer.vb">
-      <DependentUpon>HisEndManage_Batch.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Data\HisEndManage_Batch.aspx.vb">
-      <DependentUpon>HisEndManage_Batch.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
     <Compile Include="pages\Data\HisManage_Batch.aspx.designer.vb">
       <DependentUpon>HisManage_Batch.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\Data\HisManage_Batch.aspx.vb">
       <DependentUpon>HisManage_Batch.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="pages\Data\hisEndManage_Batch.aspx.designer.vb">
-      <DependentUpon>hisEndManage_Batch.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Data\hisEndManage_Batch.aspx.vb">
-      <DependentUpon>hisEndManage_Batch.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="pages\sample\sample.aspx.designer.vb">

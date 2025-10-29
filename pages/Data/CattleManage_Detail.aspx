@@ -127,13 +127,18 @@
                             <div class="row">
                                 <div class="col-12">
                                     <label>投保狀態</label>
-                                    <div>--</div>
+                                    <div>
+                                        <asp:TextBox ID="TextBox_insStatus_ins" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                    </div>
                                 </div>
                                 <div class="col-12 mt-3">
                                     <label>理賠狀態</label>
-                                    <div>--</div>
+                                    <div>
+                                        <asp:TextBox ID="TextBox_insStatus_claim" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                    </div>
                                 </div>
                             </div>
+                            <span class="info">保險狀態由家畜保險系統提供</span>
                         </div>
                         <div class="card-footer"></div>
                     </div>
@@ -180,7 +185,7 @@
                 <div class="table-responsive">
                     <asp:GridView ID="GridView_his_def" runat="server" CssClass="gv" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true">
                         <Columns>
-                            <asp:TemplateField HeaderText="類型" ItemStyle-Width="80px">
+                            <asp:TemplateField HeaderText="類型" ItemStyle-Width="120px">
                                 <ItemTemplate>
                                     <%# Eval("typeName") %>
                                 </ItemTemplate>
@@ -282,7 +287,7 @@
                 <div class="table-responsive">
                     <asp:GridView ID="GridView_his_end" runat="server" CssClass="gv" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true">
                         <Columns>
-                            <asp:TemplateField HeaderText="類型" ItemStyle-Width="80px">
+                            <asp:TemplateField HeaderText="類型" ItemStyle-Width="120px">
                                 <ItemTemplate>
                                     <%# Eval("typeName") %>
                                 </ItemTemplate>

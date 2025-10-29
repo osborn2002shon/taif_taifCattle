@@ -101,6 +101,17 @@ Namespace taifCattle
             Property insertDateTime As Date
         End Structure
 
+
+        Public Structure stru_cattleInsClaStatus
+            Property tagNo As String
+            Property isInsurance As Boolean
+            Property insDate_beg As Date
+            Property insDate_end As Date
+            Property isClaim As Boolean
+            Property deadDate As Object
+            Property saleDate As Object
+        End Structure
+
 #End Region
 
         ''' <summary>
@@ -391,6 +402,38 @@ Namespace taifCattle
             End Using
 
         End Function
+
+        ''' <summary>
+        ''' 取得保險與理賠最新資訊（資料來源：TAIF家畜保險系統）
+        ''' </summary>
+        ''' <param name="tagNo"></param>
+        ''' <returns></returns>
+        Function Get_InsClaimStatus(tagNo As String) As List(Of stru_cattleInsClaStatus)
+            Dim list As New List(Of stru_cattleInsClaStatus)
+
+            Dim sqlString As String =
+                <xml sql="select * from View_CattleInsClaStatus where tagNo like @tagNo"></xml>.FirstAttribute.Value
+
+            Dim para As New List(Of Data.SqlClient.SqlParameter)
+            para.Add(New Data.SqlClient.SqlParameter("tagNo", tagNo))
+
+            Using da As New DataAccess.MS_SQL
+                Dim dt As Data.DataTable = da.GetDataTable(sqlString, para.ToArray())
+                For Each row As Data.DataRow In dt.Rows
+                    Dim item As New stru_cattleInsClaStatus
+                    item.tagNo = row("tagNo")
+                    item.isInsurance = row("isInsurance")
+                    item.insDate_beg = row("insDate_beg")
+                    item.insDate_end = row("insDate_end")
+                    item.isClaim = row("isClaim")
+                    item.deadDate = row("deadDate")
+                    item.saleDate = row("saleDate")
+                    list.Add(item)
+                Next
+            End Using
+            Return list
+        End Function
+
 
     End Class
 

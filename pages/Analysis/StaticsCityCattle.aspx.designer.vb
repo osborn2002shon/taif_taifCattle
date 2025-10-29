@@ -11,5 +11,5 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class HisEndManage_Batch
+Partial Public Class StaticsCityCattle
 End Class

@@ -47,8 +47,8 @@ Public Class mp_default
         End If
 
         ' 移除固定層 /pages/
-        If path.StartsWith("/pages/", StringComparison.OrdinalIgnoreCase) Then
-            path = path.Substring("/pages".Length)
+        If path.StartsWith("/Pages/", StringComparison.OrdinalIgnoreCase) Then
+            path = path.Substring("/Pages".Length)
         End If
 
         ' 確保開頭為 "/"

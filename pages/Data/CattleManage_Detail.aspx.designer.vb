@@ -212,6 +212,24 @@ Partial Public Class CattleManage_Detail
     Protected WithEvents LinkButton_edit_update As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''TextBox_insStatus_ins 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents TextBox_insStatus_ins As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''TextBox_insStatus_claim 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents TextBox_insStatus_claim As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''TextBox_edit_hisDef_date 控制項。
     '''</summary>
     '''<remarks>
