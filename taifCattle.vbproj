@@ -170,6 +170,7 @@
     <Content Include="pages\Data\CattleManage_Detail.aspx" />
     <Content Include="pages\Data\FarmManage.aspx" />
     <Content Include="pages\Data\HisManage_Batch.aspx" />
+    <Content Include="pages\Data\hisEndManage_Batch.aspx" />
     <Content Include="pages\sample\sample.aspx" />
     <Content Include="pages\System\AccountManage.aspx" />
     <Content Include="pages\System\Config.aspx" />
@@ -274,6 +275,13 @@
     </Compile>
     <Compile Include="pages\Data\HisManage_Batch.aspx.vb">
       <DependentUpon>HisManage_Batch.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="pages\Data\hisEndManage_Batch.aspx.designer.vb">
+      <DependentUpon>hisEndManage_Batch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Data\hisEndManage_Batch.aspx.vb">
+      <DependentUpon>hisEndManage_Batch.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="pages\sample\sample.aspx.designer.vb">
