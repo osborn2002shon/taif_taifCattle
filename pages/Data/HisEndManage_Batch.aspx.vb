@@ -11,6 +11,7 @@ Public Class HisEndManage_Batch
 
     Private ReadOnly taifReport As New taifCattle.Report()
     Private ReadOnly taifCattle_cattle As New taifCattle.Cattle()
+    Private ReadOnly taifCattle_farm As New taifCattle.Farm()
 
     Private Property SuccessTable As DataTable
         Get
@@ -27,6 +28,15 @@ Public Class HisEndManage_Batch
         End Get
         Set(value As DataTable)
             ViewState("FailureTable") = value
+        End Set
+    End Property
+
+    Private Property MissingFarmSerial As String
+        Get
+            Return Convert.ToString(ViewState("MissingFarmSerial"))
+        End Get
+        Set(value As String)
+            ViewState("MissingFarmSerial") = value
         End Set
     End Property
 
@@ -127,6 +137,7 @@ Public Class HisEndManage_Batch
         Dim historyTypeLookup As Dictionary(Of String, Integer) = GetHistoryTypeLookup()
         Dim allowedTypeNames As New HashSet(Of String)(New String() {"其他", "未使用"}, StringComparer.OrdinalIgnoreCase)
         Dim farmLookup As Dictionary(Of String, Integer) = GetFarmLookup()
+        Dim missingFarmCodes As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
 
         Dim userInfo As taifCattle.Base.stru_LoginUserInfo = CType(Session("userInfo"), taifCattle.Base.stru_LoginUserInfo)
         Dim insertUserId As Integer = userInfo.accountID
@@ -185,10 +196,16 @@ Public Class HisEndManage_Batch
 
             Dim farmId As Integer = -1
             Dim normalizedFarmCode As String = farmCode
+            Dim shouldRecordMissingFarm As Boolean = False
             If String.IsNullOrEmpty(normalizedFarmCode) Then
                 reasons.Add("畜牧場錯誤")
             ElseIf Not farmLookup.TryGetValue(normalizedFarmCode, farmId) Then
                 reasons.Add("畜牧場錯誤")
+                shouldRecordMissingFarm = True
+            End If
+
+            If shouldRecordMissingFarm Then
+                missingFarmCodes.Add(normalizedFarmCode)
             End If
 
             If reasons.Count > 0 Then
@@ -262,6 +279,20 @@ Public Class HisEndManage_Batch
             End Try
         Next
 
+        If missingFarmCodes.Count > 0 Then
+            Try
+                Dim serial As String = taifCattle_farm.SaveMissingFarmCodes("HisEndManage_Batch", missingFarmCodes)
+                If String.IsNullOrEmpty(serial) Then
+                    MissingFarmSerial = Nothing
+                Else
+                    MissingFarmSerial = serial
+                End If
+            Catch ex As Exception
+                MissingFarmSerial = Nothing
+                System.Diagnostics.Trace.WriteLine($"[HisEndManage_Batch] SaveMissingFarmCodes failed: {ex}")
+            End Try
+        End If
+
         SuccessTable = successTable
         FailureTable = failedTable
 
@@ -284,6 +315,8 @@ Public Class HisEndManage_Batch
 
         Label_message.CssClass = If(failedTable.Rows.Count > 0, "text-danger fw-bold d-block mt-3", "text-success fw-bold d-block mt-3")
         Label_message.Text = $"匯入完成，成功 {successTable.Rows.Count} 筆，失敗 {failedTable.Rows.Count} 筆。"
+
+        UpdateMissingFarmBatchLink()
     End Sub
 
     Private Sub ResetResultView()
@@ -300,6 +333,19 @@ Public Class HisEndManage_Batch
         FailureTable = Nothing
         Label_message.Text = ""
         Label_message.CssClass = "text-danger fw-bold d-block mt-3"
+        MissingFarmSerial = Nothing
+        UpdateMissingFarmBatchLink()
+    End Sub
+
+    Private Sub UpdateMissingFarmBatchLink()
+        Dim serial As String = MissingFarmSerial
+        If String.IsNullOrEmpty(serial) Then
+            HyperLink_missingFarmBatch.Visible = False
+            HyperLink_missingFarmBatch.NavigateUrl = String.Empty
+        Else
+            HyperLink_missingFarmBatch.Visible = True
+            HyperLink_missingFarmBatch.NavigateUrl = $"~/pages/Data/FarmManage_Batch.aspx?serial={Server.UrlEncode(serial)}"
+        End If
     End Sub
 
     Private Function CreateImportSchema() As DataTable

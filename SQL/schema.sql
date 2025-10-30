@@ -132,6 +132,23 @@ CREATE TABLE [dbo].[Data_DataExchangeLog](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
+/****** Object:  Table [dbo].[Data_FarmMissingImport]    Script Date: 2025/10/27 下午 12:26:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Data_FarmMissingImport](
+        [missingID] [int] IDENTITY(1,1) NOT NULL,
+        [dataSource] [nvarchar](50) NOT NULL,
+        [serialNo] [nvarchar](64) NOT NULL,
+        [farmCode] [nvarchar](50) NOT NULL,
+        [insertDateTime] [datetime] NOT NULL CONSTRAINT [DF_Data_FarmMissingImport_insertDateTime]  DEFAULT (getdate()),
+ CONSTRAINT [PK_Data_FarmMissingImport] PRIMARY KEY CLUSTERED
+(
+        [missingID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 /****** Object:  Table [dbo].[Data_Moa_Farm]    Script Date: 2025/10/27 下午 12:26:40 ******/
 SET ANSI_NULLS ON
 GO
