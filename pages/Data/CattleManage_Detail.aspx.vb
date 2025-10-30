@@ -41,9 +41,11 @@ Public Class CattleManage_Detail
         If list_cattleInsCla.Count > 0 Then
             TextBox_insStatus_ins.Text = If(list_cattleInsCla(0).isInsurance, "已投保", "未投保")
             TextBox_insStatus_claim.Text = IIf(list_cattleInsCla(0).isClaim, "已理賠", "未理賠")
+            Label_insDateRange.Text = list_cattleInsCla(0).insDate_beg.ToString("yyyy/MM/dd")
         Else
             TextBox_insStatus_ins.Text = "--"
             TextBox_insStatus_claim.Text = "--"
+            Label_insDateRange.Text = "--"
         End If
     End Sub
 

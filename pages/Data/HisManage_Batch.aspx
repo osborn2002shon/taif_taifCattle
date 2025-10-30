@@ -40,7 +40,7 @@
                 <ul class="mb-0">
                     <li class="mb-2"><strong>牛籍編號 <span class="badge bg-danger ms-1">必填</span></strong>：需為系統既有牛籍，若找不到則會顯示「找不到牛籍編號」。</li>
                     <li class="mb-2"><strong>日期 <span class="badge bg-danger ms-1">必填</span></strong>：須為正確日期格式且不可晚於今日，否則會顯示「日期錯誤」。</li>
-                    <li class="mb-2"><strong>類型 <span class="badge bg-danger ms-1">必填</span></strong>：請輸入旅程類型（出生、轉入、勸售等），需為系統中設定且隸屬「旅程」群組的類型，否則會顯示「類型錯誤」。</li>
+                    <li class="mb-2"><strong>類型 <span class="badge bg-danger ms-1">必填</span></strong>：請輸入旅程類型（出生、停留、勸售等），需為系統中設定且隸屬「旅程」群組的類型，否則會顯示「類型錯誤」。</li>
                     <li class="mb-2"><strong>畜牧場證號 <span class="badge bg-danger ms-1">必填</span></strong>：需為既有牧場證號，若不存在則會顯示「畜牧場錯誤」。</li>
                     <li><strong>旅程備註 <span class="badge bg-secondary ms-1">選填</span></strong>：可留空，未填寫時系統會以空值儲存。</li>
                 </ul>

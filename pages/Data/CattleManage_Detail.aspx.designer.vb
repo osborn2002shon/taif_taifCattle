@@ -221,6 +221,15 @@ Partial Public Class CattleManage_Detail
     Protected WithEvents TextBox_insStatus_ins As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Label_insDateRange 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Label_insDateRange As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''TextBox_insStatus_claim 控制項。
     '''</summary>
     '''<remarks>

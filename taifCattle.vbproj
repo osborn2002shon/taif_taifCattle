@@ -168,6 +168,7 @@
     <Content Include="CPW.aspx" />
     <Content Include="FPW.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="My Project\PublishProfiles\FolderProfile.pubxml.user" />
     <Content Include="pages\Analysis\StaticsCattle.aspx" />
     <Content Include="pages\Analysis\StaticsCityCattle.aspx" />
     <Content Include="pages\Analysis\StaticsFarm.aspx" />
@@ -415,6 +416,7 @@
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
+    <None Include="My Project\PublishProfiles\FolderProfile.pubxml" />
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>My</CustomToolNamespace>

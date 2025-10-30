@@ -50,7 +50,7 @@ Public Class HisEndManage_Batch
             Return
         End If
 
-        Dim uploadFolder As String = Server.MapPath("~/App_Data/Uploads")
+        Dim uploadFolder As String = Server.MapPath("~/_doc/temp")
         If Not Directory.Exists(uploadFolder) Then
             Directory.CreateDirectory(uploadFolder)
         End If

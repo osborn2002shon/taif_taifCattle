@@ -25,6 +25,7 @@ Public Class CattleManage
             taifCattle_cattle.Bind_DropDownList_cattleGroup(DropDownList_groupName, True)
             taifCattle_cattle.Bind_DropDownList_cattleType(DropDownList_typeName, True, DropDownList_groupName.SelectedValue)
             taifCattle_cattle.Bind_DropDownList_cattleStatus(DropDownList_cattleStatus, True)
+            'DropDownList_cattleStatus.SelectedValue = "正常" '全撈資料量會很大，以正常牛優先撈 > 查詢會忘記這個設定、反而找不到牛
             Bind_GridView()
         End If
     End Sub

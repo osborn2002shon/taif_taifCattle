@@ -127,18 +127,17 @@
                             <div class="row">
                                 <div class="col-12">
                                     <label>投保狀態</label>
-                                    <div>
-                                        <asp:TextBox ID="TextBox_insStatus_ins" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
-                                    </div>
+                                    <asp:TextBox ID="TextBox_insStatus_ins" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                    <span class="info">
+                                        最後投保日期：<asp:Label ID="Label_insDateRange" runat="server"></asp:Label>
+                                    </span>
                                 </div>
                                 <div class="col-12 mt-3">
                                     <label>理賠狀態</label>
-                                    <div>
-                                        <asp:TextBox ID="TextBox_insStatus_claim" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
-                                    </div>
+                                    <asp:TextBox ID="TextBox_insStatus_claim" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                 </div>
                             </div>
-                            <span class="info">保險狀態由家畜保險系統提供</span>
+                            <div class="info text-center mt-3">保險資料由家畜保險系統提供</div>
                         </div>
                         <div class="card-footer"></div>
                     </div>
@@ -223,13 +222,14 @@
                             <asp:TemplateField HeaderText="資料來源" ItemStyle-Width="130px">
                                 <ItemTemplate>
                                     <%# Eval("insertType") %>
+                                    <asp:Label ID="Label_memo" runat="server" Visible='<%# If(Eval("memo") = "", False, True) %>' ToolTip='<%# Eval("memo") %>'><i class="fa-solid fa-comment-dots"></i></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="備註">
+                            <%--<asp:TemplateField HeaderText="備註">
                                 <ItemTemplate>
                                     <%# Eval("memo") %>
                                 </ItemTemplate>
-                            </asp:TemplateField>
+                            </asp:TemplateField>--%>
                             <asp:TemplateField HeaderText="操作" ItemStyle-Width="120px">
                                 <ItemTemplate>
                                         <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-danger"
@@ -320,13 +320,14 @@
                             <asp:TemplateField HeaderText="資料來源" ItemStyle-Width="130px">
                                 <ItemTemplate>
                                     <%# Eval("insertType") %>
+                                    <asp:Label ID="Label_memo" runat="server" Visible='<%# If(Eval("memo") = "", False, True) %>' ToolTip='<%# Eval("memo") %>'><i class="fa-solid fa-comment-dots"></i></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="備註">
+                            <%--<asp:TemplateField HeaderText="備註">
                                 <ItemTemplate>
                                     <%# Eval("memo") %>
                                 </ItemTemplate>
-                            </asp:TemplateField>
+                            </asp:TemplateField>--%>
                             <asp:TemplateField HeaderText="操作" ItemStyle-Width="120px">
                                 <ItemTemplate>
                                         <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-danger"

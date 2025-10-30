@@ -1,4 +1,4 @@
-﻿USE [taif_taifCattle]
+USE [taif_taifCattle]
 GO
 /****** Object:  UserDefinedFunction [dbo].[makeSecret]    Script Date: 2025/10/27 下午 12:26:39 ******/
 SET ANSI_NULLS ON
