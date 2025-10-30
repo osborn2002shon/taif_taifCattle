@@ -1,4 +1,7 @@
-﻿Imports System.Data
+﻿﻿Imports System.Data
+Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Text
 
 Namespace taifCattle
     Public Class Farm
@@ -300,6 +303,141 @@ Namespace taifCattle
             End Using
 
         End Sub
+
+        Public Structure stru_missingFarmRecord
+            Property missingID As Integer
+            Property dataSource As String
+            Property serialNo As String
+            Property farmCode As String
+            Property insertDateTime As DateTime
+        End Structure
+
+        Public Function SaveMissingFarmCodes(dataSource As String, farmCodes As IEnumerable(Of String)) As String
+            If farmCodes Is Nothing Then
+                Return String.Empty
+            End If
+
+            Dim normalizedDataSource As String = If(dataSource, String.Empty).Trim()
+            If String.IsNullOrEmpty(normalizedDataSource) Then
+                normalizedDataSource = "Unknown"
+            End If
+
+            Dim distinctCodes As List(Of String) = farmCodes
+                .Where(Function(code) Not String.IsNullOrWhiteSpace(code))
+                .Select(Function(code) code.Trim())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList()
+
+            If distinctCodes.Count = 0 Then
+                Return String.Empty
+            End If
+
+            Dim serialSeed As String = $"{DateTime.Now:yyyyMMddHHmmssfff}{Guid.NewGuid():N}"
+            Dim serial As String = serialSeed.Substring(0, Math.Min(32, serialSeed.Length))
+
+            Dim sql As String = "INSERT INTO Data_FarmMissingImport (dataSource, serialNo, farmCode, insertDateTime) VALUES (@dataSource, @serialNo, @farmCode, GETDATE())"
+
+            Using da As New DataAccess.MS_SQL
+                For Each code As String In distinctCodes
+                    Dim para As SqlClient.SqlParameter() = {
+                        New SqlClient.SqlParameter("@dataSource", normalizedDataSource),
+                        New SqlClient.SqlParameter("@serialNo", serial),
+                        New SqlClient.SqlParameter("@farmCode", code)
+                    }
+                    da.ExecNonQuery(sql, para)
+                Next
+            End Using
+
+            Return serial
+        End Function
+
+        Public Function GetMissingFarmRecords(serialNo As String) As List(Of stru_missingFarmRecord)
+            Dim result As New List(Of stru_missingFarmRecord)
+
+            If String.IsNullOrWhiteSpace(serialNo) Then
+                Return result
+            End If
+
+            Dim sql As String = "SELECT missingID, dataSource, serialNo, farmCode, insertDateTime FROM Data_FarmMissingImport WHERE serialNo = @serialNo ORDER BY missingID"
+
+            Dim para As SqlClient.SqlParameter() = {
+                New SqlClient.SqlParameter("@serialNo", serialNo)
+            }
+
+            Using da As New DataAccess.MS_SQL
+                Dim dt As DataTable = da.GetDataTable(sql, para)
+                For Each row As DataRow In dt.Rows
+                    Dim record As New stru_missingFarmRecord With {
+                        .missingID = Convert.ToInt32(row("missingID")),
+                        .dataSource = taifCattle_base.Convert_DBNullToString(row("dataSource")),
+                        .serialNo = taifCattle_base.Convert_DBNullToString(row("serialNo")),
+                        .farmCode = taifCattle_base.Convert_DBNullToString(row("farmCode")),
+                        .insertDateTime = Convert.ToDateTime(row("insertDateTime"))
+                    }
+                    result.Add(record)
+                Next
+            End Using
+
+            Return result
+        End Function
+
+        Public Function GetExistingFarmCodes(farmCodes As IEnumerable(Of String)) As HashSet(Of String)
+            Dim result As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+            If farmCodes Is Nothing Then
+                Return result
+            End If
+
+            Dim codeList As List(Of String) = farmCodes
+                .Where(Function(code) Not String.IsNullOrWhiteSpace(code))
+                .Select(Function(code) code.Trim())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList()
+
+            If codeList.Count = 0 Then
+                Return result
+            End If
+
+            Dim sqlBuilder As New StringBuilder()
+            sqlBuilder.Append("SELECT farmCode FROM List_Farm WHERE removeDateTime IS NULL AND farmCode IN (")
+
+            Dim para As New List(Of SqlClient.SqlParameter)
+            For i As Integer = 0 To codeList.Count - 1
+                Dim paramName As String = $"@farmCode{i}"
+                If i > 0 Then
+                    sqlBuilder.Append(",")
+                End If
+                sqlBuilder.Append(paramName)
+                para.Add(New SqlClient.SqlParameter(paramName, codeList(i)))
+            Next
+
+            sqlBuilder.Append(")")
+
+            Using da As New DataAccess.MS_SQL
+                Dim dt As DataTable = da.GetDataTable(sqlBuilder.ToString(), para.ToArray())
+                For Each row As DataRow In dt.Rows
+                    Dim code As String = taifCattle_base.Convert_DBNullToString(row("farmCode"))
+                    If Not String.IsNullOrEmpty(code) Then
+                        result.Add(code)
+                    End If
+                Next
+            End Using
+
+            Return result
+        End Function
+
+        Public Function GetInsertTypeByDataSource(dataSource As String) As taifCattle.Base.enum_InsertType
+            Select Case dataSource
+                Case "CattleManage_Batch"
+                    Return taifCattle.Base.enum_InsertType.牛籍批次建檔
+                Case "HisManage_Batch"
+                    Return taifCattle.Base.enum_InsertType.旅程批次建檔
+                Case "HisEndManage_Batch"
+                    Return taifCattle.Base.enum_InsertType.除籍批次建檔
+                Case Else
+                    Return taifCattle.Base.enum_InsertType.人工網頁建檔
+            End Select
+        End Function
 
     End Class
 End Namespace

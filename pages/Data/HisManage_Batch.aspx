@@ -28,10 +28,13 @@
                         <i class="fa-solid fa-download"></i> 下載範本
                     </asp:HyperLink>
                 </div>
-                <div class="col-md-3 text-end">
+                <div class="col-md-3 text-end d-flex justify-content-end gap-2">
                     <asp:LinkButton ID="LinkButton_downloadFailed" runat="server" CssClass="btn btn-outline-danger" Visible="false">
                         <i class="fa-solid fa-file-excel"></i> 下載匯入失敗資料
                     </asp:LinkButton>
+                    <asp:HyperLink ID="HyperLink_missingFarmBatch" runat="server" CssClass="btn btn-warning" Visible="false">
+                        <i class="fa-solid fa-tractor"></i> 牧場批次新增
+                    </asp:HyperLink>
                 </div>
             </div>
             <asp:Label ID="Label_message" runat="server" CssClass="text-danger fw-bold d-block mt-3"></asp:Label>

@@ -1,4 +1,5 @@
-﻿Imports System.Data
+﻿﻿Imports System.Collections.Generic
+Imports System.Data
 Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Web
@@ -11,6 +12,7 @@ Public Class CattleManage_Batch
 
     Private ReadOnly taifReport As New taifCattle.Report()
     Private ReadOnly taifCattle_cattle As New taifCattle.Cattle()
+    Private ReadOnly taifCattle_farm As New taifCattle.Farm()
 
     Private Property SuccessTable As DataTable
         Get
@@ -27,6 +29,15 @@ Public Class CattleManage_Batch
         End Get
         Set(value As DataTable)
             ViewState("FailureTable") = value
+        End Set
+    End Property
+
+    Private Property MissingFarmSerial As String
+        Get
+            Return Convert.ToString(ViewState("MissingFarmSerial"))
+        End Get
+        Set(value As String)
+            ViewState("MissingFarmSerial") = value
         End Set
     End Property
 
@@ -119,6 +130,7 @@ Public Class CattleManage_Batch
         Dim cattleTypeLookup As Dictionary(Of String, Integer) = GetCattleTypeLookup()
         Dim historyTypeLookup As Dictionary(Of String, Integer) = GetHistoryTypeLookup()
         Dim farmLookup As Dictionary(Of String, Integer) = GetFarmLookup()
+        Dim missingFarmCodes As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
 
         Dim userInfo As taifCattle.Base.stru_LoginUserInfo = Session("userInfo")
         Dim insertUserId As Integer = userInfo.accountID
@@ -202,10 +214,19 @@ Public Class CattleManage_Batch
                     End If
                 End If
 
-                If String.IsNullOrEmpty(farmCode) OrElse Not farmLookup.ContainsKey(farmCode) Then
+                Dim shouldRecordMissingFarm As Boolean = False
+
+                If String.IsNullOrEmpty(farmCode) Then
                     reasons.Add("畜牧場錯誤")
+                ElseIf Not farmLookup.ContainsKey(farmCode) Then
+                    reasons.Add("畜牧場錯誤")
+                    shouldRecordMissingFarm = True
                 Else
                     farmId = farmLookup(farmCode)
+                End If
+
+                If shouldRecordMissingFarm Then
+                    missingFarmCodes.Add(farmCode)
                 End If
             End If
 
@@ -273,6 +294,20 @@ Public Class CattleManage_Batch
             End Try
         Next
 
+        If missingFarmCodes.Count > 0 Then
+            Try
+                Dim serial As String = taifCattle_farm.SaveMissingFarmCodes("CattleManage_Batch", missingFarmCodes)
+                If String.IsNullOrEmpty(serial) Then
+                    MissingFarmSerial = Nothing
+                Else
+                    MissingFarmSerial = serial
+                End If
+            Catch ex As Exception
+                MissingFarmSerial = Nothing
+                System.Diagnostics.Trace.WriteLine($"[CattleManage_Batch] SaveMissingFarmCodes failed: {ex}")
+            End Try
+        End If
+
         SuccessTable = successTable
         FailureTable = failedTable
 
@@ -294,6 +329,8 @@ Public Class CattleManage_Batch
 
         Label_message.CssClass = If(failedTable.Rows.Count > 0, "text-danger fw-bold d-block mt-3", "text-success fw-bold d-block mt-3")
         Label_message.Text = $"匯入完成，成功 {successTable.Rows.Count} 筆，失敗 {failedTable.Rows.Count} 筆。"
+
+        UpdateMissingFarmBatchLink()
     End Sub
 
     Private Sub ResetResultView()
@@ -310,6 +347,19 @@ Public Class CattleManage_Batch
         FailureTable = Nothing
         Label_message.Text = ""
         Label_message.CssClass = "text-danger fw-bold d-block mt-3"
+        MissingFarmSerial = Nothing
+        UpdateMissingFarmBatchLink()
+    End Sub
+
+    Private Sub UpdateMissingFarmBatchLink()
+        Dim serial As String = MissingFarmSerial
+        If String.IsNullOrEmpty(serial) Then
+            HyperLink_missingFarmBatch.Visible = False
+            HyperLink_missingFarmBatch.NavigateUrl = String.Empty
+        Else
+            HyperLink_missingFarmBatch.Visible = True
+            HyperLink_missingFarmBatch.NavigateUrl = $"~/pages/Data/FarmManage_Batch.aspx?serial={Server.UrlEncode(serial)}"
+        End If
     End Sub
 
     Private Function CreateImportSchema() As DataTable
