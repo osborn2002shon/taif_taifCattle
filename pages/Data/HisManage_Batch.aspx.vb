@@ -93,13 +93,15 @@ Public Class HisManage_Batch
             Return
         End If
 
-        Dim columns As IList(Of Excel.ColumnDefinition) = New List(Of Excel.ColumnDefinition) From {
-            New Excel.ColumnDefinition With {.Header = "牛籍編號", .FieldName = "牛籍編號"},
-            New Excel.ColumnDefinition With {.Header = "日期", .FieldName = "日期"},
-            New Excel.ColumnDefinition With {.Header = "類型", .FieldName = "類型"},
-            New Excel.ColumnDefinition With {.Header = "畜牧場證號", .FieldName = "畜牧場證號"},
-            New Excel.ColumnDefinition With {.Header = "旅程備註", .FieldName = "旅程備註"},
-            New Excel.ColumnDefinition With {.Header = "失敗原因", .FieldName = "失敗原因"}
+        Dim Excel As New taifCattle.ExcelExporter()
+
+        Dim columns As IList(Of taifCattle.ExcelExporter.ColumnDefinition) = New List(Of taifCattle.ExcelExporter.ColumnDefinition) From {
+            New taifCattle.ExcelExporter.ColumnDefinition With {.Header = "牛籍編號", .FieldName = "牛籍編號"},
+            New taifCattle.ExcelExporter.ColumnDefinition With {.Header = "日期", .FieldName = "日期"},
+            New taifCattle.ExcelExporter.ColumnDefinition With {.Header = "類型", .FieldName = "類型"},
+            New taifCattle.ExcelExporter.ColumnDefinition With {.Header = "畜牧場證號", .FieldName = "畜牧場證號"},
+            New taifCattle.ExcelExporter.ColumnDefinition With {.Header = "旅程備註", .FieldName = "旅程備註"},
+            New taifCattle.ExcelExporter.ColumnDefinition With {.Header = "失敗原因", .FieldName = "失敗原因"}
         }
 
         Excel.ExportDataTable(Response, "旅程匯入失敗資料.xlsx", "匯入失敗", dtFailed, columns)

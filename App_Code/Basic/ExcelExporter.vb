@@ -1,12 +1,12 @@
-Imports System.Data
+﻿Imports System.Data
 Imports System.IO
 Imports System.Web
 Imports NPOI.SS.UserModel
 Imports NPOI.XSSF.UserModel
 
 Namespace taifCattle
-    Public NotInheritable Class ExcelExporter
-        Private Sub New()
+    Public Class ExcelExporter
+        Public Sub New()
         End Sub
 
         Public Class ColumnDefinition
@@ -59,16 +59,11 @@ Namespace taifCattle
             Using ms As New MemoryStream()
                 workbook.Write(ms)
                 response.Clear()
-                response.Buffer = True
                 response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-
-                Dim encodedFileName As String = HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8)
-                Dim disposition As String = $"attachment; filename={encodedFileName}; filename*=UTF-8''{Uri.EscapeDataString(fileName)}"
-                response.AddHeader("Content-Disposition", disposition)
-
+                response.AddHeader("Content-Disposition", $"attachment; filename={HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8)}")
                 response.BinaryWrite(ms.ToArray())
-                response.Flush()
-                HttpContext.Current.ApplicationInstance.CompleteRequest()
+                response.End()
+
             End Using
         End Sub
     End Class
