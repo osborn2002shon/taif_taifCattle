@@ -450,6 +450,7 @@
     <Content Include="_mp\mp_default.master" />
     <Content Include="_doc\batch\cattleManage_Batch.xlsx" />
     <Content Include="_doc\batch\hisManage_Batch.xlsx" />
+    <Content Include="_doc\batch\hisEndManage_Batch.xlsx" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
