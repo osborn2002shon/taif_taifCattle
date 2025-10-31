@@ -234,9 +234,23 @@ Public Class Permission
         Using da As New DataAccess.MS_SQL
             da.StartTransaction()
             Try
-                da.ExecNonQuery("DELETE FROM System_MenuAu")
+                Dim preservedKeys As New HashSet(Of String)(StringComparer.Ordinal)
 
-                Dim insertedKeys As New HashSet(Of String)(StringComparer.Ordinal)
+                Dim sqlHiddenMenuAu As String =
+                    "SELECT mau.auTypeID, mau.menuID FROM System_MenuAu AS mau " &
+                    "INNER JOIN System_Menu AS m ON m.menuID = mau.menuID " &
+                    "WHERE ISNULL(m.isShow, 0) = 0"
+
+                Dim dtHiddenMenuAu As DataTable = da.GetDataTable(sqlHiddenMenuAu)
+                For Each row As DataRow In dtHiddenMenuAu.Rows
+                    Dim menuID = row.Field(Of Integer)("menuID")
+                    Dim auTypeID = row.Field(Of Integer)("auTypeID")
+                    preservedKeys.Add($"{menuID}_{auTypeID}")
+                Next
+
+                da.ExecNonQuery("DELETE FROM System_MenuAu WHERE menuID IN (SELECT menuID FROM System_Menu WHERE ISNULL(isShow, 0) = 1)")
+
+                Dim insertedKeys As New HashSet(Of String)(preservedKeys, StringComparer.Ordinal)
 
                 For Each selection In selections
                     If Not selection.IsEnabled Then
