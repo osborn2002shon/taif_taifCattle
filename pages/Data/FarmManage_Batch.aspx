@@ -1,5 +1,14 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="FarmManage_Batch.aspx.vb" Inherits="taifCattle.FarmManage_Batch" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="FarmManage_Batch.aspx.vb" Inherits="taifCattle.FarmManage_Batch" MaintainScrollPositionOnPostBack="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
+    <style>
+        .farm-details {
+            transition: height .2s ease;
+        }
+
+        .farm-details.farm-details-collapsed {
+            display: none;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
     <i class="fa-solid fa-database"></i> 牧場批次新增
@@ -30,11 +39,11 @@
                 <ItemTemplate>
                     <div class="card mb-3">
                         <div class="card-header d-flex align-items-center gap-2">
-                            <asp:CheckBox ID="CheckBox_select" runat="server" CssClass="form-check-input" />
+                            <asp:CheckBox ID="CheckBox_select" runat="server" CssClass="form-check-input farm-card-select" />
                             <span class="fw-bold">畜牧場證號：<%# Eval("farmCode") %></span>
                             <asp:Label ID="Label_existing" runat="server" CssClass="badge bg-success ms-auto" Text="已新增" Visible="false"></asp:Label>
                         </div>
-                        <asp:Panel ID="Panel_inputs" runat="server" CssClass="card-body">
+                        <asp:Panel ID="Panel_inputs" runat="server" CssClass="card-body farm-details">
                             <asp:HiddenField ID="HiddenField_farmCode" runat="server" Value='<%# Eval("farmCode") %>' />
                             <asp:HiddenField ID="HiddenField_dataSource" runat="server" Value='<%# Eval("dataSource") %>' />
                             <div class="row g-3">
@@ -88,4 +97,50 @@
             </asp:Panel>
         </div>
     </div>
+
+    <script type="text/javascript">
+        (function () {
+            function updateCardDetails(checkbox) {
+                if (!checkbox) {
+                    return;
+                }
+
+                var card = checkbox.closest('.card');
+                if (!card) {
+                    return;
+                }
+
+                var details = card.querySelector('.farm-details');
+                if (!details) {
+                    return;
+                }
+
+                if (checkbox.checked) {
+                    details.classList.remove('farm-details-collapsed');
+                } else {
+                    details.classList.add('farm-details-collapsed');
+                }
+            }
+
+            function onCheckboxChange(event) {
+                updateCardDetails(event.target);
+            }
+
+            function initFarmCardToggles() {
+                var checkboxes = document.querySelectorAll('.farm-card-select');
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.removeEventListener('change', onCheckboxChange);
+                    checkbox.addEventListener('change', onCheckboxChange);
+                    updateCardDetails(checkbox);
+                });
+            }
+
+            if (window.Sys && Sys.Application && typeof Sys.Application.add_load === 'function') {
+                Sys.Application.add_load(initFarmCardToggles);
+            } else {
+                document.addEventListener('DOMContentLoaded', initFarmCardToggles);
+                window.addEventListener('load', initFarmCardToggles);
+            }
+        })();
+    </script>
 </asp:Content>
