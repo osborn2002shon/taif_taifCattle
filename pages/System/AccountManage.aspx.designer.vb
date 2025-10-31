@@ -59,6 +59,15 @@ Partial Public Class AccountManage
     Protected WithEvents LinkButton_search As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''LinkButton_permission 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents LinkButton_permission As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''LinkButton_addAccount 控制項。
     '''</summary>
     '''<remarks>
@@ -75,15 +84,6 @@ Partial Public Class AccountManage
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents LinkButton_export As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''LinkButton_permission 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents LinkButton_permission As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Label_recordCount 控制項。

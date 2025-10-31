@@ -243,6 +243,7 @@ Namespace taifCattle
                 result.cattleFormat = cattleInfo.typeName
                 result.cattleStatus = cattleInfo.cattleStatus
 
+
                 Dim list_his As New List(Of stru_cattleHistory)
                 For Each item In cattleHisInfo
                     Dim cattleHis As New stru_cattleHistory

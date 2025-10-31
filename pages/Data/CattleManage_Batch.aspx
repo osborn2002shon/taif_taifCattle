@@ -13,27 +13,19 @@
         </div>
         <div class="queryBox-body">
             <div class="row g-3 align-items-end">
-                <div class="col-md-4">
+                <div class="col-4">
                     <label class="form-label">選擇匯入檔案</label>
                     <asp:FileUpload ID="FileUpload_excel" runat="server" CssClass="form-control" />
                 </div>
-                <div class="col-md-2">
+                <div class="col-2">
                     <asp:LinkButton ID="LinkButton_import" runat="server" CssClass="btn btn-success w-100">
                         <i class="fa-solid fa-upload"></i> 匯入
                     </asp:LinkButton>
                 </div>
-                <div class="col-md-3">
+                <div class="col-6">
                     <label class="form-label">範本下載</label>
                     <asp:HyperLink ID="HyperLink_template" runat="server" CssClass="btn btn-outline-primary w-100" NavigateUrl="~/_doc/batch/cattleManage_Batch.xlsx" Target="_blank">
                         <i class="fa-solid fa-download"></i> 下載範本
-                    </asp:HyperLink>
-                </div>
-                <div class="col-md-3 text-end d-flex justify-content-end gap-2">
-                    <asp:LinkButton ID="LinkButton_downloadFailed" runat="server" CssClass="btn btn-outline-danger" Visible="false">
-                        <i class="fa-solid fa-file-excel"></i> 下載匯入失敗資料
-                    </asp:LinkButton>
-                    <asp:HyperLink ID="HyperLink_missingFarmBatch" runat="server" CssClass="btn btn-warning" Visible="false">
-                        <i class="fa-solid fa-tractor"></i> 牧場批次新增
                     </asp:HyperLink>
                 </div>
             </div>
@@ -129,6 +121,19 @@
             </div>
         </div>
     </asp:Panel>
+
+    <div class="row">
+         
+        <div class="col text-end d-flex justify-content-end">
+            <asp:LinkButton ID="LinkButton_downloadFailed" runat="server" CssClass="btn btn-outline-danger" Visible="false">
+                <i class="fa-solid fa-file-excel"></i> 下載匯入失敗資料
+            </asp:LinkButton>
+            <asp:HyperLink ID="HyperLink_missingFarmBatch" runat="server" CssClass="btn btn-warning" Visible="false">
+                <i class="fa-solid fa-tractor"></i> 牧場批次新增
+            </asp:HyperLink>
+        </div>
+    </div>
+
     <script type="text/javascript">
         (function () {
             function initTooltips() {

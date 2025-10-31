@@ -41,24 +41,6 @@ Partial Public Class HisManage_Batch
     Protected WithEvents HyperLink_template As Global.System.Web.UI.WebControls.HyperLink
 
     '''<summary>
-    '''LinkButton_downloadFailed 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents LinkButton_downloadFailed As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''HyperLink_missingFarmBatch 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents HyperLink_missingFarmBatch As Global.System.Web.UI.WebControls.HyperLink
-
-    '''<summary>
     '''Label_message 控制項。
     '''</summary>
     '''<remarks>
@@ -120,4 +102,22 @@ Partial Public Class HisManage_Batch
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents GridView_failed As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''LinkButton_downloadFailed 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents LinkButton_downloadFailed As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''HyperLink_missingFarmBatch 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents HyperLink_missingFarmBatch As Global.System.Web.UI.WebControls.HyperLink
 End Class

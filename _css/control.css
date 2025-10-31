@@ -115,3 +115,9 @@
     .formCard .card-header.red {
         background: linear-gradient(135deg, #9e3d3f, #b7282e);
     }
+
+/*文字樣式*/
+.text_info {
+    font-size: 0.85rem;
+    color: gray;
+}

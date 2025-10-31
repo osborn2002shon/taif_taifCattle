@@ -1,4 +1,4 @@
-﻿﻿Imports System.Data
+﻿Imports System.Data
 Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Text
@@ -322,11 +322,8 @@ Namespace taifCattle
                 normalizedDataSource = "Unknown"
             End If
 
-            Dim distinctCodes As List(Of String) = farmCodes
-                .Where(Function(code) Not String.IsNullOrWhiteSpace(code))
-                .Select(Function(code) code.Trim())
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToList()
+            Dim distinctCodes As List(Of String) =
+                farmCodes.Where(Function(code) Not String.IsNullOrWhiteSpace(code)).Select(Function(code) code.Trim()).Distinct(StringComparer.OrdinalIgnoreCase).ToList()
 
             If distinctCodes.Count = 0 Then
                 Return String.Empty
@@ -388,11 +385,8 @@ Namespace taifCattle
                 Return result
             End If
 
-            Dim codeList As List(Of String) = farmCodes
-                .Where(Function(code) Not String.IsNullOrWhiteSpace(code))
-                .Select(Function(code) code.Trim())
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToList()
+            Dim codeList As List(Of String) =
+                farmCodes.Where(Function(code) Not String.IsNullOrWhiteSpace(code)).Select(Function(code) code.Trim()).Distinct(StringComparer.OrdinalIgnoreCase).ToList()
 
             If codeList.Count = 0 Then
                 Return result

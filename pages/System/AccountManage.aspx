@@ -79,7 +79,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
-    <i class="fa-solid fa-users"></i>系統帳號管理
+    <i class="fa-solid fa-users"></i> 系統帳號管理
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_title" runat="server">
     系統帳號管理
@@ -125,15 +125,14 @@
         </div>
         <div class="row m-0 mt-3 mb-3 align-items-center">
             <div class="col p-0">
-
+                <asp:LinkButton ID="LinkButton_permission" PostBackUrl="~/pages/System/Permission.aspx" runat="server" CssClass="btn btn-primary" CausesValidation="False">
+                    <span><i class="fa-solid fa-wrench me-1"></i>權限設定</span>
+                </asp:LinkButton>
                 <asp:LinkButton ID="LinkButton_addAccount" runat="server" CssClass="btn btn-success" CausesValidation="False">
                     <span><i class="fas fa-user-plus me-1"></i>新增帳號</span>
                 </asp:LinkButton>
                 <asp:LinkButton ID="LinkButton_export" runat="server" CssClass="btn btn-outline-success" CausesValidation="False">
                     <span><i class="fas fa-download me-1"></i>匯出Excel</span>
-                </asp:LinkButton>
-                <asp:LinkButton ID="LinkButton_permission" PostBackUrl="~/pages/System/Permission.aspx" runat="server" CssClass="btn btn-outline-success" CausesValidation="False">
-                    <span><i class="fas fa-download me-1"></i>權限設定</span>
                 </asp:LinkButton>
             </div>
             <div class="col p-0 text-end">

@@ -8,7 +8,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
-     <i class="fa-solid fa-magnifying-glass"></i>指定牧場牛籍查詢
+     <i class="fa-solid fa-magnifying-glass"></i> 指定牧場牛籍查詢
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_title" runat="server">
 </asp:Content>

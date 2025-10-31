@@ -238,7 +238,8 @@ Namespace taifCattle
         ''' <param name="cattleID"></param>
         ''' <returns></returns>
         Function Get_CattleInfo(cattleID As Integer) As stru_cattleInfo_view
-            Dim sqlString As String = <xml sql="select * from View_CattleList where cattleID = @cattleID"></xml>.FirstAttribute.Value
+            Dim sqlString As String =
+                <xml sql="select * from View_CattleList where cattleID = @cattleID"></xml>.FirstAttribute.Value
             Dim para As New List(Of Data.SqlClient.SqlParameter)
             para.Add(New Data.SqlClient.SqlParameter("cattleID", cattleID))
             Dim dt As New Data.DataTable
@@ -287,7 +288,7 @@ Namespace taifCattle
                 <xml sql="
                     select * from View_CattleHistory
                     where cattleID = @cattleID and groupName like @groupName
-                    order by dataDate, insertDateTime
+                    order by dataDate, insertDateTime, orderBy
                 "></xml>.FirstAttribute.Value
             Dim para As New List(Of Data.SqlClient.SqlParameter)
             para.Add(New Data.SqlClient.SqlParameter("cattleID", cattleID))

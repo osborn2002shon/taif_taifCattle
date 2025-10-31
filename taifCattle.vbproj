@@ -187,7 +187,9 @@
     <Content Include="pages\System\MyAccount.aspx" />
     <Content Include="pages\System\Permission.aspx" />
     <Content Include="pages\System\UserLog.aspx" />
+    <Content Include="pages\System\WebServiceLog.aspx" />
     <Content Include="Web.config" />
+    <Compile Include="App_Code\Farm.vb" />
     <Compile Include="App_Code\WebService.vb" />
     <Content Include="_css\bootstrap-icons.css" />
     <Content Include="_css\bootstrap.css" />
@@ -212,7 +214,6 @@
     <Compile Include="App_Code\Basic\Control.vb" />
     <Compile Include="App_Code\Basic\Mail.vb" />
     <Compile Include="App_Code\Cattle_Control.vb" />
-    <Compile Include="App_Code\Farm.vb" />
     <Compile Include="CPW.aspx.designer.vb">
       <DependentUpon>CPW.aspx</DependentUpon>
     </Compile>
@@ -380,6 +381,13 @@
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Content Include="WebService\CattleHistory.aspx" />
+    <Compile Include="pages\System\WebServiceLog.aspx.designer.vb">
+      <DependentUpon>WebServiceLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\System\WebServiceLog.aspx.vb">
+      <DependentUpon>WebServiceLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="WebService\CattleHistory.aspx.designer.vb">
       <DependentUpon>CattleHistory.aspx</DependentUpon>
     </Compile>

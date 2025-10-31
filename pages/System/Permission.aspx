@@ -2,15 +2,14 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
-    <i class="fa-solid fa-users-gear"></i>系統權限管理
+    <i class="fa-solid fa-users"></i> 系統帳號管理：權限設定
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_title" runat="server">
-    系統權限管理
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder_content" runat="server">
     <div class="card shadow-sm">
         <div class="card-header bg-light">
-            <h5 class="mb-0">系統權限設定</h5>
+            <h5 class="mb-0">權限設定</h5>
         </div>
         <div class="card-body">
             <div class="mb-3">

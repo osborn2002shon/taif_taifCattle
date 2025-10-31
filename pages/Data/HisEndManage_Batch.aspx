@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
-    <i class="fa-solid fa-skull"></i> 除籍批次新增
+    <i class="fa-solid fa-skull"></i> 除籍批次設定
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_title" runat="server">
 </asp:Content>
@@ -22,30 +22,23 @@
                         <i class="fa-solid fa-upload"></i> 匯入
                     </asp:LinkButton>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label class="form-label">範本下載</label>
                     <asp:HyperLink ID="HyperLink_template" runat="server" CssClass="btn btn-outline-primary w-100" NavigateUrl="~/_doc/batch/hisEndManage_Batch.xlsx" Target="_blank">
                         <i class="fa-solid fa-download"></i> 下載範本
                     </asp:HyperLink>
                 </div>
-                <div class="col-md-3 text-end d-flex justify-content-end gap-2">
-                    <asp:LinkButton ID="LinkButton_downloadFailed" runat="server" CssClass="btn btn-outline-danger" Visible="false">
-                        <i class="fa-solid fa-file-excel"></i> 下載匯入失敗資料
-                    </asp:LinkButton>
-                    <asp:HyperLink ID="HyperLink_missingFarmBatch" runat="server" CssClass="btn btn-warning" Visible="false">
-                        <i class="fa-solid fa-tractor"></i> 牧場批次新增
-                    </asp:HyperLink>
-                </div>
+                
             </div>
             <asp:Label ID="Label_message" runat="server" CssClass="text-danger fw-bold d-block mt-3"></asp:Label>
             <div class="alert alert-info mt-4" role="alert">
                 <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入欄位填寫提示</h5>
                 <ul class="mb-0">
-                    <li class="mb-2"><strong>牛籍編號 <span class="badge bg-danger ms-1">必填</span></strong>：若系統無對應牛籍，會以預設值自動建立牛籍資料。</li>
-                    <li class="mb-2"><strong>除籍日期 <span class="badge bg-danger ms-1">必填</span></strong>：須為正確日期格式且不可晚於今日，否則會顯示「日期錯誤」。</li>
-                    <li class="mb-2"><strong>類型（其他／未使用） <span class="badge bg-danger ms-1">必填</span></strong>：僅接受「其他」或「未使用」，若不符合則會顯示「類型錯誤」。</li>
-                    <li class="mb-2"><strong>畜牧場證號（牧場登記證、飼養登記證、身分證） <span class="badge bg-danger ms-1">必填</span></strong>：需為既有牧場證號，若不存在則會顯示「畜牧場錯誤」。</li>
-                    <li><strong>除籍備註 <span class="badge bg-secondary ms-1">選填</span></strong>：可留空，未填寫時系統會以空值儲存。</li>
+                    <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>牛籍編號</strong>：若系統無對應牛籍，會以預設值自動建立牛籍資料。</li>
+                    <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>除籍日期</strong>：須為正確日期格式且不可晚於今日，否則會顯示「日期錯誤」。</li>
+                    <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>類型（其他／未使用）</strong>：僅接受「其他」或「未使用」，若不符合則會顯示「類型錯誤」。</li>
+                    <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>畜牧場證號（牧場登記證、飼養登記證、身分證）</strong>：需為既有牧場證號，若不存在則會顯示「畜牧場錯誤」。</li>
+                    <li><strong><span class="badge bg-secondary me-1">選填</span>除籍備註</strong>：可留空，未填寫時系統會以空值儲存。</li>
                 </ul>
                  <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入填寫範例</h5>
                  <div style="height:200px; overflow:hidden;">
@@ -100,4 +93,14 @@
             </div>
         </div>
     </asp:Panel>
+    <div class="row">
+        <div class="col text-end d-flex justify-content-end gap-2">
+        <asp:LinkButton ID="LinkButton_downloadFailed" runat="server" CssClass="btn btn-outline-danger" Visible="false">
+            <i class="fa-solid fa-file-excel"></i> 下載匯入失敗資料
+        </asp:LinkButton>
+        <asp:HyperLink ID="HyperLink_missingFarmBatch" runat="server" CssClass="btn btn-warning" Visible="false">
+            <i class="fa-solid fa-tractor"></i> 牧場批次新增
+        </asp:HyperLink>
+    </div>
+    </div>
 </asp:Content>
