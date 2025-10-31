@@ -112,28 +112,33 @@ Public Class Login
 
                         If userInfo.liMenu IsNot Nothing AndAlso userInfo.liMenu.Count > 0 Then
 
-                            ' 取得第一筆目錄
-                            Dim firstMenuPath As String = userInfo.liMenu(0).menuURL.Trim()
-                            If userInfo.liMenu.Count > 1 Then
-                                firstMenuPath = userInfo.liMenu(1).menuURL.Trim()   '第一筆通常是我的帳號管理，所以如果有第二筆就取第二筆
+                            ' === 篩選出 isShow = 1 的選單 ===
+                            Dim visibleMenus = userInfo.liMenu.Where(Function(m) m.isShow).ToList()
 
+                            If visibleMenus IsNot Nothing AndAlso visibleMenus.Count > 0 Then
+                                ' 取得第一筆 isShow = 1 的目錄
+                                Dim firstMenuPath As String = visibleMenus(0).menuURL.Trim()
+
+                                ' 若是相對路徑 "../"，改成實際網站路徑 "~/pages/"
+                                If firstMenuPath.StartsWith("../") Then
+                                    firstMenuPath = "~/pages/" & firstMenuPath.Replace("../", "")
+                                End If
+
+                                ' 若沒有 ~ 或 / 開頭，補上 ~/pages/
+                                If Not firstMenuPath.StartsWith("~") AndAlso Not firstMenuPath.StartsWith("/") Then
+                                    firstMenuPath = "~/pages/" & firstMenuPath
+                                End If
+
+                                ' 轉換為實際 URL
+                                Dim targetUrl As String = ResolveUrl(firstMenuPath)
+
+                                ' 導向
+                                Response.Redirect(targetUrl)
+                            Else
+                                ' 找不到任何 isShow = 1 的項目
+                                Label_msg.Text = "目前您的帳號尚未設定任何可用功能，<br />如需使用系統，請聯絡系統管理員協助。"
                             End If
 
-                            ' 若是相對路徑 "../"，改成實際網站路徑 "~/pages/"
-                            If firstMenuPath.StartsWith("../") Then
-                                firstMenuPath = "~/pages/" & firstMenuPath.Replace("../", "")
-                            End If
-
-                            ' 若沒有 ~ 或 / 開頭，補上 ~/pages/
-                            If Not firstMenuPath.StartsWith("~") AndAlso Not firstMenuPath.StartsWith("/") Then
-                                firstMenuPath = "~/pages/" & firstMenuPath
-                            End If
-
-                            ' 轉換為實際 URL
-                            Dim targetUrl As String = ResolveUrl(firstMenuPath)
-
-                            ' 導向
-                            Response.Redirect(targetUrl)
                         Else
                             Label_msg.Text = "目前您的帳號尚未設定任何可用功能，<br />如需使用系統，請聯絡系統管理員協助。"
                         End If

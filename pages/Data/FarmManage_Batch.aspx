@@ -39,7 +39,7 @@
                 <ItemTemplate>
                     <div class="card mb-3">
                         <div class="card-header d-flex align-items-center gap-2">
-                            <asp:CheckBox ID="CheckBox_select" runat="server" CssClass="form-check-input farm-card-select" />
+                            <asp:CheckBox ID="CheckBox_select" runat="server"/>
                             <span class="fw-bold">畜牧場證號：<%# Eval("farmCode") %></span>
                             <asp:Label ID="Label_existing" runat="server" CssClass="badge bg-success ms-auto" Text="已新增" Visible="false"></asp:Label>
                         </div>
