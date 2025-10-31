@@ -12,6 +12,9 @@ Public Class FarmManage_Batch
     Private ReadOnly taifCattle_farm As New taifCattle.Farm()
     Private ReadOnly taifCattle_con As New taifCattle.Control()
 
+    Private Const FarmDetailsBaseCssClass As String = "card-body farm-details"
+    Private Const FarmDetailsCollapsedCssSuffix As String = " farm-details-collapsed"
+
     Private Property CurrentSerial As String
         Get
             Return Convert.ToString(ViewState("CurrentSerial"))
@@ -34,6 +37,11 @@ Public Class FarmManage_Batch
             Label_message.CssClass = "text-danger fw-bold d-block mb-3"
             LoadMissingFarmRecords()
         End If
+    End Sub
+
+    Protected Overrides Sub OnPreRender(e As EventArgs)
+        MyBase.OnPreRender(e)
+        UpdateFarmCardDisplayStates()
     End Sub
 
     Private Sub LoadMissingFarmRecords()
@@ -307,4 +315,26 @@ Public Class FarmManage_Batch
     Private Function GetControlValue(Of T As Control)(container As Control, controlId As String) As T
         Return TryCast(container.FindControl(controlId), T)
     End Function
+
+    Private Sub UpdateFarmCardDisplayStates()
+        For Each item As RepeaterItem In Repeater_missingFarms.Items
+            Dim panelInputs As Panel = TryCast(item.FindControl("Panel_inputs"), Panel)
+            If panelInputs Is Nothing Then
+                Continue For
+            End If
+
+            Dim chkSelect As CheckBox = TryCast(item.FindControl("CheckBox_select"), CheckBox)
+            Dim shouldShow As Boolean = True
+            If chkSelect IsNot Nothing AndAlso chkSelect.Visible Then
+                shouldShow = chkSelect.Checked
+            End If
+
+            Dim cssClass As String = FarmDetailsBaseCssClass
+            If Not shouldShow Then
+                cssClass &= FarmDetailsCollapsedCssSuffix
+            End If
+
+            panelInputs.CssClass = cssClass
+        Next
+    End Sub
 End Class
