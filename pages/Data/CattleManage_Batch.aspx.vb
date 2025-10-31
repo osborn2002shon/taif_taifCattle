@@ -4,8 +4,7 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Web
 Imports System.Linq
-Imports NPOI.SS.UserModel
-Imports NPOI.XSSF.UserModel
+Imports Excel = taifCattle.ExcelExporter
 
 Public Class CattleManage_Batch
     Inherits taifCattle.Base
@@ -95,32 +94,19 @@ Public Class CattleManage_Batch
             Return
         End If
 
-        Dim wb As IWorkbook = New XSSFWorkbook()
-        Dim ws As ISheet = wb.CreateSheet("匯入失敗")
+        Dim columns As IList(Of Excel.ColumnDefinition) = New List(Of Excel.ColumnDefinition) From {
+            New Excel.ColumnDefinition With {.Header = "牛籍編號", .FieldName = "牛籍編號"},
+            New Excel.ColumnDefinition With {.Header = "牛籍編號備註", .FieldName = "牛籍編號備註"},
+            New Excel.ColumnDefinition With {.Header = "品項", .FieldName = "品項"},
+            New Excel.ColumnDefinition With {.Header = "出生年度", .FieldName = "出生年度"},
+            New Excel.ColumnDefinition With {.Header = "牛籍備註", .FieldName = "牛籍備註"},
+            New Excel.ColumnDefinition With {.Header = "類型", .FieldName = "類型"},
+            New Excel.ColumnDefinition With {.Header = "日期", .FieldName = "日期"},
+            New Excel.ColumnDefinition With {.Header = "畜牧場證號", .FieldName = "畜牧場證號"},
+            New Excel.ColumnDefinition With {.Header = "失敗原因", .FieldName = "失敗原因"}
+        }
 
-        Dim headers As String() = {"牛籍編號", "牛籍編號備註", "品項", "出生年度", "牛籍備註", "類型", "日期", "畜牧場證號", "失敗原因"}
-        Dim headerRow As IRow = ws.CreateRow(0)
-        For i As Integer = 0 To headers.Length - 1
-            headerRow.CreateCell(i).SetCellValue(headers(i))
-        Next
-
-        For r As Integer = 0 To dtFailed.Rows.Count - 1
-            Dim dataRow As IRow = ws.CreateRow(r + 1)
-            For c As Integer = 0 To headers.Length - 1
-                dataRow.CreateCell(c).SetCellValue(Convert.ToString(dtFailed.Rows(r)(headers(c))))
-            Next
-        Next
-
-        Using ms As New MemoryStream()
-            wb.Write(ms)
-            Response.Clear()
-            Response.Buffer = True
-            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            Response.AddHeader("Content-Disposition", "attachment; filename=匯入失敗資料.xlsx")
-            Response.BinaryWrite(ms.ToArray())
-            Response.Flush()
-            HttpContext.Current.ApplicationInstance.CompleteRequest()
-        End Using
+        Excel.ExportDataTable(Response, "匯入失敗資料.xlsx", "匯入失敗", dtFailed, columns)
     End Sub
 
     Private Sub ProcessImport(excelData As DataTable)
