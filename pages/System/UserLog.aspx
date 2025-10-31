@@ -15,7 +15,7 @@
         <div class="queryBox-body">
         <div class="row">
             <div class="col">
-                <label>操作時間(起)</label>
+                <label>操作日期(起)</label>
                 <input type="date" id="dateBeg" name="dateBeg" class="form-control" value="<%=Property_Query_dateBeg.ToString("yyyy-MM-dd") %>">
             </div>
             <div class="col">

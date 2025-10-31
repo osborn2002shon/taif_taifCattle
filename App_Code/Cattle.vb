@@ -274,6 +274,7 @@ Namespace taifCattle
         ''' <param name="queryType"></param>
         ''' <returns></returns>
         Function Get_CattleHistoryList(cattleID As Integer, queryType As enum_hisType) As List(Of stru_cattleHistory_view)
+            '排序取消使用insertDateTime，因為有可能補資料，直接用狀態的參考排序去排
             Dim groupName As String = ""
             Select Case queryType
                 Case enum_hisType.allHis
@@ -288,7 +289,7 @@ Namespace taifCattle
                 <xml sql="
                     select * from View_CattleHistory
                     where cattleID = @cattleID and groupName like @groupName
-                    order by dataDate, insertDateTime, orderBy
+                    order by dataDate, orderBy
                 "></xml>.FirstAttribute.Value
             Dim para As New List(Of Data.SqlClient.SqlParameter)
             para.Add(New Data.SqlClient.SqlParameter("cattleID", cattleID))

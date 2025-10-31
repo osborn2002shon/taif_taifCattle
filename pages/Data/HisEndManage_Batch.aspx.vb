@@ -230,7 +230,7 @@ Public Class HisEndManage_Batch
                 preHistoryId = InsertHistoryRecord(New taifCattle.Cattle.stru_cattleHistory With {
                     .cattleID = cattleId,
                     .hisTypeID = 2,
-                    .dataDate = dataDateValue.AddDays(-1),
+                    .dataDate = dataDateValue,
                     .farmID = farmId,
                     .plantID = Nothing,
                     .slauID = Nothing,

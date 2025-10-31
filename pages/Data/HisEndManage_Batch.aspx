@@ -31,21 +31,22 @@
                 
             </div>
             <asp:Label ID="Label_message" runat="server" CssClass="text-danger fw-bold d-block mt-3"></asp:Label>
-            <div class="alert alert-info mt-4" role="alert">
-                <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入欄位填寫提示</h5>
-                <ul class="mb-0">
-                    <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>牛籍編號</strong>：若系統無對應牛籍，會以預設值自動建立牛籍資料。</li>
-                    <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>除籍日期</strong>：須為正確日期格式且不可晚於今日，否則會顯示「日期錯誤」。</li>
-                    <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>類型（其他／未使用）</strong>：僅接受「其他」或「未使用」，若不符合則會顯示「類型錯誤」。</li>
-                    <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>畜牧場證號（牧場登記證、飼養登記證、身分證）</strong>：需為既有牧場證號，若不存在則會顯示「畜牧場錯誤」。</li>
-                    <li><strong><span class="badge bg-secondary me-1">選填</span>除籍備註</strong>：可留空，未填寫時系統會以空值儲存。</li>
-                </ul>
-                 <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入填寫範例</h5>
-                 <div style="height:200px; overflow:hidden;">
-                     <img src="../../_img/history_end_batch_sample.png" style="width:100%; " class="img-fluid border" />
-                 </div>
-            </div>
         </div>
+    </div>
+
+    <div class="alert alert-info mt-4" role="alert">
+        <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入欄位填寫提示</h5>
+        <ul class="mb-0">
+            <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>牛籍編號</strong>：若系統無對應牛籍，會以預設值自動建立牛籍資料。</li>
+            <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>除籍日期</strong>：須為正確日期格式且不可晚於今日，否則會顯示「日期錯誤」。</li>
+            <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>類型（其他／未使用）</strong>：僅接受「其他」或「未使用」，若不符合則會顯示「類型錯誤」。</li>
+            <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>畜牧場證號（牧場登記證、飼養登記證、身分證）</strong>：需為既有牧場證號，若不存在則會顯示「畜牧場錯誤」。</li>
+            <li><strong><span class="badge bg-secondary me-1">選填</span>除籍備註</strong>：可留空，未填寫時系統會以空值儲存。</li>
+        </ul>
+            <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info mt-5"></i>匯入填寫範例</h5>
+            <div style="height:200px; overflow:hidden;">
+                <img src="../../_img/history_end_batch_sample.png" style="width:100%; " class="img-fluid border" />
+            </div>
     </div>
 
     <asp:Panel ID="Panel_success" runat="server" Visible="false" CssClass="queryBox mt-4">

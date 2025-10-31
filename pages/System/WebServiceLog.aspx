@@ -58,7 +58,6 @@
                     <asp:TemplateField HeaderText="記錄時間" ItemStyle-Width="210">
                         <ItemTemplate>
                             <%# CDate(Eval("logDateTime")).ToString("yyyy/MM/dd HH:mm") %>
-                            <div class="text_info"><%# Eval("ip") %></div>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="介接類型" ItemStyle-Width="100">
@@ -86,9 +85,10 @@
                             <%#CInt(Eval("dataCount")).ToString("N0") %>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="備註">
+                    <asp:TemplateField HeaderText="IP／備註">
                         <ItemTemplate>
                             <div class="text_info">
+                                <div class="text_info"><%# Eval("ip") %></div>
                                 <%# Eval("queryMemo") %>
                                 <asp:Label ID="Label_isError" runat="server" Visible='<%# Eval("isError") %>' ToolTip="請至資料庫查看錯誤訊息"><i class="fa-solid fa-triangle-exclamation"></i></asp:Label>
                             </div>

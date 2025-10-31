@@ -43,11 +43,11 @@ Public Class MilkSetting
             Dim inputMilk As String = If(txtMilk IsNot Nothing, txtMilk.Text.Trim(), "")
             Dim milkValue As Decimal = 0D
 
-            ' 乳量：空字串 → 0.0；必須 0~999.9
+            ' 乳量：空字串 → 0.00；必須 0~999.99
             If String.IsNullOrEmpty(inputMilk) Then
                 milkValue = 0D
                 If txtMilk IsNot Nothing Then txtMilk.BackColor = Drawing.Color.White
-            ElseIf Not Decimal.TryParse(inputMilk, milkValue) OrElse milkValue < 0D OrElse milkValue > 999.9D Then
+            ElseIf Not Decimal.TryParse(inputMilk, milkValue) OrElse milkValue < 0D OrElse milkValue > 999.99D Then
                 errorCount += 1
                 If txtMilk IsNot Nothing Then txtMilk.BackColor = Drawing.Color.MistyRose
                 Continue For
@@ -62,7 +62,7 @@ Public Class MilkSetting
             Dim remarkSqlLiteral As String = "N'" & remark.Replace("'", "''") & "'"
 
             ' 組 VALUES (Age, MilkProduction, Remark)
-            valuesList.Add($"({age}, {milkValue.ToString("0.0")}, {remarkSqlLiteral})")
+            valuesList.Add($"({age}, {milkValue.ToString("0.00")}, {remarkSqlLiteral})")
         Next
 
         ' 若有錯誤

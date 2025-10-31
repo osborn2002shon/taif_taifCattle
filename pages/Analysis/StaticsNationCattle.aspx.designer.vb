@@ -12,4 +12,31 @@ Option Explicit On
 
 
 Partial Public Class StaticsNationCattle
+
+    '''<summary>
+    '''DropDownList_farmCity 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents DropDownList_farmCity As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''LinkButton_excel 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents LinkButton_excel As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Label_msg 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Label_msg As Global.System.Web.UI.WebControls.Label
 End Class

@@ -131,17 +131,16 @@ Public Class StaticsCattle
 
         ' === 標題列 ===
         Dim headers() As String = {
-        "日期",
-        "類型",
-        "縣市",
-        "鄉鎮",
-        "證號",
-        "名稱",
-        "負責人",
-        "資料來源",
-        "資料建立時間",
-        "備註"
-    }
+            "日期",
+            "類型",
+            "縣市",
+            "鄉鎮",
+            "證號",
+            "名稱",
+            "負責人",
+            "資料來源",
+            "資料建立時間"
+        }
 
         Dim rowHeader = ws.CreateRow(0)
         For i As Integer = 0 To headers.Length - 1
@@ -204,10 +203,10 @@ Public Class StaticsCattle
             c8.SetCellValue(f.insertDateTime.ToString("yyyy/MM/dd HH:mm"))
             c8.CellStyle = cellStyleCenter
 
-            ' 備註
-            Dim c9 = row.CreateCell(9)
-            c9.SetCellValue(f.memo)
-            c9.CellStyle = cellStyleLeft
+            '' 備註
+            'Dim c9 = row.CreateCell(9)
+            'c9.SetCellValue(f.memo)
+            'c9.CellStyle = cellStyleLeft
         Next
 
         ' === 欄寬設定 ===
@@ -220,7 +219,7 @@ Public Class StaticsCattle
         ws.SetColumnWidth(6, 15 * 256)   ' 負責人
         ws.SetColumnWidth(7, 18 * 256)   ' 資料來源
         ws.SetColumnWidth(8, 20 * 256)   ' 資料建立時間
-        ws.SetColumnWidth(9, 40 * 256)   ' 備註
+        'ws.SetColumnWidth(9, 40 * 256)   ' 備註
 
         ' === 檔案名稱 ===
         Dim fileName As String = $"牛籍歷程_{Now:yyyyMMddHHmmss}.xlsx"

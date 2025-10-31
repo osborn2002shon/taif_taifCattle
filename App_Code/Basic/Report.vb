@@ -102,6 +102,16 @@ Namespace taifCattle
                     Return String.Empty
             End Select
         End Function
-
+        Sub ApplyCellStyle(ws As ISheet, rowStart As Integer, rowEnd As Integer, colStart As Integer, colEnd As Integer, style As ICellStyle)
+            For r As Integer = rowStart To rowEnd
+                Dim row = ws.GetRow(r)
+                If row Is Nothing Then row = ws.CreateRow(r)
+                For c As Integer = colStart To colEnd
+                    Dim cell = row.GetCell(c)
+                    If cell Is Nothing Then cell = row.CreateCell(c)
+                    cell.CellStyle = style
+                Next
+            Next
+        End Sub
     End Class
 End Namespace

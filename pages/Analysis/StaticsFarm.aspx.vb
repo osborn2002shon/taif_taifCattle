@@ -137,8 +137,6 @@ Public Class StaticsFarm
     ''' </summary>
     ''' <returns>是否通過驗證</returns>
     Private Function ValidateCattleQueryCondition() As Boolean
-        ' 檢查是否有勾選任何顯示狀態
-        Dim hasSelected As Boolean = CheckBoxList_status.Items.Cast(Of ListItem).Any(Function(li) li.Selected)
 
         If String.IsNullOrEmpty(HiddenField_selectedFarm.Value) Then
             Label_cattleMsg.Text = "請先選擇一個牧場。"
@@ -151,8 +149,10 @@ Public Class StaticsFarm
             End If
         End If
 
+        ' 檢查是否有勾選任何顯示狀態
+        Dim hasSelected As Boolean = CheckBoxList_status.Items.Cast(Of ListItem).Any(Function(li) li.Selected)
         If Not hasSelected Then
-            Label_cattleMsg.Text = "請至少勾選一項最新狀態再進行查詢。"
+            Label_cattleMsg.Text = "【最新狀態】至少需勾選一項。"
             Return False
         End If
 
@@ -181,7 +181,7 @@ Public Class StaticsFarm
     End Sub
 
     ''' <summary>
-    ''' 撈取指定牧場之牛籍資料（無勾選狀態則使用 IN (0)）
+    ''' 撈取指定牧場之牛籍資料
     ''' </summary>
     Function Get_CattleList(farmID As Integer?, selectedHisTypes As List(Of Integer), showCurrentOnly As Boolean) As Data.DataTable
 
@@ -194,14 +194,14 @@ Public Class StaticsFarm
                 lates.latestTypeName,
                 lates.latestDataDate,
                 lates.removeDate,
-                vc.cattleTypeID,
-                vc.groupName,
-                vc.typeName,
-                vc.tagMemo,
-                vc.birthYear,
-                vc.cattleAge,
-                vc.milkProduction,
-                vc.cattleMemo
+                lates.cattleTypeID,
+                lates.groupName,
+                lates.typeName,
+                lates.tagMemo,
+                lates.birthYear,
+                lates.cattleAge,
+                lates.milkProduction,
+                lates.cattleMemo
             FROM fn_FarmCattleLatestStatus(@farmID) AS lates
             INNER JOIN View_CattleList AS vc ON lates.cattleID = vc.cattleID
             WHERE 1 = 1
@@ -313,7 +313,7 @@ Public Class StaticsFarm
         BindFarmGridView()
 
         '牛籍查詢條件
-        taifCattle_cattle.Bind_CheckBoxList_hisType(CheckBoxList_status, "旅程")
+        taifCattle_cattle.Bind_CheckBoxList_hisType(CheckBoxList_status, "旅程", True)
 
         '顯示區塊
         Panel_farm.Visible = True

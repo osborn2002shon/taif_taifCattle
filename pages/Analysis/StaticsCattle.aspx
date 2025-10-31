@@ -97,7 +97,7 @@
                             <%#CDate(Eval("dataDate")).ToString("yyyy/MM/dd") %>
                         </ItemTemplate>
                      </asp:TemplateField>
-                    <asp:TemplateField HeaderText="類型" ItemStyle-Width="80px">
+                    <asp:TemplateField HeaderText="類型" ItemStyle-Width="100px">
                         <ItemTemplate>
                             <%# Eval("typeName") %>
                         </ItemTemplate>
@@ -133,6 +133,7 @@
                      <asp:TemplateField HeaderText="資料來源" ItemStyle-Width="130px">
                          <ItemTemplate>
                              <%# Eval("insertType") %>
+                              <asp:Label ID="Label_memo" runat="server" Visible='<%# If(Eval("memo") = "", False, True) %>' ToolTip='<%# Eval("memo") %>'><i class="fa-solid fa-comment-dots"></i></asp:Label>
                          </ItemTemplate>
                      </asp:TemplateField>
                      <asp:TemplateField HeaderText="資料建立時間" ItemStyle-Width="120px">
@@ -140,11 +141,7 @@
                              <%# CDate(Eval("insertDateTime")).ToString("yyyy/MM/dd HH:mm") %>
                          </ItemTemplate>
                      </asp:TemplateField>
-                     <asp:TemplateField HeaderText="備註">
-                         <ItemTemplate>
-                             <%# Eval("memo") %>
-                         </ItemTemplate>
-                     </asp:TemplateField>
+                    
                 </Columns>
                 <EmptyDataTemplate>
                 <div class="text-danger text-center py-2 fw-bold">

@@ -104,6 +104,11 @@
         color:tomato;
     }
 
+    .formCard .card-footer {
+        background-color:white;
+        border-top:none;
+    }
+
     .formCard .card-header.green {
         background: linear-gradient(135deg, #316745, #47885e);
     }

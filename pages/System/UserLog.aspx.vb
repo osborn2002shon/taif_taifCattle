@@ -99,25 +99,27 @@ Public Class UserLog
 
         ' --- 操作時間(起) ---
         Dim strBeg As String = Request.Form("dateBeg")
-        Dim begDate As DateTime
+        Dim begDate As DateTime = Property_Query_dateBeg   ' 預設用現有屬性值
 
         If Not String.IsNullOrEmpty(strBeg) AndAlso DateTime.TryParse(strBeg, begDate) Then
             Property_Query_dateBeg = begDate.ToString("yyyy-MM-dd")
-        Else
-            ' 預設：今天往前 6 天
-            Property_Query_dateBeg = Today.AddDays(-6).ToString("yyyy-MM-dd")
         End If
-
 
         ' --- 操作時間(訖) ---
         Dim strEnd As String = Request.Form("dateEnd")
-        Dim endDate As DateTime
+        Dim endDate As DateTime = Property_Query_dateEnd   ' 預設用現有屬性值
 
         If Not String.IsNullOrEmpty(strEnd) AndAlso DateTime.TryParse(strEnd, endDate) Then
             Property_Query_dateEnd = endDate.ToString("yyyy-MM-dd")
-        Else
-            ' 預設：今天
-            Property_Query_dateEnd = Today.ToString("yyyy-MM-dd")
+        End If
+
+        ' --- 若起訖相反則自動交換 ---
+        If begDate > endDate Then
+            Dim tmp = begDate
+            begDate = endDate
+            endDate = tmp
+            Property_Query_dateBeg = begDate.ToString("yyyy-MM-dd")
+            Property_Query_dateEnd = endDate.ToString("yyyy-MM-dd")
         End If
 
         '操作項目

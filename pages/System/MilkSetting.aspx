@@ -236,8 +236,8 @@
                             <asp:TemplateField HeaderText="日產乳量（公升/日）" ItemStyle-Width="25%">
                                 <ItemTemplate>
                                     <asp:TextBox ID="TextBox_milkProduction" runat="server" CssClass="milk-input"
-                                        Text='<%# Bind("milkProduction", "{0:0.0}") %>' 
-                                        TextMode="Number" Min="0" Max="999.9" Step="0.1" />
+                                        Text='<%# Bind("milkProduction", "{0:0.00}") %>' 
+                                        TextMode="Number" Min="0" Max="999.99" Step="0.01" />
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="備註" ItemStyle-Width="50%">

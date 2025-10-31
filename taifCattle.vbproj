@@ -202,6 +202,8 @@
     <Content Include="_img\history_batch_sample.png" />
     <Content Include="_img\history_end_batch_sample.png" />
     <Content Include="_img\logo.png" />
+    <Content Include="_img\全國牛隻在養總表_sample.png" />
+    <Content Include="_img\縣市別牛隻編號詳報_sample.png" />
     <Content Include="_js\bootstrap.bundle.js" />
     <Content Include="_js\jquery-3.7.1.js" />
   </ItemGroup>

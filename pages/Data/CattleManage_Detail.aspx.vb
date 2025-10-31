@@ -272,7 +272,7 @@ Public Class CattleManage_Detail
         End If
     End Sub
 
-    Private Sub LinkButton_backList_Click(sender As Object, e As EventArgs) Handles LinkButton_backList.Click
+    Private Sub LinkButton_backList_Click(sender As Object, e As EventArgs) Handles LinkButton_backList.Click, LinkButton_cancel.Click
         Session("CattleManage") = enum_EditMode.預設
         Session("CattleManage_cid") = -1
         Response.Redirect("CattleManage.aspx")

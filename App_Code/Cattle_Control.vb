@@ -64,8 +64,8 @@
             If isNeedAll = True Then
                 ddl.Items.Add(New ListItem("*牛籍狀態不拘", "%"))
             End If
-            ddl.Items.Add(New ListItem("正常", "正常"))
-            ddl.Items.Add(New ListItem("除籍", "除籍"))
+            ddl.Items.Add(New ListItem("未除籍", "未除籍"))
+            ddl.Items.Add(New ListItem("已除籍", "已除籍"))
         End Sub
 
         ''' <summary>
@@ -134,7 +134,7 @@
         ''' </summary>
         ''' <param name="cbl"></param>
         ''' <param name="groupName"></param>
-        Sub Bind_CheckBoxList_hisType(cbl As CheckBoxList, groupName As String)
+        Sub Bind_CheckBoxList_hisType(cbl As CheckBoxList, groupName As String, Optional selectAll As Boolean = False)
             Dim sqlString As String =
                 "SELECT * FROM Cattle_TypeHistory WHERE groupName LIKE @groupName ORDER BY hisTypeID"
 
@@ -149,6 +149,7 @@
             cbl.Items.Clear()
             For i = 0 To dt.Rows.Count - 1
                 Dim li As New ListItem(dt.Rows(i)("typeName").ToString(), dt.Rows(i)("hisTypeID").ToString())
+                li.Selected = selectAll
                 cbl.Items.Add(li)
             Next
         End Sub

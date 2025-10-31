@@ -30,43 +30,44 @@
                 </div>
             </div>
             <asp:Label ID="Label_message" runat="server" CssClass="text-danger fw-bold d-block mt-3"></asp:Label>
-            <div class="alert alert-info mt-4" role="alert">
-                <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入欄位填寫提示</h5>
-                <p class="mb-2">請依下列規則準備 Excel 資料，避免常見的匯入失敗情況：</p>
-                <ul class="mb-0">
-                    <li class="mb-2">
-                        <strong>牛籍編號 <span class="badge bg-danger ms-1">必填</span></strong>：每頭牛必須提供唯一的牛籍編號，如與系統既有編號重複，該筆資料會匯入失敗並顯示「已有重複牛籍編號」。
-                    </li>
-                    <li class="mb-2">
-                        <strong>牛籍編號備註 <span class="badge bg-secondary ms-1">選填</span></strong>：可留空，未填寫時系統會以空值儲存。
-                    </li>
-                    <li class="mb-2">
-                        <strong>品項 <span class="badge bg-danger ms-1">必填</span></strong>：請輸入系統既有的品項名稱<code class="text-nowrap">（乳公牛、乳母牛、黃雜牛、水牛、安格斯牛、其他、無資料）</code> ，若品項名稱不存在，將判定為「品項錯誤」。
-                    </li>
-                    <li class="mb-2">
-                        <strong>出生年度 <span class="badge bg-secondary ms-1">選填</span></strong>：可輸入西元或民國年份。若填寫民國年（如 109），系統會自動加上 1911 轉換為 2020。有效範圍為 1911 年至當年度，超出範圍或格式錯誤會顯示「出生年度錯誤」。
-                    </li>
-                    <li class="mb-2">
-                        <strong>牛籍備註 <span class="badge bg-secondary ms-1">選填</span></strong>：可留空，未填寫時系統會以空值儲存。
-                    </li>
-                    <li class="mb-2">
-                        <strong>類型 <span class="badge bg-secondary ms-1">視情況填寫</span></strong>：當需要記錄旅程資訊時，請輸入旅程的類型名稱 <code class="text-nowrap">（出生、轉入、勸售）</code> ，才能新增對應的牛籍旅程紀錄。輸入不存在的類型將顯示「類型錯誤」。
-                    </li>
-                    <li class="mb-2">
-                        <strong>日期 <span class="badge bg-secondary ms-1">視情況填寫</span></strong>：需為有效日期格式且不可晚於今日，否則匯入會失敗並顯示「日期錯誤」。未填寫時不會新增旅程紀錄。
-                    </li>
-                    <li>
-                        <strong>畜牧場證號 <span class="badge bg-secondary ms-1">視情況填寫</span></strong>：請輸入有效的畜牧場證號。若與現有證號不符，將顯示「畜牧場錯誤」。未填寫時不會新增旅程紀錄。
-                    </li>
-                </ul>
-                <div class="small text-muted mt-3">
-                    ※ 需同時填寫「類型」、「日期」、「畜牧場證號」才會建立旅程紀錄，任一欄位未填寫時將不會新增旅程資料。
-                </div>
-                <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入填寫範例</h5>
-                <div style="height:250px; overflow:hidden;">
-                    <img src="../../_img/cattle_batch_sample.png" style="width:100%;" />
-                </div>
-            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info mt-4" role="alert">
+        <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入欄位填寫提示</h5>
+        <p class="mb-2">請依下列規則準備 Excel 資料，避免常見的匯入失敗情況：</p>
+        <ul class="mb-0">
+            <li class="mb-2">
+                <strong><span class="badge bg-danger me-1">必填</span>牛籍編號</strong>：每頭牛必須提供唯一的牛籍編號，如與系統既有編號重複，該筆資料會匯入失敗並顯示「已有重複牛籍編號」。
+            </li>
+            <li class="mb-2">
+                <strong><span class="badge bg-secondary me-1">選填</span>牛籍編號備註</strong>：可留空，未填寫時系統會以空值儲存。
+            </li>
+            <li class="mb-2">
+                <strong><span class="badge bg-danger me-1">必填</span>品項</strong>：請輸入系統既有的品項名稱<code class="text-nowrap">（乳公牛、乳母牛、黃雜牛、水牛、安格斯牛、其他、無資料）</code> ，若品項名稱不存在，將判定為「品項錯誤」。
+            </li>
+            <li class="mb-2">
+                <strong><span class="badge bg-secondary me-1">選填</span>出生年度</strong>：可輸入西元或民國年份。若填寫民國年（如 109），系統會自動加上 1911 轉換為 2020。有效範圍為 1911 年至當年度，超出範圍或格式錯誤會顯示「出生年度錯誤」。
+            </li>
+            <li class="mb-2">
+                <strong><span class="badge bg-secondary me-1">選填</span>牛籍備註</strong>：可留空，未填寫時系統會以空值儲存。
+            </li>
+            <li class="mb-2">
+                <strong><span class="badge bg-warning me-1">次要</span>類型</strong>：當需要記錄旅程資訊時，請輸入旅程的類型名稱 <code class="text-nowrap">（出生、停留、勸售）</code> ，才能新增對應的牛籍旅程紀錄。輸入不存在的類型將顯示「類型錯誤」。
+            </li>
+            <li class="mb-2">
+                <strong><span class="badge bg-warning me-1">次要</span>日期</strong>：需為有效日期格式且不可晚於今日，否則匯入會失敗並顯示「日期錯誤」。未填寫時不會新增旅程紀錄。
+            </li>
+            <li>
+                <strong><span class="badge bg-warning me-1">次要</span>畜牧場證號</strong>：請輸入有效的畜牧場證號。若與現有證號不符，將顯示「畜牧場錯誤」。未填寫時不會新增旅程紀錄。
+            </li>
+        </ul>
+        <div class="small text-muted mt-3">
+            ※ 需同時填寫「類型」、「日期」、「畜牧場證號」才會建立旅程紀錄，任一欄位未填寫時將不會新增旅程資料。
+        </div>
+        <h5 class="alert-heading mt-5"><i class="fa-solid fa-circle-info me-2"></i>匯入填寫範例</h5>
+        <div style="height:250px; overflow:hidden;">
+            <img src="../../_img/cattle_batch_sample.png" style="width:100%;" />
         </div>
     </div>
 
