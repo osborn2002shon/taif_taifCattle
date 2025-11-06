@@ -41,6 +41,24 @@ Partial Public Class HisManage_Batch
     Protected WithEvents LinkButton_import As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''CheckBox_autoCreateCattle 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents CheckBox_autoCreateCattle As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Label_autoCreateCattle 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Label_autoCreateCattle As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Panel_success 控制項。
     '''</summary>
     '''<remarks>

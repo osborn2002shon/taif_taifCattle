@@ -28,6 +28,14 @@
                         <i class="fa-solid fa-upload"></i> 匯入
                     </asp:LinkButton>
                  </div>
+                 <div class="col-12 mt-3">
+                     <div class="form-check">
+                         <asp:CheckBox ID="CheckBox_autoCreateCattle" runat="server" />
+                         <asp:Label ID="Label_autoCreateCattle" runat="server" AssociatedControlID="CheckBox_autoCreateCattle" CssClass="form-check-label">
+                             找不到牛籍時自動建立牛籍資料
+                         </asp:Label>
+                     </div>
+                 </div>
             </div>
         </div>
     </div>
@@ -35,7 +43,7 @@
     <div class="alert alert-info mt-4" role="alert">
         <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入欄位填寫提示</h5>
         <ul class="mb-0">
-            <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>牛籍編號</strong>：需為系統既有牛籍，若找不到則會顯示「找不到牛籍編號」。</li>
+            <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>牛籍編號</strong>：勾選「找不到牛籍時自動建立牛籍資料」時，系統會以預設值其他牛種自動建立牛籍資料，未勾選時若找不到牛籍則會顯示「查無牛籍資料」。</li>
             <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>日期</strong>：須為正確日期格式且不可晚於今日，否則會顯示「日期錯誤」。</li>
             <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>類型</strong>：請輸入旅程類型（出生、停留、勸售等），需為系統中設定且隸屬「旅程」群組的類型，否則會顯示「類型錯誤」。</li>
             <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>畜牧場證號</strong>：需為既有牧場證號，若不存在則會顯示「畜牧場錯誤」。</li>
