@@ -382,11 +382,13 @@ Namespace taifCattle
         ''' <param name="dataDate"></param>
         ''' <param name="placeID">farmID,slauID,plantID</param>
         ''' <returns></returns>
-        Function Check_IsHistoryExist(cattleID As Integer, dataDate As Date, placeID As Integer) As Boolean
+        Function Check_IsHistoryExist(cattleID As Integer, dataDate As Date, placeID As String) As Boolean
+            '除籍會有未使用、自場掩埋、其他，沒有placeID，所以包成-1
+            '除籍人工的部分只檢查同一天，因為人應該要確保資料正確性，只有介接的部分可重複（屠宰、化製）
             Dim sqlString As String =
                 <xml sql="
                     select * from Cattle_History
-                    where cattleID = @cattleID and dataDate = @dataDate and COALESCE(farmID, slauID, plantID) = @placeID and removeDateTime is null
+                    where cattleID = @cattleID and dataDate = @dataDate and ISNULL(COALESCE(farmID, slauID, plantID),-1) like @placeID and removeDateTime is null
                 "></xml>.FirstAttribute.Value
 
             Dim para As New List(Of Data.SqlClient.SqlParameter)

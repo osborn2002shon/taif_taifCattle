@@ -245,7 +245,7 @@ Public Class HisEndManage_Batch
                     .cattleID = cattleId,
                     .hisTypeID = hisTypeId,
                     .dataDate = dataDateValue,
-                    .farmID = farmId,
+                    .farmID = Nothing,
                     .plantID = Nothing,
                     .slauID = Nothing,
                     .memo = If(String.IsNullOrEmpty(memo), Nothing, memo),
@@ -294,7 +294,7 @@ Public Class HisEndManage_Batch
             End Try
         End If
 
-        SuccessTable = successTable
+        successTable = successTable
         FailureTable = failedTable
 
         BindResult(successTable, failedTable)

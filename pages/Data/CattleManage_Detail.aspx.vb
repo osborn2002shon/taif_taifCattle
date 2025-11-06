@@ -226,14 +226,14 @@ Public Class CattleManage_Detail
 
         Dim slauID As Object = ""
         Dim plantID As Object = ""
-        Dim placeID As Integer = -1
+        Dim placeID As String = "%"
         Select Case DropDownList_edit_hisEnd_hisType.SelectedValue
             Case 5 '屠宰
                 slauID = CInt(DropDownList_edit_hisEnd_place.SelectedValue)
-                placeID = slauID
+                placeID = CInt(slauID)
             Case 6 '化製
                 plantID = CInt(DropDownList_edit_hisEnd_place.SelectedValue)
-                placeID = plantID
+                placeID = CInt(plantID)
         End Select
         Dim userInfo As taifCattle.Base.stru_LoginUserInfo = Session("userInfo")
         Dim insertDateTime As Date = Now
@@ -255,8 +255,9 @@ Public Class CattleManage_Detail
             Exit Sub
         End If
 
-        If taifCattle_cattle.Check_IsHistoryExist(cattleHisInfo.cattleID, cattleHisInfo.dataDate, placeID) Then
-            Label_message.Text = "新增失敗，同一天同一場已有重複除籍紀錄！"
+        '除籍人工的部分只檢查同一天，因為人應該要確保資料正確性，只有介接的部分可重複（屠宰、化製）
+        If taifCattle_cattle.Check_IsHistoryExist(cattleHisInfo.cattleID, cattleHisInfo.dataDate, "%") Then
+            Label_message.Text = "新增失敗，同一天已有重複除籍紀錄！"
             js.AppendLine("showModal();")
             Exit Sub
         Else

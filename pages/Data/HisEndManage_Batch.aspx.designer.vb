@@ -32,6 +32,15 @@ Partial Public Class HisEndManage_Batch
     Protected WithEvents FileUpload_excel As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
+    '''LinkButton_import 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents LinkButton_import As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''CheckBox_autoCreateCattle 控制項。
     '''</summary>
     '''<remarks>
@@ -48,15 +57,6 @@ Partial Public Class HisEndManage_Batch
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents Label_autoCreateCattle As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''LinkButton_import 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents LinkButton_import As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Panel_success 控制項。

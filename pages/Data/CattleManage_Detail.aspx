@@ -170,6 +170,9 @@
                 </div>
                 <div class="card-footer text-center">
                     <asp:LinkButton ID="LinkButton_edit_insert_hisDef" runat="server" CssClass="btn btn-primary"><i class="fa-solid fa-floppy-disk me-1"></i>新增</asp:LinkButton>
+                    <div class="text-center text_info">
+                        不分類型，同一天、同一場資料會新增失敗（允許同一天、不同場）
+                    </div>
                 </div>
             </div>
 
@@ -270,6 +273,9 @@
                 </div>
                 <div class="card-footer text-center">
                     <asp:LinkButton ID="LinkButton_edit_insert_hisEnd" runat="server" CssClass="btn btn-primary"><i class="fa-solid fa-floppy-disk me-1"></i>新增</asp:LinkButton>
+                    <div class="text-center text_info">
+                        不分類型，同一天僅能擁有一筆除籍紀錄（自動介接之資料除外）
+                    </div>
                 </div>
             </div>
 
