@@ -117,6 +117,7 @@ Public Class HisEndManage_Batch
 
         Dim userInfo As taifCattle.Base.stru_LoginUserInfo = CType(Session("userInfo"), taifCattle.Base.stru_LoginUserInfo)
         Dim insertUserId As Integer = userInfo.accountID
+        Dim allowAutoCreateCattle As Boolean = CheckBox_autoCreateCattle.Checked
 
         For Each row As DataRow In excelData.Rows
             Dim reasons As New List(Of String)()
@@ -137,7 +138,11 @@ Public Class HisEndManage_Batch
                 If checkResult.isPass Then
                     cattleId = Convert.ToInt32(checkResult.msg)
                 Else
-                    needCreateCattle = True
+                    If allowAutoCreateCattle Then
+                        needCreateCattle = True
+                    Else
+                        reasons.Add("查無牛籍資料")
+                    End If
                 End If
             End If
 
@@ -192,6 +197,24 @@ Public Class HisEndManage_Batch
                 Continue For
             End If
 
+            Dim hasDuplicateFinalSameDate As Boolean = False
+            Dim hasDuplicateFinalDifferentDate As Boolean = False
+            Dim skipPreHistoryInsert As Boolean = False
+
+            If Not needCreateCattle Then
+                hasDuplicateFinalSameDate = HasExistingFinalHistorySameDate(cattleId, dataDateValue, farmId)
+                If hasDuplicateFinalSameDate Then
+                    Dim failedRow As DataRow = failedTable.NewRow()
+                    FillCommonRowValues(failedRow, tagNo, dataDateValue.ToString("yyyy/MM/dd"), hisTypeName, farmCode, memo)
+                    failedRow("失敗原因") = "已有相同除籍資料"
+                    failedTable.Rows.Add(failedRow)
+                    Continue For
+                End If
+
+                hasDuplicateFinalDifferentDate = HasExistingFinalHistoryDifferentDate(cattleId, dataDateValue, farmId)
+                skipPreHistoryInsert = HasExistingPreHistory(cattleId, dataDateValue, farmId)
+            End If
+
             Dim insertDate As DateTime = DateTime.Now
             Dim createdCattleId As Integer = -1
             Dim preHistoryId As Integer = -1
@@ -203,24 +226,26 @@ Public Class HisEndManage_Batch
                     cattleId = createdCattleId
                 End If
 
-                preHistoryId = InsertHistoryRecord(New taifCattle.Cattle.stru_cattleHistory With {
-                    .cattleID = cattleId,
-                    .hisTypeID = 2,
-                    .dataDate = dataDateValue,
-                    .farmID = farmId,
-                    .plantID = Nothing,
-                    .slauID = Nothing,
-                    .memo = Nothing,
-                    .insertType = taifCattle.Base.enum_InsertType.除籍批次建檔,
-                    .insertDateTime = insertDate,
-                    .insertAccountID = insertUserId
-                })
+                If Not skipPreHistoryInsert Then
+                    preHistoryId = InsertHistoryRecord(New taifCattle.Cattle.stru_cattleHistory With {
+                        .cattleID = cattleId,
+                        .hisTypeID = 2,
+                        .dataDate = dataDateValue,
+                        .farmID = farmId,
+                        .plantID = Nothing,
+                        .slauID = Nothing,
+                        .memo = Nothing,
+                        .insertType = taifCattle.Base.enum_InsertType.除籍批次建檔,
+                        .insertDateTime = insertDate,
+                        .insertAccountID = insertUserId
+                    })
+                End If
 
                 finalHistoryId = InsertHistoryRecord(New taifCattle.Cattle.stru_cattleHistory With {
                     .cattleID = cattleId,
                     .hisTypeID = hisTypeId,
                     .dataDate = dataDateValue,
-                    .farmID = Nothing,
+                    .farmID = farmId,
                     .plantID = Nothing,
                     .slauID = Nothing,
                     .memo = If(String.IsNullOrEmpty(memo), Nothing, memo),
@@ -231,7 +256,7 @@ Public Class HisEndManage_Batch
 
                 Dim successRow As DataRow = successTable.NewRow()
                 FillCommonRowValues(successRow, tagNo, dataDateValue.ToString("yyyy/MM/dd"), hisTypeName, farmCode, memo)
-                successRow("匯入結果") = "成功"
+                successRow("匯入結果") = If(hasDuplicateFinalDifferentDate, "成功匯入，但有重複資料，請確認資料正確性", "成功")
                 successTable.Rows.Add(successRow)
 
                 Insert_UserLog(insertUserId, enum_UserLogItem.除籍批次設定功能, enum_UserLogType.新增, $"hisID:{finalHistoryId}")
@@ -385,6 +410,38 @@ Public Class HisEndManage_Batch
             Next
         End Using
         Return dict
+    End Function
+
+    Private Function HasExistingFinalHistorySameDate(cattleId As Integer, dataDate As DateTime, farmId As Integer) As Boolean
+        Dim sql As String = "select count(1) from Cattle_History where cattleID = @cattleID and dataDate = @dataDate and hisTypeID between 4 and 8 and ((farmID is null and @farmID is null) or farmID = @farmID)"
+        Return ExecuteHistoryCount(sql, cattleId, dataDate, farmId) > 0
+    End Function
+
+    Private Function HasExistingFinalHistoryDifferentDate(cattleId As Integer, dataDate As DateTime, farmId As Integer) As Boolean
+        Dim sql As String = "select count(1) from Cattle_History where cattleID = @cattleID and dataDate <> @dataDate and hisTypeID between 4 and 8 and ((farmID is null and @farmID is null) or farmID = @farmID)"
+        Return ExecuteHistoryCount(sql, cattleId, dataDate, farmId) > 0
+    End Function
+
+    Private Function HasExistingPreHistory(cattleId As Integer, dataDate As DateTime, farmId As Integer) As Boolean
+        Dim sql As String = "select count(1) from Cattle_History where cattleID = @cattleID and dataDate = @dataDate and hisTypeID between 1 and 3 and ((farmID is null and @farmID is null) or farmID = @farmID)"
+        Return ExecuteHistoryCount(sql, cattleId, dataDate, farmId) > 0
+    End Function
+
+    Private Function ExecuteHistoryCount(sql As String, cattleId As Integer, dataDate As DateTime, farmId As Integer) As Integer
+        Using da As New DataAccess.MS_SQL()
+            Dim farmValue As Object = If(farmId <= 0, CType(DBNull.Value, Object), farmId)
+            Dim parameters As SqlParameter() = {
+                New SqlParameter("cattleID", cattleId),
+                New SqlParameter("dataDate", dataDate),
+                New SqlParameter("farmID", farmValue)
+            }
+
+            Dim result As Object = da.ExecuteScalar(sql, parameters)
+            If result Is Nothing OrElse result Is DBNull.Value Then
+                Return 0
+            End If
+            Return Convert.ToInt32(Convert.ToDecimal(result))
+        End Using
     End Function
 
     Private Function CreateCattleShell(tagNo As String, insertUserId As Integer, insertDate As DateTime) As Integer

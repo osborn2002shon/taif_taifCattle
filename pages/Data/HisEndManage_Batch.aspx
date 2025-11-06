@@ -28,6 +28,14 @@
                         <i class="fa-solid fa-upload"></i> 匯入
                     </asp:LinkButton>
                  </div>
+                 <div class="col-12 mt-3">
+                     <div class="form-check">
+                         <asp:CheckBox ID="CheckBox_autoCreateCattle" runat="server" CssClass="form-check-input" />
+                         <asp:Label ID="Label_autoCreateCattle" runat="server" AssociatedControlID="CheckBox_autoCreateCattle" CssClass="form-check-label">
+                             找不到牛籍時自動建立牛籍資料
+                         </asp:Label>
+                     </div>
+                 </div>
             </div>
         </div>
     </div>
@@ -35,7 +43,7 @@
     <div class="alert alert-info mt-4" role="alert">
         <h5 class="alert-heading mb-3"><i class="fa-solid fa-circle-info me-2"></i>匯入欄位填寫提示</h5>
         <ul class="mb-0">
-            <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>牛籍編號</strong>：若系統無對應牛籍，會以預設值自動建立牛籍資料。</li>
+            <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>牛籍編號</strong>：勾選「找不到牛籍時自動建立牛籍資料」時，系統會以預設值自動建立牛籍資料。</li>
             <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>除籍日期</strong>：須為正確日期格式且不可晚於今日，否則會顯示「日期錯誤」。</li>
             <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>類型（其他／未使用）</strong>：僅接受「其他」或「未使用」，若不符合則會顯示「類型錯誤」。</li>
             <li class="mb-2"><strong><span class="badge bg-danger me-1">必填</span>畜牧場證號（牧場登記證、飼養登記證、身分證）</strong>：需為既有牧場證號，若不存在則會顯示「畜牧場錯誤」。</li>
