@@ -117,10 +117,11 @@ Public Class HisManage_Batch
         Dim farmLookup As Dictionary(Of String, Integer) = GetFarmLookup()
         Dim missingFarmCodes As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
 
-        Dim userInfo As taifCattle.Base.stru_LoginUserInfo = Session("userInfo")
+        Dim userInfo As taifCattle.Base.stru_LoginUserInfo = CType(Session("userInfo"), taifCattle.Base.stru_LoginUserInfo)
 
         Dim insertUserId As Integer = userInfo.accountID
         Dim insertDate As DateTime = DateTime.Now
+        Dim allowAutoCreateCattle As Boolean = CheckBox_autoCreateCattle.Checked
 
         For Each row As DataRow In excelData.Rows
             Dim reasons As New List(Of String)()
@@ -132,14 +133,19 @@ Public Class HisManage_Batch
             Dim memo As String = Convert.ToString(row("旅程備註")).Trim()
 
             Dim cattleId As Integer = -1
+            Dim needCreateCattle As Boolean = False
             If String.IsNullOrEmpty(tagNo) Then
-                reasons.Add("找不到牛籍編號")
+                reasons.Add("牛籍編號未填寫")
             Else
                 Dim checkResult As taifCattle.Base.stru_checkResult = taifCattle_cattle.Check_IsCattleExist(tagNo)
                 If checkResult.isPass Then
                     cattleId = Convert.ToInt32(checkResult.msg)
                 Else
-                    reasons.Add("找不到牛籍編號")
+                    If allowAutoCreateCattle Then
+                        needCreateCattle = True
+                    Else
+                        reasons.Add("查無牛籍資料")
+                    End If
                 End If
             End If
 
@@ -185,7 +191,27 @@ Public Class HisManage_Batch
                 Continue For
             End If
 
+            Dim createdCattleId As Integer = -1
+            Dim hasDuplicateDifferentDate As Boolean = False
+
             Try
+                If Not needCreateCattle Then
+                    If HasExistingJourneyHistorySameDate(cattleId, dataDateValue, farmId) Then
+                        Dim failedRow As DataRow = failedTable.NewRow()
+                        FillCommonRowValues(failedRow, tagNo, dataDateValue.ToString("yyyy/MM/dd"), hisTypeName, farmCode, memo)
+                        failedRow("失敗原因") = "已有相同除籍資料"
+                        failedTable.Rows.Add(failedRow)
+                        Continue For
+                    End If
+
+                    hasDuplicateDifferentDate = HasExistingJourneyHistoryDifferentDate(cattleId, dataDateValue, farmId)
+                End If
+
+                If needCreateCattle Then
+                    createdCattleId = CreateCattleShell(tagNo, insertUserId, insertDate)
+                    cattleId = createdCattleId
+                End If
+
                 Dim hisInfo As New taifCattle.Cattle.stru_cattleHistory With {
                     .cattleID = cattleId,
                     .hisTypeID = hisTypeId,
@@ -203,11 +229,15 @@ Public Class HisManage_Batch
 
                 Dim successRow As DataRow = successTable.NewRow()
                 FillCommonRowValues(successRow, tagNo, dataDateValue.ToString("yyyy/MM/dd"), hisTypeName, farmCode, memo)
-                successRow("匯入結果") = "成功"
+                successRow("匯入結果") = If(hasDuplicateDifferentDate, "成功匯入，但有重複資料，請確認資料正確性", "成功")
                 successTable.Rows.Add(successRow)
 
                 Insert_UserLog(insertUserId, enum_UserLogItem.旅程批次新增功能, enum_UserLogType.新增, $"hisID:{hisId}")
             Catch ex As Exception
+                If createdCattleId > 0 Then
+                    DeleteCattleById(createdCattleId)
+                End If
+
                 Dim failedRow As DataRow = failedTable.NewRow()
                 FillCommonRowValues(failedRow, tagNo, dataDateText, hisTypeName, farmCode, memo)
                 failedRow("失敗原因") = "寫入資料庫失敗：" & ex.Message
@@ -346,6 +376,57 @@ Public Class HisManage_Batch
         End Using
         Return dict
     End Function
+
+    Private Function HasExistingJourneyHistorySameDate(cattleId As Integer, dataDate As DateTime, farmId As Integer) As Boolean
+        Dim sql As String = "select count(1) from Cattle_History where cattleID = @cattleID and dataDate = @dataDate and hisTypeID between 1 and 3 and ((farmID is null and @farmID is null) or farmID = @farmID)"
+        Return ExecuteHistoryCount(sql, cattleId, dataDate, farmId) > 0
+    End Function
+
+    Private Function HasExistingJourneyHistoryDifferentDate(cattleId As Integer, dataDate As DateTime, farmId As Integer) As Boolean
+        Dim sql As String = "select count(1) from Cattle_History where cattleID = @cattleID and dataDate <> @dataDate and hisTypeID between 1 and 3 and ((farmID is null and @farmID is null) or farmID = @farmID)"
+        Return ExecuteHistoryCount(sql, cattleId, dataDate, farmId) > 0
+    End Function
+
+    Private Function ExecuteHistoryCount(sql As String, cattleId As Integer, dataDate As DateTime, farmId As Integer) As Integer
+        Using da As New DataAccess.MS_SQL()
+            Dim farmValue As Object = If(farmId <= 0, CType(DBNull.Value, Object), farmId)
+            Dim parameters As SqlParameter() = {
+                New SqlParameter("cattleID", cattleId),
+                New SqlParameter("dataDate", dataDate),
+                New SqlParameter("farmID", farmValue)
+            }
+
+            Dim result As Object = da.ExecuteScalar(sql, parameters)
+            If result Is Nothing OrElse result Is DBNull.Value Then
+                Return 0
+            End If
+            Return Convert.ToInt32(Convert.ToDecimal(result))
+        End Using
+    End Function
+
+    Private Function CreateCattleShell(tagNo As String, insertUserId As Integer, insertDate As DateTime) As Integer
+        Using da As New DataAccess.MS_SQL()
+            Dim sql As String = "insert into Cattle_List (cattleTypeID, tagNo, insertType, insertDateTime, insertAccountID, updateDateTime, updateAccountID) values (@cattleTypeID, @tagNo, @insertType, @insertDateTime, @insertAccountID, @insertDateTime, @insertAccountID); select scope_identity();"
+            Dim para As SqlParameter() = {
+                New SqlParameter("cattleTypeID", 6),
+                New SqlParameter("tagNo", tagNo),
+                New SqlParameter("insertType", taifCattle.Base.enum_InsertType.旅程批次建檔.ToString()),
+                New SqlParameter("insertDateTime", insertDate),
+                New SqlParameter("insertAccountID", insertUserId)
+            }
+            Dim result As Object = da.ExecuteScalar(sql, para)
+            Return Convert.ToInt32(Convert.ToDecimal(result))
+        End Using
+    End Function
+
+    Private Sub DeleteCattleById(cattleId As Integer)
+        Using da As New DataAccess.MS_SQL()
+            Dim sqlDeleteHistory As String = "delete from Cattle_History where cattleID = @cattleID"
+            da.ExecNonQuery(sqlDeleteHistory, New SqlParameter("cattleID", cattleId))
+            Dim sqlDeleteCattle As String = "delete from Cattle_List where cattleID = @cattleID"
+            da.ExecNonQuery(sqlDeleteCattle, New SqlParameter("cattleID", cattleId))
+        End Using
+    End Sub
 
     Private Sub Page_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
         If Label_message.Text <> String.Empty Then
