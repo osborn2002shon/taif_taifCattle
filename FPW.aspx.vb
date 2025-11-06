@@ -1,11 +1,9 @@
-﻿
-Imports System.Security.Cryptography
-
+﻿Imports System.Security.Cryptography
 Public Class FPW
     Inherits taifCattle.Base
+
     Dim taifCattle_mail As New taifCattle.Mail
     Dim taifCattle_account As New taifCattle.Account
-
     Dim js As New StringBuilder
 
     ' 忘記密碼寄信間隔（秒）
@@ -406,5 +404,8 @@ Public Class FPW
 
     End Sub
 
-
+    Private Sub Button_back_Click(sender As Object, e As EventArgs) Handles _
+            Button_back.Click, Button_back2.Click, Button_back3.Click, Button_back4.Click
+        Response.Redirect("Login.aspx")
+    End Sub
 End Class

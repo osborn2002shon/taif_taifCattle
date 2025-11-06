@@ -9,6 +9,9 @@ Public Class StaticsFarm
     Dim taifCattle_farm As New taifCattle.Farm
     Dim taifCattle_con As New taifCattle.Control
     Dim js As New StringBuilder
+
+    Public isManager As Boolean
+
 #Region "Property"
 
     ''' <summary>
@@ -107,10 +110,12 @@ Public Class StaticsFarm
         End Set
     End Property
 #End Region
+
 #Region "Fun/Sub"
     Public Function MaskFarmCode(value As Object) As String
         Return taifCattle_farm.MaskFarmCode(value)
     End Function
+
     ''' <summary>
     ''' 儲存搜尋條件
     ''' </summary>
@@ -125,6 +130,7 @@ Public Class StaticsFarm
         '關鍵字
         Property_FarmQuery_keyWord = TextBox_farmKeyWord.Text.Trim()
     End Sub
+
     Sub BindFarmGridView()
         Dim liFarm As List(Of taifCattle.Farm.stru_farmInfo) = taifCattle_farm.Get_FarmList(Property_FarmQuery_city, Property_FarmQuery_town, Property_FarmQuery_keyWord)
         GridView_farmList.DataSource = liFarm
@@ -139,12 +145,14 @@ Public Class StaticsFarm
     Private Function ValidateCattleQueryCondition() As Boolean
 
         If String.IsNullOrEmpty(HiddenField_selectedFarm.Value) Then
-            Label_cattleMsg.Text = "請先選擇一個牧場。"
+            Label_message.Text = "請先選擇一個牧場。"
+            js.AppendLine("showModal();")
             Return False
         Else
             Dim farm As taifCattle.Farm.stru_farmInfo = taifCattle_farm.Get_FarmByID(HiddenField_selectedFarm.Value)
             If farm.farmID <= 0 Then
-                Label_cattleMsg.Text = "查無該牧場資料。"
+                Label_message.Text = "查無該牧場資料。"
+                js.AppendLine("showModal();")
                 Return False
             End If
         End If
@@ -152,11 +160,12 @@ Public Class StaticsFarm
         ' 檢查是否有勾選任何顯示狀態
         Dim hasSelected As Boolean = CheckBoxList_status.Items.Cast(Of ListItem).Any(Function(li) li.Selected)
         If Not hasSelected Then
-            Label_cattleMsg.Text = "【最新狀態】至少需勾選一項。"
+            Label_message.Text = "【最新狀態】至少需勾選一項。"
+            js.AppendLine("showModal();")
             Return False
         End If
 
-        Label_cattleMsg.Text = "" ' 清除前次錯誤訊息
+        'Label_message.Text = "" ' 清除前次錯誤訊息
         Return True
     End Function
     Protected Sub SaveCattleQueryCondition()
@@ -251,7 +260,7 @@ Public Class StaticsFarm
             TextBox_farmInfo_city.Text = ""
             TextBox_farmInfo_town.Text = ""
             TextBox_farmInfo_address.Text = ""
-            Label_cattleMsg.Text = "查無該牧場資料。"
+            Label_message.Text = "查無該牧場資料。"
             Exit Sub
         End If
 
@@ -263,7 +272,7 @@ Public Class StaticsFarm
         TextBox_farmInfo_town.Text = farm.town
         TextBox_farmInfo_address.Text = farm.address
 
-        Label_cattleMsg.Text = ""
+        'Label_cattleMsg.Text = ""
     End Sub
 
     Sub BindCattleGridView()
@@ -275,15 +284,22 @@ Public Class StaticsFarm
     End Sub
 
 #End Region
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        If IsPostBack = False Then
 
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        '檢查權限，如果是查詢使用者，不開放牛籍編號管理連結
+        '每次POST都要檢查
+        Dim userInfo As taifCattle.Base.stru_LoginUserInfo = Session("userInfo")
+        If userInfo.auTypeID = enum_auType.查詢使用者 Then
+            isManager = False
+        Else
+            isManager = True
+        End If
+
+        If IsPostBack = False Then
             '縣市
             taifCattle_con.BindDropDownList_city(DropDownList_farmCity, True)
-
             '鄉鎮
             taifCattle_con.BindDropDownList_area(DropDownList_farmTown, DropDownList_farmCity.SelectedValue, True)
-
         End If
     End Sub
 

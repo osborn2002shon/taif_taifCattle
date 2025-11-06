@@ -14,15 +14,6 @@ Option Explicit On
 Partial Public Class Config
 
     '''<summary>
-    '''Label_Message 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_Message As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''TextBox_MinLength 控制項。
     '''</summary>
     '''<remarks>
@@ -122,15 +113,6 @@ Partial Public Class Config
     Protected WithEvents TextBox_ReportRecipients As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Button_Cancel 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Button_Cancel As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Button_Save 控制項。
     '''</summary>
     '''<remarks>
@@ -138,4 +120,13 @@ Partial Public Class Config
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents Button_Save As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Label_Message 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Label_Message As Global.System.Web.UI.WebControls.Label
 End Class

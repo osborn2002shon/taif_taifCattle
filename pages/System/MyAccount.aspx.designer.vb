@@ -14,22 +14,22 @@ Option Explicit On
 Partial Public Class MyAccount
 
     '''<summary>
-    '''HiddenField_activeTab 控制項。
+    '''Label_lastLogin 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents HiddenField_activeTab As Global.System.Web.UI.WebControls.HiddenField
+    Protected WithEvents Label_lastLogin As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Label_basicMessage 控制項。
+    '''Label_role 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Label_basicMessage As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents Label_role As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Label_account 控制項。
@@ -48,15 +48,6 @@ Partial Public Class MyAccount
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents Label_name As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Label_role 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_role As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Panel_govCity 控制項。
@@ -95,13 +86,13 @@ Partial Public Class MyAccount
     Protected WithEvents TextBox_unit As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Label_lastLogin 控制項。
+    '''LinkButton_saveBasic 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Label_lastLogin As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents LinkButton_saveBasic As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Label_passwordChanged 控制項。
@@ -111,24 +102,6 @@ Partial Public Class MyAccount
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents Label_passwordChanged As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Button_saveBasic 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Button_saveBasic As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Label_passwordMessage 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_passwordMessage As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''TextBox_newPassword 控制項。
@@ -149,11 +122,20 @@ Partial Public Class MyAccount
     Protected WithEvents TextBox_confirmPassword As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Button_changePassword 控制項。
+    '''LinkButton_changePassword 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Button_changePassword As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents LinkButton_changePassword As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Label_Message 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Label_Message As Global.System.Web.UI.WebControls.Label
 End Class

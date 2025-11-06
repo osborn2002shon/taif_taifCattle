@@ -3,7 +3,7 @@
 <html>
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>農業保險基金*牛籍管理系統</title>
+    <title>農保基金牛籍管理系統</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
@@ -55,7 +55,7 @@
                             <asp:LinkButton ID="LinkButton_userName" runat="server" CssClass="user-name" PostBackUrl="~/pages/System/MyAccount.aspx" Text="">
                             </asp:LinkButton>
                             <asp:LinkButton ID="LinkButton_logout" runat="server" CssClass="btn btn-logout">
-                                <i class="fas fa-sign-out-alt me-1"></i> 登出
+                                <i class="fas fa-sign-out-alt me-1"></i>登出
                             </asp:LinkButton>
                            
                         </div>
@@ -90,9 +90,38 @@
             </div>
         </div>
 
+        <div class="modal fade" id="divMSG" tabindex="-1" role="dialog" aria-labelledby="divMSGTitle" aria-hidden="true" '<%= modalStatic %>'>
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title" id="divMSGTitle">
+                            <asp:ContentPlaceHolder id="ContentPlaceHolder_msg_title" runat="server"></asp:ContentPlaceHolder>
+                        </div>
+                        <asp:Panel ID="Panel_closeModal_img" runat="server">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </asp:Panel>
+                    </div>
+                    <div class="modal-body">
+                        <asp:ContentPlaceHolder id="ContentPlaceHolder_msg_content" runat="server"></asp:ContentPlaceHolder>
+                    </div>
+                    <div class="modal-footer">
+                        <asp:ContentPlaceHolder id="ContentPlaceHolder_msg_btn" runat="server"></asp:ContentPlaceHolder>
+                        <asp:Panel ID="Panel_closeModal" runat="server">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalButton_Close">關閉</button>
+                        </asp:Panel>
+                    </div>
+                </div>
+            </div>
+        </div>   
+
         <!-- Overlay for mobile -->
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
+       
+        <!-- 回到頂部按鈕 -->
+        <button class="back-to-top" id="backToTop">
+            <i class="fa-solid fa-arrow-up"></i>
+        </button>
         <script type="text/javascript" src="../../_js/mp_default.js"></script>
-    </form>
+    </form>    
 </body>
 </html>

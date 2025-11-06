@@ -166,38 +166,191 @@
     <Compile Include="App_Code\Basic\Report.vb" />
     <Compile Include="App_Code\Basic\ExcelExporter.vb" />
     <Compile Include="App_Code\Cattle.vb" />
+    <Compile Include="CPW.aspx.designer.vb">
+      <DependentUpon>CPW.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CPW.aspx.vb">
+      <DependentUpon>CPW.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="FPW.aspx.designer.vb">
+      <DependentUpon>FPW.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FPW.aspx.vb">
+      <DependentUpon>FPW.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.vb">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.vb">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Analysis\StaticsCattle.aspx.designer.vb">
+      <DependentUpon>StaticsCattle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Analysis\StaticsCattle.aspx.vb">
+      <DependentUpon>StaticsCattle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Analysis\StaticsCityCattle.aspx.designer.vb">
+      <DependentUpon>StaticsCityCattle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Analysis\StaticsCityCattle.aspx.vb">
+      <DependentUpon>StaticsCityCattle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Analysis\StaticsFarm.aspx.designer.vb">
+      <DependentUpon>StaticsFarm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Analysis\StaticsFarm.aspx.vb">
+      <DependentUpon>StaticsFarm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Analysis\StaticsNationCattle.aspx.designer.vb">
+      <DependentUpon>StaticsNationCattle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Analysis\StaticsNationCattle.aspx.vb">
+      <DependentUpon>StaticsNationCattle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Data\CattleManage.aspx.designer.vb">
+      <DependentUpon>CattleManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Data\CattleManage.aspx.vb">
+      <DependentUpon>CattleManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Data\CattleManage_Batch.aspx.designer.vb">
+      <DependentUpon>CattleManage_Batch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Data\CattleManage_Batch.aspx.vb">
+      <DependentUpon>CattleManage_Batch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Data\CattleManage_Detail.aspx.designer.vb">
+      <DependentUpon>CattleManage_Detail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Data\CattleManage_Detail.aspx.vb">
+      <DependentUpon>CattleManage_Detail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Data\FarmManage.aspx.designer.vb">
+      <DependentUpon>FarmManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Data\FarmManage.aspx.vb">
+      <DependentUpon>FarmManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Data\FarmManage_Batch.aspx.designer.vb">
+      <DependentUpon>FarmManage_Batch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Data\FarmManage_Batch.aspx.vb">
+      <DependentUpon>FarmManage_Batch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Data\HisEndManage_Batch.aspx.designer.vb">
+      <DependentUpon>HisEndManage_Batch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Data\HisEndManage_Batch.aspx.vb">
+      <DependentUpon>HisEndManage_Batch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Data\HisManage_Batch.aspx.designer.vb">
+      <DependentUpon>HisManage_Batch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Data\HisManage_Batch.aspx.vb">
+      <DependentUpon>HisManage_Batch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\System\AccountManage.aspx.designer.vb">
+      <DependentUpon>AccountManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\System\AccountManage.aspx.vb">
+      <DependentUpon>AccountManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\System\Config.aspx.designer.vb">
+      <DependentUpon>Config.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\System\Config.aspx.vb">
+      <DependentUpon>Config.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\System\MilkSetting.aspx.designer.vb">
+      <DependentUpon>MilkSetting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\System\MilkSetting.aspx.vb">
+      <DependentUpon>MilkSetting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\System\MyAccount.aspx.designer.vb">
+      <DependentUpon>MyAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\System\MyAccount.aspx.vb">
+      <DependentUpon>MyAccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\System\Permission.aspx.designer.vb">
+      <DependentUpon>Permission.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\System\Permission.aspx.vb">
+      <DependentUpon>Permission.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\System\UserLog.aspx.designer.vb">
+      <DependentUpon>UserLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\System\UserLog.aspx.vb">
+      <DependentUpon>UserLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\System\WebServiceLog.aspx.designer.vb">
+      <DependentUpon>WebServiceLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\System\WebServiceLog.aspx.vb">
+      <DependentUpon>WebServiceLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="_mp\mp_public.master.designer.vb">
+      <DependentUpon>mp_public.master</DependentUpon>
+    </Compile>
+    <Compile Include="_mp\mp_public.master.vb">
+      <DependentUpon>mp_public.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Content Include="CPW.aspx" />
     <Content Include="FPW.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="My Project\PublishProfiles\FolderProfile.pubxml.user" />
-    <Content Include="pages\Analysis\StaticsCattle.aspx" />
-    <Content Include="pages\Analysis\StaticsCityCattle.aspx" />
-    <Content Include="pages\Analysis\StaticsFarm.aspx" />
-    <Content Include="pages\Analysis\StaticsNationCattle.aspx" />
-    <Content Include="pages\Data\CattleManage.aspx" />
-    <Content Include="pages\Data\CattleManage_Batch.aspx" />
-    <Content Include="pages\Data\CattleManage_Detail.aspx" />
-    <Content Include="pages\Data\FarmManage.aspx" />
-    <Content Include="pages\Data\FarmManage_Batch.aspx" />
-    <Content Include="pages\Data\HisEndManage_Batch.aspx" />
-    <Content Include="pages\Data\HisManage_Batch.aspx" />
-    <Content Include="pages\sample\sample.aspx" />
-    <Content Include="pages\System\AccountManage.aspx" />
-    <Content Include="pages\System\Config.aspx" />
-    <Content Include="pages\System\MilkSetting.aspx" />
-    <Content Include="pages\System\MyAccount.aspx" />
-    <Content Include="pages\System\Permission.aspx" />
-    <Content Include="pages\System\UserLog.aspx" />
-    <Content Include="pages\System\WebServiceLog.aspx" />
+    <Content Include="Pages\Analysis\StaticsCattle.aspx" />
+    <Content Include="Pages\Analysis\StaticsCityCattle.aspx" />
+    <Content Include="Pages\Analysis\StaticsFarm.aspx" />
+    <Content Include="Pages\Analysis\StaticsNationCattle.aspx" />
+    <Content Include="Pages\Data\CattleManage.aspx" />
+    <Content Include="Pages\Data\CattleManage_Batch.aspx" />
+    <Content Include="Pages\Data\CattleManage_Detail.aspx" />
+    <Content Include="Pages\Data\FarmManage.aspx" />
+    <Content Include="Pages\Data\FarmManage_Batch.aspx" />
+    <Content Include="Pages\Data\HisEndManage_Batch.aspx" />
+    <Content Include="Pages\Data\HisManage_Batch.aspx" />
+    <Content Include="Pages\System\AccountManage.aspx" />
+    <Content Include="Pages\System\Config.aspx" />
+    <Content Include="Pages\System\MilkSetting.aspx" />
+    <Content Include="Pages\System\MyAccount.aspx" />
+    <Content Include="Pages\System\Permission.aspx" />
+    <Content Include="Pages\System\UserLog.aspx" />
+    <Content Include="Pages\System\WebServiceLog.aspx" />
     <Content Include="Web.config" />
     <Compile Include="App_Code\Farm.vb" />
     <Compile Include="App_Code\WebService.vb" />
+    <Content Include="WebService\CattleUninsured.aspx" />
     <Content Include="_css\bootstrap-icons.css" />
     <Content Include="_css\bootstrap.css" />
     <Content Include="_css\control.css" />
-    <Content Include="_css\control_temp.css" />
     <Content Include="_css\fontawesome-all.css" />
-    <Content Include="_css\login.css" />
+    <Content Include="_css\mp_public.css" />
     <Content Include="_css\mp_default.css" />
     <Content Include="_img\cattle_batch_sample.png" />
     <Content Include="_img\history_batch_sample.png" />
@@ -217,27 +370,6 @@
     <Compile Include="App_Code\Basic\Control.vb" />
     <Compile Include="App_Code\Basic\Mail.vb" />
     <Compile Include="App_Code\Cattle_Control.vb" />
-    <Compile Include="CPW.aspx.designer.vb">
-      <DependentUpon>CPW.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="CPW.aspx.vb">
-      <DependentUpon>CPW.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="FPW.aspx.designer.vb">
-      <DependentUpon>FPW.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FPW.aspx.vb">
-      <DependentUpon>FPW.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Login.aspx.designer.vb">
-      <DependentUpon>Login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Login.aspx.vb">
-      <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -257,140 +389,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="pages\Analysis\StaticsCattle.aspx.designer.vb">
-      <DependentUpon>StaticsCattle.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Analysis\StaticsCattle.aspx.vb">
-      <DependentUpon>StaticsCattle.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="pages\Analysis\StaticsCityCattle.aspx.designer.vb">
-      <DependentUpon>StaticsCityCattle.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Analysis\StaticsCityCattle.aspx.vb">
-      <DependentUpon>StaticsCityCattle.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="pages\Analysis\StaticsFarm.aspx.designer.vb">
-      <DependentUpon>StaticsFarm.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Analysis\StaticsFarm.aspx.vb">
-      <DependentUpon>StaticsFarm.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="pages\Analysis\StaticsNationCattle.aspx.designer.vb">
-      <DependentUpon>StaticsNationCattle.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Analysis\StaticsNationCattle.aspx.vb">
-      <DependentUpon>StaticsNationCattle.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="pages\Data\CattleManage.aspx.designer.vb">
-      <DependentUpon>CattleManage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Data\CattleManage.aspx.vb">
-      <DependentUpon>CattleManage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="pages\Data\CattleManage_Batch.aspx.designer.vb">
-      <DependentUpon>CattleManage_Batch.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Data\CattleManage_Batch.aspx.vb">
-      <DependentUpon>CattleManage_Batch.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="pages\Data\CattleManage_Detail.aspx.designer.vb">
-      <DependentUpon>CattleManage_Detail.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Data\CattleManage_Detail.aspx.vb">
-      <DependentUpon>CattleManage_Detail.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="pages\Data\FarmManage.aspx.designer.vb">
-      <DependentUpon>FarmManage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Data\FarmManage.aspx.vb">
-      <DependentUpon>FarmManage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="pages\Data\FarmManage_Batch.aspx.designer.vb">
-      <DependentUpon>FarmManage_Batch.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Data\FarmManage_Batch.aspx.vb">
-      <DependentUpon>FarmManage_Batch.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="pages\Data\HisEndManage_Batch.aspx.designer.vb">
-      <DependentUpon>HisEndManage_Batch.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Data\HisEndManage_Batch.aspx.vb">
-      <DependentUpon>HisEndManage_Batch.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="pages\Data\HisManage_Batch.aspx.designer.vb">
-      <DependentUpon>HisManage_Batch.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\Data\HisManage_Batch.aspx.vb">
-      <DependentUpon>HisManage_Batch.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="pages\sample\sample.aspx.designer.vb">
-      <DependentUpon>sample.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\sample\sample.aspx.vb">
-      <DependentUpon>sample.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="pages\System\AccountManage.aspx.designer.vb">
-      <DependentUpon>AccountManage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\System\AccountManage.aspx.vb">
-      <DependentUpon>AccountManage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="pages\System\Config.aspx.designer.vb">
-      <DependentUpon>Config.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\System\Config.aspx.vb">
-      <DependentUpon>Config.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="pages\System\MilkSetting.aspx.designer.vb">
-      <DependentUpon>MilkSetting.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\System\MilkSetting.aspx.vb">
-      <DependentUpon>MilkSetting.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="pages\System\MyAccount.aspx.designer.vb">
-      <DependentUpon>MyAccount.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\System\MyAccount.aspx.vb">
-      <DependentUpon>MyAccount.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="pages\System\Permission.aspx.designer.vb">
-      <DependentUpon>Permission.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\System\Permission.aspx.vb">
-      <DependentUpon>Permission.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="pages\System\UserLog.aspx.designer.vb">
-      <DependentUpon>UserLog.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\System\UserLog.aspx.vb">
-      <DependentUpon>UserLog.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
     <Content Include="WebService\CattleHistory.aspx" />
-    <Compile Include="pages\System\WebServiceLog.aspx.designer.vb">
-      <DependentUpon>WebServiceLog.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="pages\System\WebServiceLog.aspx.vb">
-      <DependentUpon>WebServiceLog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="WebService\CattleHistory.aspx.designer.vb">
       <DependentUpon>CattleHistory.aspx</DependentUpon>
     </Compile>
@@ -399,6 +398,13 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Content Include="WebService\Verify.aspx" />
+    <Compile Include="WebService\CattleUninsured.aspx.designer.vb">
+      <DependentUpon>CattleUninsured.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebService\CattleUninsured.aspx.vb">
+      <DependentUpon>CattleUninsured.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="WebService\Verify.aspx.designer.vb">
       <DependentUpon>Verify.aspx</DependentUpon>
     </Compile>
@@ -449,9 +455,10 @@
     <Content Include="_fonts\fa-solid-900.woff2" />
     <Content Include="_fonts\fa-v4compatibility.woff2" />
     <Content Include="_mp\mp_default.master" />
-    <Content Include="_doc\batch\cattleManage_Batch.xlsx" />
     <Content Include="_doc\batch\hisManage_Batch.xlsx" />
     <Content Include="_doc\batch\hisEndManage_Batch.xlsx" />
+    <Content Include="_mp\mp_public.master" />
+    <Content Include="_doc\batch\cattleManage_Batch.xlsx" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

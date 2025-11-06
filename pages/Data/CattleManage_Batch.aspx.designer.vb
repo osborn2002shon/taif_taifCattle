@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class CattleManage_Batch
 
     '''<summary>
+    '''HyperLink_template 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents HyperLink_template As Global.System.Web.UI.WebControls.HyperLink
+
+    '''<summary>
     '''FileUpload_excel 控制項。
     '''</summary>
     '''<remarks>
@@ -30,24 +39,6 @@ Partial Public Class CattleManage_Batch
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents LinkButton_import As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''HyperLink_template 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents HyperLink_template As Global.System.Web.UI.WebControls.HyperLink
-
-    '''<summary>
-    '''Label_message 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_message As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Panel_success 控制項。
@@ -120,4 +111,13 @@ Partial Public Class CattleManage_Batch
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents HyperLink_missingFarmBatch As Global.System.Web.UI.WebControls.HyperLink
+
+    '''<summary>
+    '''Label_message 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Label_message As Global.System.Web.UI.WebControls.Label
 End Class

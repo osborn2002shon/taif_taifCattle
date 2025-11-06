@@ -65,3 +65,35 @@
         }
     });
 });
+
+// 燈箱
+function showModal() {
+    var md = new bootstrap.Modal(document.getElementById('divMSG'));
+    md.show();
+}
+
+// 清除控制項
+function clearControl(controlId) {
+    var textbox = document.getElementById(controlId);
+    textbox.value = '';
+    textbox.focus(); // 清除後自動聚焦
+}
+
+// 置頂
+const backToTopBtn = document.getElementById('backToTop');
+window.addEventListener('scroll', function () {
+    //當滾動超過 300px 時顯示按鈕
+    if (window.scrollY > 300) {
+        backToTopBtn.classList.add('show');
+    } else {
+        backToTopBtn.classList.remove('show');
+    }
+});
+backToTopBtn.addEventListener('click', function () {
+    //點擊按鈕回到頂部
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+

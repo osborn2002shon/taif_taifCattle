@@ -6,7 +6,7 @@ Imports System.Web.UI.WebControls
 
 Public Class Permission
     Inherits taifCattle.Base
-
+    Public js As New StringBuilder
     Private Class RoleModel
         Public Property AuTypeID As Integer
         Public Property AuTypeName As String
@@ -49,29 +49,19 @@ Public Class Permission
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not IsPostBack Then
-            ResetResultMessage()
+            Label_result.Text =""
             BindPermissionGroups()
         End If
     End Sub
 
-    Private Sub UpdateStatusMessage(message As String)
-        Label_status.Text = message
-    End Sub
-
-    Private Sub ResetResultMessage()
-        ShowResultMessage(String.Empty, False)
-    End Sub
-
-    Private Sub ShowResultMessage(message As String, isError As Boolean)
-        Dim baseClass As String = "me-auto text-start d-inline-block"
+    Private Sub ShowMessage(message As String)
         If String.IsNullOrWhiteSpace(message) Then
-            Label_result.Text = String.Empty
-            Label_result.CssClass = baseClass
+            Label_result.Text = ""
+
         Else
-            Dim cssStatus As String = If(isError, " text-danger", " text-success")
             Label_result.Text = message
-            Label_result.CssClass = baseClass & " fw-semibold" & cssStatus
         End If
+        js.AppendLine("showModal();")
     End Sub
 
     Private Sub BindPermissionGroups()
@@ -79,7 +69,7 @@ Public Class Permission
 
         If roleList.Count = 0 Then
             Panel_permission.Visible = False
-            UpdateStatusMessage("查無系統權限角色，請先建立角色。")
+            ShowMessage("查無系統權限角色，請先建立角色。")
             Return
         End If
 
@@ -87,7 +77,7 @@ Public Class Permission
 
         If groups.Count = 0 Then
             Panel_permission.Visible = False
-            UpdateStatusMessage("查無可設定的功能選項。")
+            ShowMessage("查無可設定的功能選項。")
             Return
         End If
 
@@ -96,7 +86,7 @@ Public Class Permission
         Repeater_groups.DataBind()
 
         Dim totalMenus = groups.Sum(Function(g) g.Menus.Count)
-        UpdateStatusMessage($"共有 {totalMenus} 項功能，{roleList.Count} 種角色可設定是否使用。")
+        Label_status.Text = $"共有 {totalMenus} 項功能，{roleList.Count} 種角色可設定是否使用。"
     End Sub
 
     Private Function LoadMenuGroups(roleList As List(Of RoleModel)) As List(Of MenuGroupModel)
@@ -218,15 +208,12 @@ Public Class Permission
     End Sub
 
     Protected Sub Button_reload_Click(sender As Object, e As EventArgs) Handles Button_reload.Click
-        ResetResultMessage()
         _roleCache = Nothing
         BindPermissionGroups()
-        ShowResultMessage("已重新載入最新的權限設定。", False)
+        ShowMessage("已重新載入最新的權限設定。")
     End Sub
 
     Protected Sub Button_save_Click(sender As Object, e As EventArgs) Handles Button_save.Click
-        ResetResultMessage()
-
         Dim selections As List(Of MenuRoleSelectionModel) = CollectPermissionsFromUI()
         Dim allMenus = LoadAllMenuInfos()
         Dim menuLookup As Dictionary(Of Integer, String) = allMenus.ToDictionary(Function(m) m.MenuID, Function(m) m.MenuName)
@@ -292,13 +279,12 @@ Public Class Permission
                 Next
 
                 da.Commit()
-                ShowResultMessage("權限設定已成功儲存。", False)
+                ShowMessage("權限設定已成功儲存。")
             Catch ex As Exception
                 da.RollBack()
-                ShowResultMessage("儲存失敗：" & ex.Message, True)
+                ShowMessage("儲存失敗：" & ex.Message)
             End Try
         End Using
-
         BindPermissionGroups()
     End Sub
 
@@ -352,5 +338,9 @@ Public Class Permission
 
         Return selections
     End Function
+
+    Private Sub Page_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
+        Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
+    End Sub
 
 End Class

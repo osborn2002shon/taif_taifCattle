@@ -84,4 +84,49 @@ Partial Public Class mp_default
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents ContentPlaceHolder_content As Global.System.Web.UI.WebControls.ContentPlaceHolder
+
+    '''<summary>
+    '''ContentPlaceHolder_msg_title 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents ContentPlaceHolder_msg_title As Global.System.Web.UI.WebControls.ContentPlaceHolder
+
+    '''<summary>
+    '''Panel_closeModal_img 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Panel_closeModal_img As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''ContentPlaceHolder_msg_content 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents ContentPlaceHolder_msg_content As Global.System.Web.UI.WebControls.ContentPlaceHolder
+
+    '''<summary>
+    '''ContentPlaceHolder_msg_btn 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents ContentPlaceHolder_msg_btn As Global.System.Web.UI.WebControls.ContentPlaceHolder
+
+    '''<summary>
+    '''Panel_closeModal 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Panel_closeModal As Global.System.Web.UI.WebControls.Panel
 End Class

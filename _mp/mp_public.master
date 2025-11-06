@@ -1,0 +1,41 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="mp_public.master.vb" Inherits="taifCattle.mp_public" %>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>農保基金牛籍管理系統</title>
+    <script src="_js/bootstrap.bundle.js"></script>
+    <script src="_js/jquery-3.7.1.js"></script>
+    <link href="_css/bootstrap.css" rel="stylesheet" />
+    <link href="_css/fontawesome-all.css" rel="stylesheet" />
+    <link href="_css/mp_public.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder_head" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo-icon">
+                    <img src="_img/logo.png" />
+                </div>
+                <h1 class="system-title">牛籍管理系統</h1>
+                <p class="system-subtitle">Cattle Management System</p>
+            </div>            
+            <div class="login-body">
+                <div class="pageTitle">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder_title" runat="server"></asp:ContentPlaceHolder>
+                </div>
+                <form id="loginForm" runat="server">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder_body" runat="server"></asp:ContentPlaceHolder>
+                </form>
+                <div style="font-size:0.85rem;text-align:center;margin-top:10px">
+                    Copyright © 2025 Taiwan Agricultural Insurance Fund<br />
+                    (02)2396-2381
+                </div>
+            </div>
+        </div>
+    </div>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder_jsBottom" runat="server"></asp:ContentPlaceHolder>
+</body>
+</html>

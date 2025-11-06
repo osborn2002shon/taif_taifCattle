@@ -8,6 +8,8 @@ Imports System.Web.UI.WebControls
 Public Class FarmManage_Batch
     Inherits taifCattle.Base
 
+    Public js As New StringBuilder
+
     Private ReadOnly taifCattle_farm As New taifCattle.Farm()
     Private ReadOnly taifCattle_con As New taifCattle.Control()
 
@@ -335,5 +337,11 @@ Public Class FarmManage_Batch
 
             panelInputs.CssClass = cssClass
         Next
+    End Sub
+    Private Sub Page_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
+        If Label_message.Text <> String.Empty Then
+            js.AppendLine("showModal();")
+        End If
+        Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
     End Sub
 End Class

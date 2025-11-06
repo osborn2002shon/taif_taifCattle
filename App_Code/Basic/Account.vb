@@ -540,7 +540,7 @@ Namespace taifCattle.DAO
                                 ua.account like '%' + @keyword + '%' or
                                 ua.name like '%' + @keyword + '%' or
                                 ua.email like '%' + @keyword + '%'
-                            )
+                            )                    
                 </sql>.Value
 
             Select Case status
@@ -552,7 +552,8 @@ Namespace taifCattle.DAO
                     sql &= " and ua.isEmailVerified = 0"
             End Select
 
-            sql &= " order by ua.insertDateTime desc"
+            '依權限別排列、依帳號名稱排
+            sql &= " order by ua.auTypeID, ua.account "
 
             Dim para As New List(Of Data.SqlClient.SqlParameter)
             para.Add(New Data.SqlClient.SqlParameter("roleID", If(roleID.HasValue, roleID.Value, CType(DBNull.Value, Object))))

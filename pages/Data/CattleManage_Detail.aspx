@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
-    <i class="fa-solid fa-database"></i> 牛籍資料管理
+    <i class="fa-solid fa-cow"></i> 牛籍資料管理
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_title" runat="server">
 </asp:Content>
@@ -12,13 +12,14 @@
         <asp:View ID="View_new" runat="server">
             <div class="card formCard">
                 <div class="card-header">
-                    <i class="fa-regular fa-id-card"></i> 新增牛籍資料
+                    <i class="fa-regular fa-id-card me-1"></i>新增牛籍資料
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
                             <label>牛籍編號<span class="star">*</span></label>
                             <asp:TextBox ID="TextBox_tagNo" runat="server" CssClass="form-control" autocomplete="off"></asp:TextBox>
+                            <span class="info">請優先登打制式耳標編號，肉牛格式為00-00000；乳牛格式為00A0000或00A00000</span>
                         </div>
                         <div class="col">
                             <label>編號備註</label>
@@ -47,11 +48,8 @@
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                    <div class="msg">
-                        <asp:Label ID="Label_addMsg" runat="server"></asp:Label>
-                    </div>
-                    <asp:LinkButton ID="LinkButton_save" runat="server" CssClass="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> 新增</asp:LinkButton>
-                    <asp:LinkButton ID="LinkButton_cancel" runat="server" CssClass="btn btn-outline-secondary"><i class="fa-solid fa-xmark"></i> 取消</asp:LinkButton>
+                    <asp:LinkButton ID="LinkButton_save" runat="server" CssClass="btn btn-primary"><i class="fa-solid fa-floppy-disk me-1"></i>新增</asp:LinkButton>
+                    <asp:LinkButton ID="LinkButton_cancel" runat="server" CssClass="btn btn-outline-secondary"><i class="fa-solid fa-xmark me-1"></i>取消</asp:LinkButton>
                 </div>
             </div>
         </asp:View>
@@ -61,12 +59,12 @@
             <div class="text-start mb-3">
                 <asp:LinkButton ID="LinkButton_backList" runat="server" CssClass="btn btn-outline-secondary"><i class="fa-solid fa-arrow-left"></i> 返回列表</asp:LinkButton>
             </div>
-            <div class="row" style="margin-bottom:50px;">
+            <div class="row" style="margin-bottom:50px">
                 <div class="col-9">
                     <%-- 基本 --%>
-                    <div class="card formCard h-100">
+                    <div class="card formCard h-100" style="margin-bottom:0px">
                         <div class="card-header">
-                            <i class="fa-regular fa-id-card"></i> 編輯牛籍資料
+                            <i class="fa-regular fa-id-card me-1"></i>編輯牛籍資料
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -109,19 +107,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer text-center">
-                            <div class="msg">
-                                <asp:Label ID="Label_edit_msg" runat="server"></asp:Label>
-                            </div>
-                            <asp:LinkButton ID="LinkButton_edit_update" runat="server" CssClass="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> 更新</asp:LinkButton>
+                        <div class="card-footer">
+                            <asp:LinkButton ID="LinkButton_edit_update" runat="server" CssClass="btn btn-primary">
+                                <i class="fa-solid fa-floppy-disk me-1"></i>更新</asp:LinkButton>
                         </div>
                     </div>
                 </div>
                 <div class="col-3">
                     <%-- 保險 --%>
-                    <div class="card formCard h-100">
+                    <div class="card formCard h-100" style="margin-bottom:0px">
                         <div class="card-header red">
-                            <i class="fa-regular fa-money-bill-1"></i> 最新保險狀態
+                            <i class="fa-regular fa-money-bill-1 me-1"></i>最新保險狀態
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -147,7 +143,7 @@
             <%-- 旅程 --%>
             <div class="card formCard">
                 <div class="card-header green">
-                    <i class="fa-regular fa-truck"></i> 新增旅程紀錄
+                    <i class="fa-regular fa-truck me-1"></i>新增旅程紀錄
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -173,10 +169,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                    <div class="msg">
-                        <asp:Label ID="Label_edit_msg_hisDef" runat="server"></asp:Label>
-                    </div>
-                    <asp:LinkButton ID="LinkButton_edit_insert_hisDef" runat="server" CssClass="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> 新增</asp:LinkButton>
+                    <asp:LinkButton ID="LinkButton_edit_insert_hisDef" runat="server" CssClass="btn btn-primary"><i class="fa-solid fa-floppy-disk me-1"></i>新增</asp:LinkButton>
                 </div>
             </div>
 
@@ -234,7 +227,7 @@
                                 <ItemTemplate>
                                         <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-danger"
                                             CommandName="hisRemove" CommandArgument='<%# Eval("hisID") %>' >
-                                            <i class="fa-solid fa-trash"></i> 刪除</asp:LinkButton>
+                                            <i class="fa-solid fa-trash me-1"></i>刪除</asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -248,7 +241,7 @@
             <%-- 除籍 --%>
             <div class="card formCard">
                 <div class="card-header orange">
-                    <i class="fa-regular fa-flag"></i> 新增除籍紀錄
+                    <i class="fa-regular fa-flag me-1"></i>新增除籍紀錄
                 </div>
                 <div class="card-body">
                     <asp:UpdatePanel runat="server" class="row">
@@ -276,10 +269,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                    <div class="msg">
-                        <asp:Label ID="Label_edit_msg_hisEnd" runat="server"></asp:Label>
-                    </div>
-                    <asp:LinkButton ID="LinkButton_edit_insert_hisEnd" runat="server" CssClass="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> 新增</asp:LinkButton>
+                    <asp:LinkButton ID="LinkButton_edit_insert_hisEnd" runat="server" CssClass="btn btn-primary"><i class="fa-solid fa-floppy-disk me-1"></i>新增</asp:LinkButton>
                 </div>
             </div>
 
@@ -332,7 +322,7 @@
                                 <ItemTemplate>
                                         <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-danger"
                                             CommandName="hisRemove" CommandArgument='<%# Eval("hisID") %>' >
-                                            <i class="fa-solid fa-trash"></i> 刪除</asp:LinkButton>
+                                            <i class="fa-solid fa-trash me-1"></i>刪除</asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -345,11 +335,12 @@
 
         </asp:View>
     </asp:MultiView>
-    <script type="text/javascript">
-        function clearControl(controlId) {
-            var textbox = document.getElementById(controlId);
-            textbox.value = '';
-            textbox.focus(); // 清除後自動聚焦
-        }
-    </script>
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder_msg_title" runat="server">
+    系統訊息
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder_msg_content" runat="server">
+    <asp:Label ID="Label_message" runat="server" CssClass="msg"></asp:Label>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder_msg_btn" runat="server">
 </asp:Content>

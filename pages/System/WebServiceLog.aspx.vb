@@ -23,7 +23,7 @@ Public Class WebServiceLog
         Dim apiName As String = DropDownList_apiName.SelectedValue
         Dim actionType As String = DropDownList_actionType.SelectedValue
         Dim dt As Data.DataTable = Get_Data(queryDate_beg, queryDate_end, apiName, actionType)
-        Label_datCount.Text = dt.Rows.Count
+        Label_datCount.Text = dt.Rows.Count.ToString("N0")
         GridView_data.DataSource = dt
         GridView_data.DataBind()
     End Sub
@@ -43,7 +43,6 @@ Public Class WebServiceLog
         Using da As New DataAccess.MS_SQL
             Return da.GetDataTable(sqlString, para.ToArray())
         End Using
-
     End Function
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load

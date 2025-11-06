@@ -8,6 +8,8 @@ Imports Excel = taifCattle.ExcelExporter
 Public Class HisManage_Batch
     Inherits taifCattle.Base
 
+    Public js As New StringBuilder
+
     Private ReadOnly taifReport As New taifCattle.Report()
     Private ReadOnly taifCattle_cattle As New taifCattle.Cattle()
     Private ReadOnly taifCattle_farm As New taifCattle.Farm()
@@ -345,4 +347,10 @@ Public Class HisManage_Batch
         Return dict
     End Function
 
+    Private Sub Page_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
+        If Label_message.Text <> String.Empty Then
+            js.AppendLine("showModal();")
+        End If
+        Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
+    End Sub
 End Class

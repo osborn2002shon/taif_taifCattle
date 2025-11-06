@@ -95,15 +95,6 @@ Partial Public Class AccountManage
     Protected WithEvents Label_recordCount As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Label_message 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_message As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''GridView_accounts 控制項。
     '''</summary>
     '''<remarks>
@@ -122,6 +113,15 @@ Partial Public Class AccountManage
     Protected WithEvents Panel_editor As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
+    '''Button_cancel 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Button_cancel As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''HiddenField_editAccountID 控制項。
     '''</summary>
     '''<remarks>
@@ -129,15 +129,6 @@ Partial Public Class AccountManage
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents HiddenField_editAccountID As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''Label_formMessage 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_formMessage As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''DropDownList_editRole 控制項。
@@ -236,14 +227,14 @@ Partial Public Class AccountManage
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Button_save As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents Button_save As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Button_cancel 控制項。
+    '''Label_message 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Button_cancel As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents Label_message As Global.System.Web.UI.WebControls.Label
 End Class

@@ -9,7 +9,7 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder_content" runat="server">
     <div class="queryBox">
         <div class="queryBox-header">
-             牛籍編號查詢
+             查詢條件
         </div>
         <div class="queryBox-body">
             <div class="row">
@@ -25,12 +25,12 @@
             <div class="row">
                 <div class="col text-center">
                     <asp:LinkButton ID="LinkButton_query" runat="server" CssClass="btn btn-primary">
-                        <i class="fas fa-search"></i>查詢
+                        <i class="fas fa-search me-1"></i>查詢
                     </asp:LinkButton>
                 </div>
-                <div class="col-12 text-center">
+              <%--  <div class="col-12 text-center">
                     <asp:Label ID="Label_msg" runat="server" Text="" CssClass="text-danger"></asp:Label>
-                </div>
+                </div>--%>
             </div>
             
         </div>
@@ -38,8 +38,8 @@
     </div>
     <asp:Panel ID="Panel_result" runat="server" Visible="false">
         <div class="card formCard h-100">
-            <div class="card-header">
-                <i class="fa-regular fa-id-card"></i> 牛籍資料
+            <div class="card-header green">
+                牛籍基本資料
             </div>
             <div class="card-body">
                 <div class="row">
@@ -83,7 +83,7 @@
         <div class="row m-0 mt-3 mb-3 align-items-center">
             <div class="col p-0">
     
-                <asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-outline-success">下載列表</asp:LinkButton>
+                <asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-success"><i class="fa-solid fa-file-arrow-down me-1"></i>列表下載</asp:LinkButton>
             </div>
             <div class="col p-0 text-end">
                 共 <asp:Label ID="Label_recordCount" runat="server" Text="0"></asp:Label> 筆
@@ -152,12 +152,12 @@
             </asp:GridView>
         </div>
     </asp:Panel>
-    
-    <script type="text/javascript">
-        function clearControl(controlId) {
-            var textbox = document.getElementById(controlId);
-            textbox.value = '';
-            textbox.focus(); // 清除後自動聚焦
-        }
-    </script>
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder_msg_title" runat="server">
+    系統訊息
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder_msg_content" runat="server">
+    <asp:Label ID="Label_message" runat="server" CssClass="msg"></asp:Label>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder_msg_btn" runat="server">
 </asp:Content>

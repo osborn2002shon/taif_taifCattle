@@ -106,5 +106,7 @@ Public Class CPW
         End Try
     End Sub
 
-
+    Private Sub Button_back_Click(sender As Object, e As EventArgs) Handles Button_back.Click
+        Response.Redirect("Login.aspx")
+    End Sub
 End Class

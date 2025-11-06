@@ -5,6 +5,7 @@ Imports System.IO
 
 Public Class FarmManage
     Inherits taifCattle.Base
+    Public js As New StringBuilder
     Dim taifCattle_con As New taifCattle.Control
     Dim taifCattle_farm As New taifCattle.Farm
 
@@ -230,6 +231,7 @@ Public Class FarmManage
         ' === 顯示錯誤訊息 ===
         If msg.Count > 0 Then
             Label_msg.Text = String.Join("<br/>", msg)
+            js.AppendLine("showModal();")
             Return False
         End If
 
@@ -467,11 +469,17 @@ Public Class FarmManage
             taifCattle_farm.Insert_Farm(info)
             Insert_UserLog(info.insertAccountID, taifCattle.Base.enum_UserLogItem.牧場資料管理, taifCattle.Base.enum_UserLogType.新增, $"farmCode:{info.farmCode}")
             Label_msg.Text = "牧場資料已新增成功！"
+            js.AppendLine("showModal();")
         Else
             taifCattle_farm.Update_Farm(info)
             Insert_UserLog(info.updateAccountID, taifCattle.Base.enum_UserLogItem.牧場資料管理, taifCattle.Base.enum_UserLogType.修改, $"farmID:{info.farmID}")
             Label_msg.Text = "牧場資料已更新成功！"
+            js.AppendLine("showModal();")
         End If
 
+    End Sub
+
+    Private Sub Page_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
+        Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
     End Sub
 End Class

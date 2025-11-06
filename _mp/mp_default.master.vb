@@ -19,12 +19,23 @@ Public Class mp_default
     Private ReadOnly Property GroupIcons As Dictionary(Of String, String)
         Get
             Return New Dictionary(Of String, String) From {
-            {"系統管理", "fas fa-cogs"},
-            {"資料管理", "fas fa-cow"},
+            {"系統管理", "fa-solid fa-cogs"},
+            {"資料管理", "fa-solid fa-database"},
             {"統計報表", "fa-solid fa-magnifying-glass-chart"}
         }
         End Get
     End Property
+
+    Public modalStatic As String = ""
+    Public Property isNeedStaticModal As Boolean
+        Get
+            Return ViewState("isNeedStaticModal")
+        End Get
+        Set(value As Boolean)
+            ViewState("isNeedStaticModal") = value
+        End Set
+    End Property
+
 #Region "Fun/Sub"
     ''' <summary>
     ''' 將路徑統一為以 "/" 開頭的相對路徑（支援虛擬目錄）
@@ -111,6 +122,7 @@ Public Class mp_default
 
 
 #End Region
+
     Private Sub mp_default_Init(sender As Object, e As EventArgs) Handles Me.Init
         '若檢查沒有正確的Session，直接返回登入畫面
         Dim userInfo As taifCattle.Base.stru_LoginUserInfo = Session("userInfo")
@@ -128,8 +140,8 @@ Public Class mp_default
                 m.canRead AndAlso String.Equals(NormalizePath(m.menuURL), currentPage, StringComparison.OrdinalIgnoreCase))
 
             If Not hasPermission Then
-                Response.Redirect("~/Login.aspx")
-                Exit Sub
+                'Response.Redirect("~/Login.aspx")
+                'Exit Sub
             End If
         End If
 
@@ -138,13 +150,23 @@ Public Class mp_default
             menuStr_def = BuildMenuHTML(userInfo.liMenu)
         End If
     End Sub
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         Dim userInfo As taifCattle.Base.stru_LoginUserInfo = Session("userInfo")
         If IsPostBack = False Then
             LinkButton_userName.Text = userInfo.name
 
-
+            Select Case isNeedStaticModal
+                Case True
+                    modalStatic = " data-bs-backdrop='static' data-bs-keyboard='false' "
+                    Panel_closeModal.Visible = False
+                    Panel_closeModal_img.Visible = False
+                Case False
+                    modalStatic = ""
+                    Panel_closeModal.Visible = True
+                    Panel_closeModal_img.Visible = True
+            End Select
         End If
     End Sub
 

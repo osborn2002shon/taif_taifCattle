@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col text-center">
                     <asp:LinkButton ID="LinkButton_query" runat="server" CssClass="btn btn-primary">
-                        <i class="fas fa-search"></i>查詢
+                        <i class="fas fa-search me-1"></i>查詢
                     </asp:LinkButton>
                 </div>
             </div>
@@ -54,7 +54,7 @@
     <div class="row m-0 mt-3 mb-3 align-items-center">
         <div class="col p-0">
            
-            <asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-outline-success">下載列表</asp:LinkButton>
+            <asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-success"><i class="fa-solid fa-file-arrow-down me-1"></i>列表下載</asp:LinkButton>
         </div>
          <div class="col p-0 text-end">
              共 <asp:Label ID="Label_recordCount" runat="server" Text="0"></asp:Label> 筆
@@ -62,25 +62,20 @@
     </div>
     <div class="table-responsive gv-tb">
   
-        <asp:GridView ID="GridView_userLog" runat="server" CssClass="gv" AutoGenerateColumns="false" 
-            AllowPaging="true" PageSize="10" ShowHeaderWhenEmpty="true" HeaderStyle-CssClass="text-center">
+        <asp:GridView ID="GridView_userLog" runat="server" CssClass="gv" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" ShowHeaderWhenEmpty="true">
             <Columns>
-                <asp:BoundField DataField="logDateTime" HeaderText="操作時間" 
-                    DataFormatString="{0:yyyy-MM-dd HH:mm:ss}" ItemStyle-Width="15%" ItemStyle-CssClass="text-center"/>
-
-                <asp:BoundField DataField="IP" HeaderText="IP位址" ItemStyle-Width="10%" ItemStyle-CssClass="text-center"/>
-
-                <asp:BoundField DataField="name" HeaderText="使用者姓名" ItemStyle-Width="10%" ItemStyle-CssClass="text-center"/>
-
-                <asp:BoundField DataField="account" HeaderText="帳號名稱" ItemStyle-Width="15%" ItemStyle-CssClass="text-center" />
-
-                <asp:BoundField DataField="logType" HeaderText="操作類型" ItemStyle-Width="10%" ItemStyle-CssClass="text-center"/>
-
-                <asp:BoundField DataField="logItem" HeaderText="操作項目" ItemStyle-Width="15%" ItemStyle-CssClass="text-center"/>
-
-                <asp:BoundField DataField="memo" HeaderText="操作內容"
-                    HtmlEncode="False" ItemStyle-Width="25%" ItemStyle-Wrap="True" />
-          
+                <asp:BoundField DataField="logDateTime" HeaderText="操作時間" DataFormatString="{0:yyyy/MM/dd HH:mm:ss}" ItemStyle-Width="20%"/>
+                <asp:BoundField DataField="name" HeaderText="使用者姓名" ItemStyle-Width="15%"/>
+                <asp:BoundField DataField="account" HeaderText="帳號名稱" ItemStyle-Width="15%" />
+                <asp:TemplateField  HeaderText="操作項目" ItemStyle-Width="20%">
+                    <ItemTemplate>
+                        <%# Eval("logItem") %>
+                        <asp:Label ID="Label_memo" runat="server" Visible='<%# If(Eval("memo") = "", False, True) %>' 
+                            ToolTip='<%# Eval("memo") %>'><i class="fa-solid fa-comment-dots"></i></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>        
+                <asp:BoundField DataField="logType" HeaderText="操作類型" ItemStyle-Width="15%"/>
+                <asp:BoundField DataField="IP" HeaderText="IP位址" ItemStyle-Width="15%"/>
             </Columns>
              <EmptyDataTemplate>
                <div class="text-danger text-center py-2 fw-bold">
@@ -90,11 +85,4 @@
             <PagerStyle HorizontalAlign="Center"/>
         </asp:GridView>
     </div>
-     <script type="text/javascript">
-         function clearControl(controlId) {
-             var textbox = document.getElementById(controlId);
-             textbox.value = '';
-             textbox.focus(); // 清除後自動聚焦
-         }
-     </script>
 </asp:Content>

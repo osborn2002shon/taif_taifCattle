@@ -30,14 +30,11 @@
             </div>
             <div class="row">
                 <div class="col text-center">
-            <%--        <asp:LinkButton ID="LinkButton_query" runat="server" CssClass="btn btn-primary">
-                        <i class="fas fa-search"></i>查詢
-                    </asp:LinkButton>--%>
-                     <asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-outline-success">下載列表</asp:LinkButton>
+                     <asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-success"><i class="fa-solid fa-file-arrow-down me-1"></i>報表下載</asp:LinkButton>
                 </div>
-                <div class="col-12 text-center">
+                <%--<div class="col-12 text-center">
                     <asp:Label ID="Label_msg" runat="server" Text="" CssClass="text-danger"></asp:Label>
-                </div>
+                </div>--%>
             </div>
       
         </div>
@@ -45,7 +42,7 @@
     </div>
     <!-- 新增範例圖片區 -->
     <div class="text-center mt-4">
-        <p class="text-muted mt-2">範例圖片：縣市別牛隻編號詳報</p>
+        <p class="text-muted mt-2">報表範例：縣市別牛隻編號詳報</p>
         <img src="../../_img/縣市別牛隻編號詳報_sample.png" 
             alt="範例圖片：縣市別牛隻編號詳報"
             class="img-fluid border rounded shadow-sm"
@@ -56,3 +53,12 @@
          <asp:Panel ID="Panel_data" runat="server" Width="100%"></asp:Panel>
      </div>
 </asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder_msg_title" runat="server">
+    系統訊息
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder_msg_content" runat="server">
+    <asp:Label ID="Label_message" runat="server" CssClass="msg"></asp:Label>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder_msg_btn" runat="server">
+</asp:Content>
+

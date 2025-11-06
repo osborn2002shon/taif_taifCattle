@@ -12,6 +12,7 @@ Imports NPOI.XSSF.UserModel
 
 Public Class AccountManage
     Inherits taifCattle.Base
+    Public js As New StringBuilder
 
     Private ReadOnly taifCattle_con As New taifCattle.Control
     Private ReadOnly taifCattle_account As New taifCattle.Account
@@ -181,18 +182,18 @@ Public Class AccountManage
         End If
     End Sub
 
-    Private Sub ShowFormMessage(message As String, isError As Boolean)
-        If String.IsNullOrWhiteSpace(message) Then
-            Label_formMessage.Text = String.Empty
-            Label_formMessage.CssClass = "d-block fw-bold mb-3"
-        Else
-            Label_formMessage.Text = message
-            Dim css As String = If(isError, "text-danger", "text-success")
-            Label_formMessage.CssClass = "d-block fw-bold mb-3 " & css
-        End If
-    End Sub
+    'Private Sub ShowFormMessage(message As String, isError As Boolean)
+    '    If String.IsNullOrWhiteSpace(message) Then
+    '        Label_formMessage.Text = String.Empty
+    '        Label_formMessage.CssClass = "d-block fw-bold mb-3"
+    '    Else
+    '        Label_formMessage.Text = message
+    '        Dim css As String = If(isError, "text-danger", "text-success")
+    '        Label_formMessage.CssClass = "d-block fw-bold mb-3 " & css
+    '    End If
+    'End Sub
 
-    Private Sub ResetEditor()
+    Private Sub ResetEditor(Optional ByVal cleanMessage As Boolean = False)
         TextBox_account.Text = String.Empty
         TextBox_account.Enabled = True
         TextBox_name.Text = String.Empty
@@ -203,7 +204,10 @@ Public Class AccountManage
         CheckBox_isActive.Checked = True
         CheckBox_isActive.Visible = False
         Label_isActive.Visible = False
-        ShowFormMessage(String.Empty, False)
+        If cleanMessage Then
+            ShowMessage(String.Empty, False)
+        End If
+
         HiddenField_editAccountID.Value = String.Empty
         If DropDownList_editCity.Items.Count > 0 Then
             DropDownList_editCity.SelectedIndex = 0
@@ -218,7 +222,7 @@ Public Class AccountManage
 
         ResetEditor()
         ShowEditorView()
-        Label_formMessage.Text = ""
+        Label_message.Text = ""
         UpdateCitySelectorVisibility()
     End Sub
 
@@ -233,7 +237,7 @@ Public Class AccountManage
         Property_EditAccountID = accountID
         Property_EditIsVerified = Convert.ToBoolean(row("isEmailVerified"))
 
-        ResetEditor()
+        ResetEditor(True)
         ShowEditorView()
 
         HiddenField_editAccountID.Value = accountID.ToString()
@@ -348,25 +352,25 @@ Public Class AccountManage
         Dim selectedCityID As Integer? = Nothing
 
         If String.IsNullOrWhiteSpace(accountText) Then
-            ShowFormMessage("請輸入登入帳號。", True)
+            ShowMessage("請輸入登入帳號。", True)
             ShowEditorView()
             Exit Sub
         End If
 
         If Not IsValidEmailFormat(accountText) Then
-            ShowFormMessage("請輸入正確的登入帳號電子信箱格式。", True)
+            ShowMessage("請輸入正確的登入帳號電子信箱格式。", True)
             ShowEditorView()
             Exit Sub
         End If
 
         If String.IsNullOrWhiteSpace(nameText) Then
-            ShowFormMessage("請輸入使用者姓名。", True)
+            ShowMessage("請輸入使用者姓名。", True)
             ShowEditorView()
             Exit Sub
         End If
 
         If String.IsNullOrEmpty(roleValue) Then
-            ShowFormMessage("請選擇系統權限。", True)
+            ShowMessage("請選擇系統權限。", True)
             ShowEditorView()
             Exit Sub
         End If
@@ -375,7 +379,7 @@ Public Class AccountManage
         Dim cityIDValue As Integer
         If isGovUser Then
             If String.IsNullOrEmpty(cityValue) OrElse Not Integer.TryParse(cityValue, cityIDValue) Then
-                ShowFormMessage("請選擇縣市。", True)
+                ShowMessage("請選擇縣市。", True)
                 ShowEditorView()
                 Exit Sub
             End If
@@ -393,7 +397,7 @@ Public Class AccountManage
         Try
             If Property_EditMode = taifCattle.Base.enum_EditMode.新增 Then
                 If Not ValidateAccountUniqueness(accountText, -1) Then
-                    ShowFormMessage("此登入帳號已存在，請重新輸入。", True)
+                    ShowMessage("此登入帳號已存在，請重新輸入。", True)
                     ShowEditorView()
                     Exit Sub
                 End If
@@ -412,7 +416,7 @@ Public Class AccountManage
                 Dim targetID As Integer = Property_EditAccountID
                 Dim originalRow As DataRow = taifCattle_account.GetSystemAccount(targetID)
                 If originalRow Is Nothing Then
-                    ShowFormMessage("找不到指定的帳號資料。", True)
+                    ShowMessage("找不到指定的帳號資料。", True)
                     ShowEditorView()
                     Exit Sub
                 End If
@@ -422,7 +426,7 @@ Public Class AccountManage
                     accountText = originalRow("account").ToString()
                 Else
                     If Not ValidateAccountUniqueness(accountText, targetID) Then
-                        ShowFormMessage("此登入帳號已存在，請重新輸入。", True)
+                        ShowMessage("此登入帳號已存在，請重新輸入。", True)
                         ShowEditorView()
                         Exit Sub
                     End If
@@ -439,7 +443,7 @@ Public Class AccountManage
             Property_EditMode = taifCattle.Base.enum_EditMode.預設
             BindGridView()
         Catch ex As Exception
-            ShowFormMessage("儲存帳號資料時發生錯誤，請稍後再試。", True)
+            ShowMessage("儲存帳號資料時發生錯誤，請稍後再試。", True)
             ShowEditorView()
         End Try
     End Sub
@@ -620,6 +624,7 @@ Public Class AccountManage
     Protected Sub LinkButton_search_Click(sender As Object, e As EventArgs) Handles LinkButton_search.Click
         SaveQueryCondition()
         BindGridView()
+        ResetEditor(True)
     End Sub
 
 
@@ -633,15 +638,16 @@ Public Class AccountManage
     End Sub
 
     Protected Sub Button_cancel_Click(sender As Object, e As EventArgs) Handles Button_cancel.Click
-        ResetEditor()
+        ResetEditor(True)
         ShowQueryView()
         Property_EditMode = taifCattle.Base.enum_EditMode.預設
-        ShowFormMessage(String.Empty, False)
+        ShowMessage(String.Empty, False)
     End Sub
 
     Protected Sub GridView_accounts_PageIndexChanging(sender As Object, e As GridViewPageEventArgs) Handles GridView_accounts.PageIndexChanging
         GridView_accounts.PageIndex = e.NewPageIndex
         BindGridView()
+        ResetEditor(True)
     End Sub
 
     Protected Sub GridView_accounts_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles GridView_accounts.RowCommand
@@ -706,5 +712,12 @@ Public Class AccountManage
     Protected Sub DropDownList_editRole_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DropDownList_editRole.SelectedIndexChanged
         UpdateCitySelectorVisibility()
         ShowEditorView()
+    End Sub
+
+    Private Sub Page_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
+        If Label_message.Text <> String.Empty Then
+            js.AppendLine("showModal();")
+        End If
+        Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
     End Sub
 End Class

@@ -1,9 +1,10 @@
 Imports System
 Imports System.Collections.Generic
+Imports System.Web.Services.Description
 
 Public Class MyAccount
     Inherits taifCattle.Base
-
+    Public js As New StringBuilder
     Private ReadOnly taifCattle_account As New taifCattle.Account
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -13,15 +14,14 @@ Public Class MyAccount
         End If
 
         If Not IsPostBack Then
-            HiddenField_activeTab.Value = "#tabBasic"
-            ResetMessages()
+            Label_Message.Text = ""
             BindUserInfo()
         End If
     End Sub
 
-    Private Sub ResetMessages()
-        ShowBasicMessage(String.Empty, False)
-        ShowPasswordMessage(String.Empty, False)
+    Sub ShowMessage(msg As String)
+        Label_Message.Text = msg
+        js.AppendLine("showModal();")
     End Sub
 
     Private Sub BindUserInfo()
@@ -32,7 +32,7 @@ Public Class MyAccount
         Label_govCity.Text = String.Empty
 
         If accountRow Is Nothing Then
-            ShowBasicMessage("找不到帳號資料，請聯絡系統管理員。", True)
+            ShowMessage("找不到帳號資料，請聯絡系統管理員。")
             Return
         End If
 
@@ -93,38 +93,12 @@ Public Class MyAccount
         Return value.ToString()
     End Function
 
-    Private Sub ShowBasicMessage(message As String, isError As Boolean)
-        If String.IsNullOrWhiteSpace(message) Then
-            Label_basicMessage.Text = String.Empty
-            Label_basicMessage.CssClass = "d-block fw-bold mb-3"
-        Else
-            Label_basicMessage.Text = message
-            Dim cssClass = If(isError, "text-danger", "text-success")
-            Label_basicMessage.CssClass = "d-block fw-bold mb-3 " & cssClass
-        End If
-    End Sub
-
-    Private Sub ShowPasswordMessage(message As String, isError As Boolean)
-        If String.IsNullOrWhiteSpace(message) Then
-            Label_passwordMessage.Text = String.Empty
-            Label_passwordMessage.CssClass = "d-block fw-bold mb-3"
-        Else
-            Label_passwordMessage.Text = message
-            Dim cssClass = If(isError, "text-danger", "text-success")
-            Label_passwordMessage.CssClass = "d-block fw-bold mb-3 " & cssClass
-        End If
-    End Sub
-
-    Protected Sub Button_saveBasic_Click(sender As Object, e As EventArgs) Handles Button_saveBasic.Click
-        HiddenField_activeTab.Value = "#tabBasic"
-
+    Private Sub LinkButton_saveBasic_Click(sender As Object, e As EventArgs) Handles LinkButton_saveBasic.Click
         Dim currentUser = InfoSession
         If Not currentUser.isExist Then
             Response.Redirect("~/Login.aspx")
             Return
         End If
-
-        ShowPasswordMessage(String.Empty, False)
 
         Dim unit = TextBox_unit.Text.Trim()
         Dim mobile = TextBox_mobile.Text.Trim()
@@ -132,7 +106,7 @@ Public Class MyAccount
         Try
             Dim accountRow = taifCattle_account.GetSystemAccount(currentUser.accountID)
             If accountRow Is Nothing Then
-                ShowBasicMessage("找不到帳號資料，請聯絡系統管理員。", True)
+                ShowMessage("找不到帳號資料，請聯絡系統管理員。")
                 Return
             End If
 
@@ -168,15 +142,14 @@ Public Class MyAccount
             currentUser.tel = mobile
             Session("UserInfo") = currentUser
 
-            ShowBasicMessage("基本資料已儲存。", False)
+            ShowMessage("基本資料已儲存。")
             BindUserInfo()
         Catch ex As Exception
-            ShowBasicMessage("儲存基本資料時發生錯誤，請稍後再試或聯絡系統管理員。", True)
+            ShowMessage("儲存基本資料時發生錯誤，請稍後再試或聯絡系統管理員。")
         End Try
     End Sub
 
-    Protected Sub Button_changePassword_Click(sender As Object, e As EventArgs) Handles Button_changePassword.Click
-        HiddenField_activeTab.Value = "#tabPassword"
+    Protected Sub LinkButton_changePassword_Click(sender As Object, e As EventArgs) Handles LinkButton_changePassword.Click
 
         Dim currentUser = InfoSession
         If Not currentUser.isExist Then
@@ -184,35 +157,33 @@ Public Class MyAccount
             Return
         End If
 
-        ShowBasicMessage(String.Empty, False)
-
         Dim pw1 = TextBox_newPassword.Text.Trim()
         Dim pw2 = TextBox_confirmPassword.Text.Trim()
 
 
         If String.IsNullOrEmpty(pw1) OrElse String.IsNullOrEmpty(pw2) Then
-            Label_passwordMessage.Text = "請輸入新密碼與確認密碼。"
+            ShowMessage("請輸入新密碼與確認密碼。")
             Exit Sub
         End If
 
         ' 檢查密碼最短使用期限
         Dim minAge As stru_checkResult = taifCattle_account.Check_PasswordMinAge(currentUser.accountID)
         If minAge.isPass = False Then
-            Label_passwordMessage.Text = minAge.msg
+            ShowMessage(minAge.msg)
             Exit Sub
         End If
 
         ' 檢查密碼及複雜度
         Dim pwRegResult As stru_checkResult = taifCattle_account.Check_PasswordRegFromDB(pw1, pw2)
         If pwRegResult.isPass = False Then
-            Label_passwordMessage.Text = pwRegResult.msg
+            ShowMessage(pwRegResult.msg)
             Exit Sub
         End If
 
         '檢查密碼是否重複
         Dim pwHistory As stru_checkResult = taifCattle_account.Check_PasswordHistory(currentUser.accountID, pw1)
         If pwHistory.isPass = False Then
-            Label_passwordMessage.Text = pwHistory.msg
+            ShowMessage(pwHistory.msg)
             Exit Sub
         End If
 
@@ -229,15 +200,18 @@ Public Class MyAccount
                 currentUser.pwUpdateDateTime = DateTime.Now
                 Session("UserInfo") = currentUser
 
-                ShowPasswordMessage("密碼變更成功。", False)
+                ShowMessage("密碼變更成功。")
                 BindUserInfo()
             Else
-                ShowPasswordMessage("密碼變更失敗，請稍後再試或聯絡系統管理員。", True)
+                ShowMessage("密碼變更失敗，請稍後再試或聯絡系統管理員。")
             End If
         Catch ex As Exception
-            ShowPasswordMessage("密碼變更時發生錯誤，請稍後再試或聯絡系統管理員。", True)
+            ShowMessage("密碼變更時發生錯誤，請稍後再試或聯絡系統管理員。")
         End Try
     End Sub
 
+    Private Sub Page_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
+        Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
+    End Sub
 End Class
 

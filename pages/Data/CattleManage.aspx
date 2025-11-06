@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
-    <i class="fa-solid fa-database"></i> 牛籍資料管理
+    <i class="fa-solid fa-cow"></i> 牛籍資料管理
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_title" runat="server">
 </asp:Content>
@@ -54,7 +54,7 @@
             <div class="row">
                 <div class="col text-center">
                     <asp:LinkButton ID="LinkButton_query" runat="server" CssClass="btn btn-primary">
-                        <i class="fas fa-search"></i>查詢
+                        <i class="fas fa-search me-1"></i>查詢
                     </asp:LinkButton>
                 </div>
             </div>
@@ -63,7 +63,7 @@
     </div>
     <div class="row m-0 mt-3 mb-3 align-items-center">
         <div class="col p-0">
-            <asp:LinkButton ID="LinkButton_addNew" runat="server" CssClass="btn btn-success" CommandName="cattleAdd"><i class="fa-solid fa-plus"></i>新增牛籍</asp:LinkButton>
+            <asp:LinkButton ID="LinkButton_addNew" runat="server" CssClass="btn btn-success" CommandName="cattleAdd"><i class="fa-solid fa-plus me-1"></i>新增牛籍</asp:LinkButton>
             <%--<asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-outline-success">下載列表</asp:LinkButton>--%>
         </div>
         <div class="col p-0 text-end">
@@ -107,7 +107,7 @@
                     <asp:TemplateField HeaderText="操作">
                         <ItemTemplate>
                             <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-warning"
-                                CommandName="cattleEdit" CommandArgument='<%# Eval("cattleID") %>' ><i class="fa-solid fa-pen-to-square"></i>編輯</asp:LinkButton>
+                                CommandName="cattleEdit" CommandArgument='<%# Eval("cattleID") %>' ><i class="fa-solid fa-pen-to-square me-1"></i>編輯</asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
@@ -117,11 +117,4 @@
             </asp:GridView>
         </div>
     </div>
-    <script type="text/javascript">
-        function clearControl(controlId) {
-            var textbox = document.getElementById(controlId);
-            textbox.value = '';
-            textbox.focus(); // 清除後自動聚焦
-        }
-    </script>
 </asp:Content>

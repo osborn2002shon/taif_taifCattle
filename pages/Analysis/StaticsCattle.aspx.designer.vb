@@ -32,15 +32,6 @@ Partial Public Class StaticsCattle
     Protected WithEvents LinkButton_query As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Label_msg 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_msg As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Panel_result 控制項。
     '''</summary>
     '''<remarks>
@@ -138,4 +129,13 @@ Partial Public Class StaticsCattle
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents GridView_tagNoHistory As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Label_message 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Label_message As Global.System.Web.UI.WebControls.Label
 End Class

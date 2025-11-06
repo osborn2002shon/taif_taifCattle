@@ -2,7 +2,7 @@
 
 Public Class MilkSetting
     Inherits taifCattle.Base
-
+    Public js As New StringBuilder
 
 #Region "Fun/Sub"
     Function Get_MailSetting() As Data.DataTable
@@ -25,6 +25,7 @@ Public Class MilkSetting
         GridView_milkSetting.DataBind()
     End Sub
 #End Region
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
             '讀取設定
@@ -68,12 +69,14 @@ Public Class MilkSetting
         ' 若有錯誤
         If errorCount > 0 Then
             Label_message.Text = $"有 {errorCount} 筆輸入錯誤，請修正後再儲存。"
+            js.AppendLine("showModal();")
             Exit Sub
         End If
 
         ' 確保有資料
         If valuesList.Count = 0 Then
             Label_message.Text = "沒有可更新的資料。"
+            js.AppendLine("showModal();")
             Exit Sub
         End If
 
@@ -97,7 +100,8 @@ Public Class MilkSetting
         End Using
 
         ' 更新成功訊息
-        Label_message.Text = "更新成功！"
+        Label_message.Text = "儲存成功！"
+        js.AppendLine("showModal();")
 
         'log
         Insert_UserLog(userInfo.accountID, taifCattle.Base.enum_UserLogItem.平均產乳量設定, taifCattle.Base.enum_UserLogType.修改)
@@ -105,4 +109,9 @@ Public Class MilkSetting
         ' 讀取資料
         BindGridView()
     End Sub
+
+    Private Sub Page_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
+        Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
+    End Sub
+
 End Class

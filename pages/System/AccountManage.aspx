@@ -8,7 +8,7 @@
             var nameInput = document.getElementById('<%= TextBox_name.ClientID %>');
             var roleSelect = document.getElementById('<%= DropDownList_editRole.ClientID %>');
             var citySelect = document.getElementById('<%= DropDownList_editCity.ClientID %>');
-            var messageLabel = document.getElementById('<%= Label_formMessage.ClientID %>');
+            var messageLabel = document.getElementById('<%= Label_message.ClientID %>');
 
             if (!accountInput) {
                 return true;
@@ -25,7 +25,8 @@
             if (accountValue.length === 0) {
                 if (messageLabel) {
                     messageLabel.textContent = '請輸入登入帳號。';
-                    messageLabel.className = 'd-block fw-bold mb-3 text-danger';
+                    messageLabel.className = 'd-block fw-bold mb-3 star';
+                    showModal();
                 } else {
                     alert('請輸入登入帳號。');
                 }
@@ -35,7 +36,8 @@
             if (!pattern.test(accountValue)) {
                 if (messageLabel) {
                     messageLabel.textContent = '請輸入正確的登入帳號電子信箱格式。';
-                    messageLabel.className = 'd-block fw-bold mb-3 text-danger';
+                    messageLabel.className = 'd-block fw-bold mb-3 star';
+                    showModal();
                 } else {
                     alert('請輸入正確的登入帳號電子信箱格式。');
                 }
@@ -45,7 +47,8 @@
             if (nameInput && nameInput.value.trim().length === 0) {
                 if (messageLabel) {
                     messageLabel.textContent = '請輸入使用者姓名。';
-                    messageLabel.className = 'd-block fw-bold mb-3 text-danger';
+                    messageLabel.className = 'd-block fw-bold mb-3 star';
+                    showModal();
                 } else {
                     alert('請輸入使用者姓名。');
                 }
@@ -55,7 +58,8 @@
             if (roleSelect && roleSelect.value.trim().length === 0) {
                 if (messageLabel) {
                     messageLabel.textContent = '請選擇系統權限。';
-                    messageLabel.className = 'd-block fw-bold mb-3 text-danger';
+                    messageLabel.className = 'd-block fw-bold mb-3 star';
+                    showModal();
                 } else {
                     alert('請選擇系統權限。');
                 }
@@ -66,7 +70,8 @@
                 if (!citySelect || citySelect.value.trim().length === 0) {
                     if (messageLabel) {
                         messageLabel.textContent = '請選擇縣市。';
-                        messageLabel.className = 'd-block fw-bold mb-3 text-danger';
+                        messageLabel.className = 'd-block fw-bold mb-3 star';
+                        showModal();
                     } else {
                         alert('請選擇縣市。');
                     }
@@ -115,7 +120,7 @@
                 <div class="row">
                     <div class="col text-center">
                         <asp:LinkButton ID="LinkButton_search" runat="server" CssClass="btn btn-primary me-2" CausesValidation="False">
-                            <span><i class="fas fa-search me-1"></i>搜尋</span>
+                            <span><i class="fas fa-search me-1"></i>查詢</span>
                         </asp:LinkButton>
 
                     </div>
@@ -132,7 +137,7 @@
                     <span><i class="fas fa-user-plus me-1"></i>新增帳號</span>
                 </asp:LinkButton>
                 <asp:LinkButton ID="LinkButton_export" runat="server" CssClass="btn btn-outline-success" CausesValidation="False">
-                    <span><i class="fas fa-download me-1"></i>匯出Excel</span>
+                    <i class="fa-solid fa-file-arrow-down me-1"></i>列表下載
                 </asp:LinkButton>
             </div>
             <div class="col p-0 text-end">
@@ -141,13 +146,7 @@
                 筆
             </div>
         </div>
-
-
-
-        <asp:Label ID="Label_message" runat="server" CssClass="d-block fw-bold px-4 pt-3"></asp:Label>
-
-
-
+        
         <div class="table-responsive gv-tb">
             <asp:GridView ID="GridView_accounts" runat="server" CssClass="gv" AutoGenerateColumns="False"
                 AllowPaging="True" PageSize="10" DataKeyNames="accountID"
@@ -156,7 +155,7 @@
                 OnRowDataBound="GridView_accounts_RowDataBound">
                 <Columns>
                     <asp:BoundField DataField="auTypeName" HeaderText="系統權限" ItemStyle-Width="100px" />
-                    <asp:TemplateField HeaderText="帳號狀態" ItemStyle-Width="80px">
+                    <asp:TemplateField HeaderText="帳號狀態" ItemStyle-Width="100px">
                         <ItemTemplate>
                             <asp:Label ID="Label_status" runat="server"></asp:Label>
                         </ItemTemplate>
@@ -197,53 +196,61 @@
                     </asp:TemplateField>
                 </Columns>
                 <EmptyDataTemplate>
-                    <div class="text-danger text-center py-2 fw-bold">目前沒有符合條件的帳號資料。</div>
+                    <div class="star text-center py-2 fw-bold">目前沒有符合條件的帳號資料。</div>
                 </EmptyDataTemplate>
                 <PagerStyle HorizontalAlign="Center" />
             </asp:GridView>
         </div>
     </asp:Panel>
-
-    <asp:Panel ID="Panel_editor" runat="server" CssClass="mt-4" Visible="false">
-        <div class="card shadow-sm">
-            <div class="card-header bg-light">
-                <h5 class="mb-0" id="formTitle">帳號維護</h5>
+    <asp:Panel ID="Panel_editor" runat="server" Visible="false">
+        <div class="text-start mb-3">
+            <asp:LinkButton ID="Button_cancel" runat="server" CssClass="btn btn-outline-secondary"  CausesValidation="False"><i class="fa-solid fa-arrow-left"></i> 返回列表</asp:LinkButton>
+        </div>
+        <div class="card formCard">
+            <div class="card-header">
+                帳號資料
+                <asp:HiddenField ID="HiddenField_editAccountID" runat="server" />
+                
             </div>
             <div class="card-body">
-                <asp:HiddenField ID="HiddenField_editAccountID" runat="server" />
-                <asp:Label ID="Label_formMessage" runat="server" CssClass="d-block fw-bold mb-3"></asp:Label>
-                <div class="row g-3">
-                    <div class="col-md-6">
-    <label class="form-label">系統權限<span class="text-danger">*</span></label>
-    <asp:DropDownList ID="DropDownList_editRole" runat="server" CssClass="form-select" AutoPostBack="True" OnSelectedIndexChanged="DropDownList_editRole_SelectedIndexChanged"></asp:DropDownList>
-</div>
-                    <asp:Panel ID="Panel_citySelector" runat="server" CssClass="col-md-6" Visible="false">
-    <label class="form-label">縣市<span class="text-danger">*</span></label>
-    <asp:DropDownList ID="DropDownList_editCity" runat="server" CssClass="form-select"></asp:DropDownList>
-</asp:Panel>
-                    <div class="col-md-6">
-                        <label class="form-label">登入帳號／電子信箱<span class="text-danger">*</span></label>
+                <div class="row">
+                    <div class="col">
+                        <label>系統權限<span class="star">*</span></label>
+                        <asp:DropDownList ID="DropDownList_editRole" runat="server" CssClass="form-select" AutoPostBack="True" OnSelectedIndexChanged="DropDownList_editRole_SelectedIndexChanged"></asp:DropDownList>
+                    </div>
+                    <asp:Panel ID="Panel_citySelector" runat="server" CssClass="col" Visible="false">
+                        <label>縣市政府<span class="star">*</span></label>
+                        <asp:DropDownList ID="DropDownList_editCity" runat="server" CssClass="form-select"></asp:DropDownList>
+                    </asp:Panel>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label>電子信箱<span class="star">*</span></label>
                         <asp:TextBox ID="TextBox_account" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">使用者姓名<span class="text-danger">*</span></label>
+                    <div class="col">
+                        <label>使用者姓名<span class="star">*</span></label>
                         <asp:TextBox ID="TextBox_name" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
-                    
-                    
-                    <div class="col-md-6">
-                        <label class="form-label">聯絡電話</label>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label>聯絡電話</label>
                         <asp:TextBox ID="TextBox_mobile" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">服務單位</label>
+                    <div class="col">
+                        <label>服務單位</label>
                         <asp:TextBox ID="TextBox_unit" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
-                    <div class="col-12">
-                        <label class="form-label">備註</label>
-                        <asp:TextBox ID="TextBox_memo" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3"></asp:TextBox>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label>備註</label>
+                        <asp:TextBox ID="TextBox_memo" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
-                    <div class="col-12">
+                </div>
+                <div class="row">
+                    <div class="col">
                         <div class="form-check">
                             <asp:CheckBox ID="CheckBox_isActive" runat="server" />
                             <asp:Label ID="Label_isActive" runat="server" CssClass="form-check-label" AssociatedControlID="CheckBox_isActive" Text="啟用此帳號"></asp:Label>
@@ -251,18 +258,17 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer text-end">
-                <asp:Button ID="Button_save" runat="server" CssClass="btn btn-primary me-2" Text="儲存" ValidationGroup="AccountForm" OnClientClick="return validateAccountForm();" />
-                <asp:Button ID="Button_cancel" runat="server" CssClass="btn btn-outline-secondary" Text="取消" CausesValidation="False" />
+            <div class="card-footer">
+                <asp:LinkButton ID="Button_save" runat="server" CssClass="btn btn-success" CommandName="cattleAdd"  OnClientClick="return validateAccountForm();" ><i class="fa-solid fa-floppy-disk me-1"></i>儲存</asp:LinkButton>
             </div>
         </div>
     </asp:Panel>
-    <script type="text/javascript">
-       function clearControl(controlId) {
-           var textbox = document.getElementById(controlId);
-           textbox.value = '';
-           textbox.focus(); // 清除後自動聚焦
-       }
-    </script>
 </asp:Content>
-
+<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder_msg_title" runat="server">
+    系統訊息
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder_msg_content" runat="server">
+    <asp:Label ID="Label_message" runat="server" CssClass="d-block fw-bold px-4 pt-3"></asp:Label>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder_msg_btn" runat="server">
+</asp:Content>

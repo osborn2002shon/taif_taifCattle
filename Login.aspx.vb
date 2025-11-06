@@ -1,10 +1,6 @@
-Public Class Login
+﻿Public Class Login
     Inherits taifCattle.Base
-
     Dim taifCattle_account As New taifCattle.Account
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-
-    End Sub
 
     Private Sub Button_login_Click(sender As Object, e As EventArgs) Handles Button_login.Click
         Dim userInfo As New stru_LoginUserInfo

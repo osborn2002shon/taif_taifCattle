@@ -14,7 +14,7 @@ Public Class CattleManage
         Dim birthYear As String = Convert_EmptyToObject(TextBox_birthYear.Text.Trim, "%")
         Dim cattleAge As String = Convert_EmptyToObject(TextBox_cattleAge.Text.Trim, "%")
         Dim dt As Data.DataTable = taifCattle_cattle.Get_CattleList(groupOrder, typeName, cattleStatus, tagNo, birthYear, cattleAge)
-        Label_datCount.Text = dt.Rows.Count
+        Label_datCount.Text = dt.Rows.Count.ToString("N0")
         GridView_data.DataSource = dt
         GridView_data.DataBind()
     End Sub

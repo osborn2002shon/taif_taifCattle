@@ -50,15 +50,6 @@ Partial Public Class StaticsFarm
     Protected WithEvents LinkButton_farmQuery As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Label_farmMsg 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_farmMsg As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Panel_farm 控制項。
     '''</summary>
     '''<remarks>
@@ -111,15 +102,6 @@ Partial Public Class StaticsFarm
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents LinkButton_cattleQuery As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Label_cattleMsg 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_cattleMsg As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Panel_result 控制項。
@@ -210,4 +192,13 @@ Partial Public Class StaticsFarm
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents GridView_cattleList As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Label_message 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Label_message As Global.System.Web.UI.WebControls.Label
 End Class

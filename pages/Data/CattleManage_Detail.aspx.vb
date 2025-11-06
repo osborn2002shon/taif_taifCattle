@@ -3,6 +3,7 @@ Imports taifCattle.taifCattle.Cattle
 
 Public Class CattleManage_Detail
     Inherits taifCattle.Base
+    Public js As New StringBuilder
     Dim taifCattle_cattle As New taifCattle.Cattle
     Dim taifCattle_farm As New taifCattle.Farm
 
@@ -10,6 +11,7 @@ Public Class CattleManage_Detail
         '===視覺圖
         MultiView_main.SetActiveView(View_edit)
         HiddenField_cattleID.Value = cattleID
+        Label_message.Text = "" '清空燈箱訊息，留意訊息填入順序
 
         '===基本資料
         Dim cattleInfo As taifCattle.Cattle.stru_cattleInfo_view = taifCattle_cattle.Get_CattleInfo(cattleID)
@@ -73,6 +75,7 @@ Public Class CattleManage_Detail
 
             TextBox_edit_hisDef_date.Text = Today.ToString("yyyy-MM-dd")
             TextBox_edit_hisEnd_date.Text = Today.ToString("yyyy-MM-dd")
+            Label_message.Text = ""
 
             Dim mode As enum_EditMode
             If IsNothing(s_cattleManage) Then
@@ -117,11 +120,13 @@ Public Class CattleManage_Detail
 
         '===驗證
         If String.IsNullOrEmpty(cattleInfo.tagNo) Then
-            Label_addMsg.Text = "新增失敗，請確認已輸入牛籍編號！"
+            js.AppendLine("showModal();")
+            Label_message.Text = "新增失敗，請確認已輸入牛籍編號！"
             Exit Sub
         End If
         If taifCattle_cattle.Check_IsCattleExist(cattleInfo.tagNo).isPass Then
-            Label_addMsg.Text = "新增失敗，牛籍編號已存在！"
+            js.AppendLine("showModal();")
+            Label_message.Text = "新增失敗，牛籍編號已存在！"
             Exit Sub
         End If
 
@@ -162,21 +167,24 @@ Public Class CattleManage_Detail
         cattleInfo.updateAccountID = userInfo.accountID
         taifCattle_cattle.Update_Cattle(cattleInfo)
         Insert_UserLog(userInfo.accountID, enum_UserLogItem.牛籍資料管理, enum_UserLogType.修改, cattleInfo.cattleID, updateDateTime)
-        Label_edit_msg.Text = "儲存成功！"
         Bind_EditInfo(cattleInfo.cattleID)
+        js.AppendLine("showModal();")
+        Label_message.Text = "儲存成功！"
     End Sub
 
     Private Sub LinkButton_edit_insert_hisDef_Click(sender As Object, e As EventArgs) Handles LinkButton_edit_insert_hisDef.Click
 
         Dim farmCode As String = TextBox_edit_hisDef_farmCode.Text.Trim
         If String.IsNullOrEmpty(farmCode) Then
-            Label_edit_msg_hisDef.Text = "新增失敗，請輸入證號！"
+            Label_message.Text = "新增失敗，請輸入證號！"
+            js.AppendLine("showModal();")
             Exit Sub
         End If
 
         Dim farmInfo As taifCattle.Farm.stru_farmInfo = taifCattle_farm.Get_FarmByCode(farmCode)
         If farmInfo.farmID = -1 Then
-            Label_edit_msg_hisDef.Text = "新增失敗，查無此畜牧場！"
+            Label_message.Text = "新增失敗，查無此畜牧場！"
+            js.AppendLine("showModal();")
             Exit Sub
         End If
 
@@ -194,15 +202,22 @@ Public Class CattleManage_Detail
         cattleHisInfo.insertAccountID = userInfo.accountID
         cattleHisInfo.insertDateTime = insertDateTime
 
+        If cattleHisInfo.dataDate > Today Then
+            Label_message.Text = "新增失敗，日期不可大於今天！"
+            js.AppendLine("showModal();")
+            Exit Sub
+        End If
+
         If taifCattle_cattle.Check_IsHistoryExist(cattleHisInfo.cattleID, cattleHisInfo.dataDate, farmInfo.farmID) Then
-            Label_edit_msg_hisDef.Text = "新增失敗，同一天同一場已有重複旅程！"
+            Label_message.Text = "新增失敗，同一天同一場已有重複旅程紀錄！"
+            js.AppendLine("showModal();")
             Exit Sub
         Else
             Dim hisID As Integer = taifCattle_cattle.Insert_CattleHistory(cattleHisInfo)
             Insert_UserLog(userInfo.accountID, enum_UserLogItem.牛籍資料管理, enum_UserLogType.修改, cattleHisInfo.cattleID & "_" & hisID, insertDateTime)
-            Response.Redirect("CattleManage_Detail.aspx")
-            Label_edit_msg_hisDef.Text = "新增成功！"
             Bind_EditInfo(cattleHisInfo.cattleID)
+            Label_message.Text = "新增旅程紀錄成功！"
+            js.AppendLine("showModal();")
         End If
 
     End Sub
@@ -234,14 +249,22 @@ Public Class CattleManage_Detail
         cattleHisInfo.insertAccountID = userInfo.accountID
         cattleHisInfo.insertDateTime = insertDateTime
 
+        If cattleHisInfo.dataDate > Today Then
+            Label_message.Text = "新增失敗，日期不可大於今天！"
+            js.AppendLine("showModal();")
+            Exit Sub
+        End If
+
         If taifCattle_cattle.Check_IsHistoryExist(cattleHisInfo.cattleID, cattleHisInfo.dataDate, placeID) Then
-            Label_edit_msg_hisEnd.Text = "新增失敗，同一天同一場已有重複旅程！"
+            Label_message.Text = "新增失敗，同一天同一場已有重複除籍紀錄！"
+            js.AppendLine("showModal();")
             Exit Sub
         Else
             Dim hisID As Integer = taifCattle_cattle.Insert_CattleHistory(cattleHisInfo)
             Insert_UserLog(userInfo.accountID, enum_UserLogItem.牛籍資料管理, enum_UserLogType.修改, cattleHisInfo.cattleID & "_" & hisID, insertDateTime)
-            Label_edit_msg_hisEnd.Text = "新增成功！"
             Bind_EditInfo(cattleHisInfo.cattleID)
+            Label_message.Text = "新增除籍紀錄成功！"
+            js.AppendLine("showModal();")
         End If
 
     End Sub
@@ -254,8 +277,9 @@ Public Class CattleManage_Detail
             Dim cattleID As Integer = HiddenField_cattleID.Value
             taifCattle_cattle.Remove_CattleHistroy(hisID, removeDateTime, userInfo.accountID)
             Insert_UserLog(userInfo.accountID, enum_UserLogItem.牛籍資料管理, enum_UserLogType.修改, cattleID & "_" & hisID, removeDateTime)
-            Label_edit_msg_hisDef.Text = "刪除旅程紀錄成功！"
             Bind_EditInfo(cattleID)
+            Label_message.Text = "刪除旅程紀錄成功！"
+            js.AppendLine("showModal();")
         End If
     End Sub
 
@@ -267,8 +291,10 @@ Public Class CattleManage_Detail
             Dim cattleID As Integer = HiddenField_cattleID.Value
             taifCattle_cattle.Remove_CattleHistroy(hisID, removeDateTime, userInfo.accountID)
             Insert_UserLog(userInfo.accountID, enum_UserLogItem.牛籍資料管理, enum_UserLogType.修改, cattleID & "_" & hisID, removeDateTime)
-            Label_edit_msg_hisEnd.Text = "刪除除籍紀錄成功！"
             Bind_EditInfo(cattleID)
+            Label_message.Text = "刪除除籍紀錄成功！"
+            js.AppendLine("showModal();")
+
         End If
     End Sub
 
@@ -276,5 +302,9 @@ Public Class CattleManage_Detail
         Session("CattleManage") = enum_EditMode.預設
         Session("CattleManage_cid") = -1
         Response.Redirect("CattleManage.aspx")
+    End Sub
+
+    Private Sub Page_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
+        Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
     End Sub
 End Class

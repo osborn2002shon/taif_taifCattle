@@ -21,10 +21,7 @@
             </div>
             <div class="row">
                 <div class="col text-center">
-            <%--        <asp:LinkButton ID="LinkButton_query" runat="server" CssClass="btn btn-primary">
-                        <i class="fas fa-search"></i>查詢
-                    </asp:LinkButton>--%>
-                    <asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-outline-success">下載列表</asp:LinkButton>
+                    <asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-success"><i class="fa-solid fa-file-arrow-down me-1"></i>報表下載</asp:LinkButton>
                 </div>
                 <div class="col-12 text-center">
                     <asp:Label ID="Label_msg" runat="server" Text="" CssClass="text-danger"></asp:Label>
@@ -36,7 +33,7 @@
     </div>
     <!-- 新增範例圖片區 -->
     <div class="text-center mt-4">
-        <p class="text-muted mt-2">範例圖片：全國牛隻在養總表</p>
+        <p class="text-muted mt-2">報表範例：全國牛隻在養總表</p>
         <img src="../../_img/全國牛隻在養總表_sample.png" 
              alt="範例圖片：全國牛隻在養總表"
              class="img-fluid border rounded shadow-sm"

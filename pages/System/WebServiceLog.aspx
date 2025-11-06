@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col text-center">
                     <asp:LinkButton ID="LinkButton_query" runat="server" CssClass="btn btn-primary">
-                        <i class="fas fa-search"></i>查詢
+                        <i class="fas fa-search me-1"></i>查詢
                     </asp:LinkButton>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                             <%# Eval("apiName") %>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="資料筆數" ItemStyle-Width="100">
+                    <asp:TemplateField HeaderText="資料筆數" ItemStyle-Width="130">
                         <ItemTemplate>
                             <%#CInt(Eval("dataCount")).ToString("N0") %>
                         </ItemTemplate>
@@ -106,11 +106,4 @@
             </asp:GridView>
         </div>
     </div>
-    <script type="text/javascript">
-        function clearControl(controlId) {
-            var textbox = document.getElementById(controlId);
-            textbox.value = '';
-            textbox.focus(); // 清除後自動聚焦
-        }
-    </script>
 </asp:Content>

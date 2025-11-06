@@ -14,15 +14,6 @@ Option Explicit On
 Partial Public Class Login
 
     '''<summary>
-    '''loginForm 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents loginForm As Global.System.Web.UI.HtmlControls.HtmlForm
-
-    '''<summary>
     '''TextBox_ac 控制項。
     '''</summary>
     '''<remarks>

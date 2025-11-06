@@ -8,6 +8,8 @@ Imports System.Linq
 Public Class CattleManage_Batch
     Inherits taifCattle.Base
 
+    Public js As New StringBuilder
+
     Private ReadOnly taifReport As New taifCattle.Report()
     Private ReadOnly taifCattle_cattle As New taifCattle.Cattle()
     Private ReadOnly taifCattle_farm As New taifCattle.Farm()
@@ -469,5 +471,12 @@ Public Class CattleManage_Batch
             Dim sqlDeleteCattle As String = "delete from Cattle_List where cattleID = @cattleID"
             da.ExecNonQuery(sqlDeleteCattle, New SqlParameter("cattleID", cattleId))
         End Using
+    End Sub
+
+    Private Sub Page_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
+        If Label_message.Text <> String.Empty Then
+            js.AppendLine("showModal();")
+        End If
+        Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
     End Sub
 End Class

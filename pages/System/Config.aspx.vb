@@ -5,7 +5,7 @@ Imports System.Text.RegularExpressions
 
 Public Class Config
     Inherits taifCattle.Base
-
+    Public js As New StringBuilder
     Private Const DEFAULT_MIN_LENGTH As Integer = 8
     Private Const DEFAULT_MAX_AGE As Integer = 90
     Private Const DEFAULT_HISTORY_COUNT As Integer = 3
@@ -27,9 +27,14 @@ Public Class Config
         Public ReportRecipients As String
     End Structure
 
+    Sub ShowMessage(msg As String)
+        Label_Message.Text = msg
+        js.AppendLine("showModal();")
+    End Sub
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         SetupInputAttributes()
-        Button_Cancel.OnClientClick = "return confirm('尚未儲存的變更將會遺失，是否確認取消？');"
+        'Button_Cancel.OnClientClick = "return confirm('尚未儲存的變更將會遺失，是否確認取消？');"
         Button_Save.OnClientClick = "return confirm('儲存後將立即生效，是否繼續儲存設定？');"
 
         If Not IsPostBack Then
@@ -87,8 +92,6 @@ Public Class Config
                 TextBox_ReportRecipients.Text = row("reportRecipients").ToString()
             End If
         End Using
-
-        ShowMessage(String.Empty, String.Empty)
     End Sub
 
     Private Sub ApplyDefaultValues()
@@ -105,23 +108,12 @@ Public Class Config
         TextBox_ReportRecipients.Text = String.Empty
     End Sub
 
-    Private Sub ShowMessage(message As String, cssClass As String)
-        Label_Message.Text = message
-
-        Dim baseClass As String = "fw-bold d-block mb-3"
-        If String.IsNullOrEmpty(cssClass) Then
-            Label_Message.CssClass = baseClass
-        Else
-            Label_Message.CssClass = baseClass & " " & cssClass
-        End If
-    End Sub
-
     Protected Sub Button_Save_Click(sender As Object, e As EventArgs) Handles Button_Save.Click
         Dim values As SystemConfigValues
         Dim errorMessage As String = String.Empty
 
         If Not ValidateInput(values, errorMessage) Then
-            ShowMessage(errorMessage, "text-danger")
+            ShowMessage(errorMessage)
             Return
         End If
 
@@ -138,7 +130,7 @@ Public Class Config
         End If
 
         LoadConfig()
-        ShowMessage("設定已儲存，系統參數將立即生效。", "text-success")
+        ShowMessage("設定已儲存，系統參數將立即生效。")
     End Sub
 
     Private Sub SaveConfig(values As SystemConfigValues, updateUserId As Integer)
@@ -271,8 +263,14 @@ Public Class Config
         Return True
     End Function
 
-    Protected Sub Button_Cancel_Click(sender As Object, e As EventArgs) Handles Button_Cancel.Click
-        LoadConfig()
-        ShowMessage("已取消變更，畫面已還原為目前儲存的設定。", "text-warning")
+    'Protected Sub Button_Cancel_Click(sender As Object, e As EventArgs) Handles Button_Cancel.Click
+    '    LoadConfig()
+    '    ShowMessage("已取消變更，畫面已還原為目前儲存的設定。")
+    'End Sub
+
+    Private Sub Page_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
+        Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
     End Sub
+
+
 End Class

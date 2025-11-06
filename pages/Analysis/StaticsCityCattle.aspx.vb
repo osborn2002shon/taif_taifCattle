@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-Imports System.Reflection.Emit
 Imports NPOI.SS.UserModel
 Imports NPOI.SS.Util
 Imports NPOI.XSSF.UserModel
@@ -9,6 +8,7 @@ Public Class StaticsCityCattle
     Dim taifCattle_con As New taifCattle.Control
     Dim taifCattle_farm As New taifCattle.Farm
     Dim taifCattle_report As New taifCattle.Report
+    Dim js As New StringBuilder
 #Region "Property"
     ''' <summary>
     ''' 牛籍主要資料
@@ -425,6 +425,10 @@ Public Class StaticsCityCattle
         End If
     End Sub
 
+    Private Sub StaticsCityCattle_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
+        Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
+    End Sub
+
     'Private Sub LinkButton_excel_Click(sender As Object, e As EventArgs) Handles LinkButton_excel.Click
     '    '儲存搜尋條件
     '    SaveQueryCondition()
@@ -462,7 +466,8 @@ Public Class StaticsCityCattle
 
         ' === 驗證日期區間不能超過 365 天 ===
         If Property_Query_dateEnd.Subtract(Property_Query_dateBeg).TotalDays > 365 Then
-            Label_msg.Text = "查詢區間不可超過 365 天，請重新選擇！"
+            Label_message.Text = "查詢區間不可超過 365 天，請重新選擇！"
+            js.AppendLine("showModal();")
             Exit Sub
         End If
 
@@ -651,4 +656,6 @@ Public Class StaticsCityCattle
             Response.End()
         End Using
     End Sub
+
+
 End Class

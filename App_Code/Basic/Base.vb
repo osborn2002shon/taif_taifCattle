@@ -143,13 +143,10 @@ Namespace taifCattle
         ''' </summary>
         ''' <remarks></remarks>
         Enum enum_auType
-            最高管理者 = 1
-            屠宰場 = 2
-            縣市政府 = 3
-            鄉鎮區公所 = 4
-            畜牧場人員 = 5
-            非畜牧場人員 = 6
-            耳標維護管理者 = 7
+            系統管理者 = 1
+            一般管理者 = 2
+            縣府使用者 = 3
+            查詢使用者 = 4
         End Enum
 
         ''' <summary>

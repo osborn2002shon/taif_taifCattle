@@ -77,15 +77,6 @@ Partial Public Class CattleManage_Detail
     Protected WithEvents TextBox_memo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Label_addMsg 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_addMsg As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''LinkButton_save 控制項。
     '''</summary>
     '''<remarks>
@@ -194,15 +185,6 @@ Partial Public Class CattleManage_Detail
     Protected WithEvents TextBox_edit_memo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Label_edit_msg 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_edit_msg As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''LinkButton_edit_update 控制項。
     '''</summary>
     '''<remarks>
@@ -275,15 +257,6 @@ Partial Public Class CattleManage_Detail
     Protected WithEvents TextBox_edit_hisDef_memo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Label_edit_msg_hisDef 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_edit_msg_hisDef As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''LinkButton_edit_insert_hisDef 控制項。
     '''</summary>
     '''<remarks>
@@ -338,15 +311,6 @@ Partial Public Class CattleManage_Detail
     Protected WithEvents TextBox_edit_hisEnd_memo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Label_edit_msg_hisEnd 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_edit_msg_hisEnd As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''LinkButton_edit_insert_hisEnd 控制項。
     '''</summary>
     '''<remarks>
@@ -363,4 +327,13 @@ Partial Public Class CattleManage_Detail
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
     Protected WithEvents GridView_his_end As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Label_message 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Label_message As Global.System.Web.UI.WebControls.Label
 End Class

@@ -11,68 +11,50 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class Permission
+Partial Public Class mp_public
 
     '''<summary>
-    '''Label_status 控制項。
+    '''ContentPlaceHolder_head 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Label_status As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents ContentPlaceHolder_head As Global.System.Web.UI.WebControls.ContentPlaceHolder
 
     '''<summary>
-    '''Panel_permission 控制項。
+    '''ContentPlaceHolder_title 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Panel_permission As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents ContentPlaceHolder_title As Global.System.Web.UI.WebControls.ContentPlaceHolder
 
     '''<summary>
-    '''Repeater_groups 控制項。
+    '''loginForm 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Repeater_groups As Global.System.Web.UI.WebControls.Repeater
+    Protected WithEvents loginForm As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
-    '''Button_save 控制項。
+    '''ContentPlaceHolder_body 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Button_save As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents ContentPlaceHolder_body As Global.System.Web.UI.WebControls.ContentPlaceHolder
 
     '''<summary>
-    '''Button_reload 控制項。
+    '''ContentPlaceHolder_jsBottom 控制項。
     '''</summary>
     '''<remarks>
     '''自動產生的欄位。
     '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
     '''</remarks>
-    Protected WithEvents Button_reload As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Button_cancel 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Button_cancel As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Label_result 控制項。
-    '''</summary>
-    '''<remarks>
-    '''自動產生的欄位。
-    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-    '''</remarks>
-    Protected WithEvents Label_result As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents ContentPlaceHolder_jsBottom As Global.System.Web.UI.WebControls.ContentPlaceHolder
 End Class

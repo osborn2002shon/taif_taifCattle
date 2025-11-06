@@ -13,9 +13,10 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_title" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder_content" runat="server">
+    <%-- STEP 1 --%>
     <div class="queryBox">
         <div class="queryBox-header">
-            牧場查詢條件
+            STEP1. 畜牧場查詢
         </div>
         <div class="queryBox-body">
             <div class="row">
@@ -38,27 +39,28 @@
             <div class="row">
                 <div class="col text-center">
                     <asp:LinkButton ID="LinkButton_farmQuery" runat="server" CssClass="btn btn-primary">
-                        <i class="fas fa-search"></i>查詢
+                        <i class="fas fa-search me-1"></i>畜牧場查詢
                     </asp:LinkButton>
                 </div>
-                <div class="col-12 text-center">
+                <%--<div class="col-12 text-center">
                     <asp:Label ID="Label_farmMsg" runat="server" Text="" CssClass="text-danger"></asp:Label>
-                </div>
-            </div>
-         
+                </div>--%>
+            </div>        
         </div>
         <div class="queryBox-footer"></div>
     </div>
+
     <asp:Panel ID="Panel_farm" runat="server" Visible="false">
-        <div class="card formCard h-100">
-            <div class="card-header">
-                <i class="fas fa-list"></i> 畜牧場清單
+        <%-- STEP 2 --%>
+        <div class="queryBox">
+            <div class="queryBox-header">
+                STEP2. 選擇指定畜牧場
             </div>
-            <div class="card-body">
-                 <div class="table-responsive gv-tb">
-                     <asp:GridView ID="GridView_farmList" runat="server" CssClass="gv" AutoGenerateColumns="false" AllowPaging="true" PageSize="10"  ShowHeaderWhenEmpty="true">
-                         <Columns>
-                           <asp:TemplateField HeaderText="選擇" ItemStyle-Width="5%">
+            <div class="queryBox-body">
+                <div class="table-responsive gv-tb">
+                    <asp:GridView ID="GridView_farmList" runat="server" CssClass="gv" AutoGenerateColumns="false" AllowPaging="true" PageSize="5"  ShowHeaderWhenEmpty="true">
+                        <Columns>
+                            <asp:TemplateField HeaderText="選擇" ItemStyle-Width="5%">
                                 <ItemTemplate>
                                     <asp:RadioButton ID="RadioButton_select" runat="server"
                                         GroupName="farmSelectGroup"
@@ -66,8 +68,8 @@
                                         data-farmid='<%# Eval("farmID") %>' />
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField DataField="city" HeaderText="縣市" ItemStyle-Width="5%" />
-                            <asp:BoundField DataField="town" HeaderText="鄉鎮" ItemStyle-Width="5%"/>
+                            <asp:BoundField DataField="city" HeaderText="縣市" ItemStyle-Width="10%" />
+                            <asp:BoundField DataField="town" HeaderText="鄉鎮" ItemStyle-Width="10%"/>
                             <asp:TemplateField HeaderText="畜牧場證號" ItemStyle-Width="10%">
                                 <ItemTemplate>
                                     <%#  MaskFarmCode(Eval("farmCode")) %>
@@ -76,24 +78,23 @@
                             <asp:BoundField DataField="farmName" HeaderText="畜牧場名稱"  ItemStyle-Width="20%"/>
                             <asp:BoundField DataField="owner" HeaderText="負責人"  ItemStyle-Width="10%"/>
                             <asp:BoundField DataField="address" HeaderText="地址" />
-                         </Columns>
-                         <EmptyDataTemplate>
-                         <div class="text-danger text-center py-2 fw-bold">
-                                 目前沒有牧場資料。
-                             </div>
-                         </EmptyDataTemplate>
-                         <PagerStyle HorizontalAlign="Center"/>
-                     </asp:GridView>
-                     <asp:HiddenField ID="HiddenField_selectedFarm" runat="server" />
-                 </div>
+                        </Columns>
+                        <EmptyDataTemplate>
+                            <div class="text-danger text-center">
+                                查無畜牧場
+                            </div>
+                        </EmptyDataTemplate>
+                        <PagerStyle HorizontalAlign="Center"/>
+                    </asp:GridView>
+                    <asp:HiddenField ID="HiddenField_selectedFarm" runat="server" />
+                </div>
             </div>
-         <%--   <div class="card-footer text-center">
-               
-            </div>--%>
+            <div class="queryBox-footer"></div>
         </div>
-        <!-- 牛籍查詢條件區 -->
+
+        <%-- STEP 3 --%>
         <div class="queryBox mt-3">
-            <div class="queryBox-header">牛籍查詢條件</div>
+            <div class="queryBox-header">STEP3. 設定牛籍過濾條件</div>
             <div class="queryBox-body">
                 <div class="row">
                     <div class="col">
@@ -109,11 +110,11 @@
                 </div>
                 <div class="row">
                     <div class="col text-center">
-                        <asp:LinkButton ID="LinkButton_cattleQuery" runat="server" CssClass="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i>確認選擇並查詢牛籍</asp:LinkButton>
+                        <asp:LinkButton ID="LinkButton_cattleQuery" runat="server" CssClass="btn btn-primary"><i class="fas fa-search me-1"></i>牛籍查詢</asp:LinkButton>
                     </div>
-                    <div class="col-12 text-center">
+                    <%--<div class="col-12 text-center">
                         <asp:Label ID="Label_cattleMsg" runat="server" Text="" CssClass="text-danger"></asp:Label>
-                    </div>
+                    </div>--%>
                 </div>
             </div>
             <div class="queryBox-footer"></div>
@@ -121,8 +122,8 @@
     </asp:Panel>
     <asp:Panel ID="Panel_result" runat="server" Visible="false">
         <div class="card formCard h-100">
-            <div class="card-header">
-                <i class="fa-regular fa-id-card"></i> 牧場基本資訊
+            <div class="card-header green">
+                牧場基本資料
             </div>
             <div class="card-body">
                 <div class="row">
@@ -155,13 +156,11 @@
                     </div>
                 </div>
             </div>
-           <%-- <div class="card-footer text-center">
-            </div>--%>
         </div>
         <div class="row m-0 mt-3 mb-3 align-items-center">
             <div class="col p-0">
 
-                <asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-outline-success">下載列表</asp:LinkButton>
+                <asp:LinkButton ID="LinkButton_excel" runat="server" CssClass="btn btn-success"><i class="fa-solid fa-file-arrow-down me-1"></i>列表下載</asp:LinkButton>
             </div>
             <div class="col p-0 text-end">
                 共 <asp:Label ID="Label_recordCount" runat="server" Text="0"></asp:Label> 筆
@@ -172,9 +171,12 @@
                 <Columns>
                     <asp:TemplateField HeaderText="牛籍編號" ItemStyle-Width="100px">
                         <ItemTemplate>
-                            <asp:LinkButton ID="LinkButton_tagNo" runat="server" Text='<%# Eval("tagNo") %>'
+                            <asp:LinkButton ID="LinkButton_tagNo" runat="server" Text='<%# Eval("tagNo") %>' Visible='<%# isManager %>'
                                 CommandName="_cattle" CommandArgument='<%# Eval("cattleID") %>' >
                             </asp:LinkButton>
+                            <asp:Label ID="Label_tagNo" runat="server" Text='<%# Eval("tagNo") %>' Visible='<%# If(isManager = False, True, False) %>'>
+
+                            </asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="編號備註" ItemStyle-Width="150px">
@@ -232,12 +234,6 @@
     </asp:Panel>
 
     <script type="text/javascript">
-        function clearControl(controlId) {
-            var textbox = document.getElementById(controlId);
-            textbox.value = '';
-            textbox.focus(); // 清除後自動聚焦
-        }
-
         $(function () {
             // 點選 radio 時
             window.recordSelectedFarm = function (elem) {
@@ -284,4 +280,12 @@
 
 
     </script>
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder_msg_title" runat="server">
+    系統訊息
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder_msg_content" runat="server">
+    <asp:Label ID="Label_message" runat="server" CssClass="msg"></asp:Label>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder_msg_btn" runat="server">
 </asp:Content>

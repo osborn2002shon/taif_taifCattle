@@ -9,28 +9,29 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder_content" runat="server">
     <div class="queryBox">
         <div class="queryBox-header">
-            匯入設定
+            牛籍批次新增
         </div>
         <div class="queryBox-body">
-            <div class="row g-3 align-items-end">
-                <div class="col-4">
-                    <label class="form-label">選擇匯入檔案</label>
-                    <asp:FileUpload ID="FileUpload_excel" runat="server" CssClass="form-control" />
-                </div>
-                <div class="col-2">
-                    <asp:LinkButton ID="LinkButton_import" runat="server" CssClass="btn btn-success w-100">
-                        <i class="fa-solid fa-upload"></i> 匯入
-                    </asp:LinkButton>
-                </div>
-                <div class="col-6">
-                    <label class="form-label">範本下載</label>
+            <div class="row align-items-end">
+                <div class="col-3">
+                    <label>範本下載</label>
                     <asp:HyperLink ID="HyperLink_template" runat="server" CssClass="btn btn-outline-primary w-100" NavigateUrl="~/_doc/batch/cattleManage_Batch.xlsx" Target="_blank">
-                        <i class="fa-solid fa-download"></i> 下載範本
+                        <i class="fa-solid fa-download me-1"></i>下載範本
                     </asp:HyperLink>
                 </div>
+                <div class="col-6">
+                    <label>選擇匯入檔案並上傳</label>
+                    <asp:FileUpload ID="FileUpload_excel" runat="server" CssClass="form-control" />
+                </div>
+                <div class="col-3">
+                    <asp:LinkButton ID="LinkButton_import" runat="server" CssClass="btn btn-success w-100">
+                        <i class="fa-solid fa-upload me-1"></i>上傳檔案
+                    </asp:LinkButton>
+                </div>
             </div>
-            <asp:Label ID="Label_message" runat="server" CssClass="text-danger fw-bold d-block mt-3"></asp:Label>
+            
         </div>
+        <div class="queryBox-footer"></div>
     </div>
 
     <div class="alert alert-info mt-4" role="alert">
@@ -153,4 +154,12 @@
             }
         })();
     </script>
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder_msg_title" runat="server">
+    系統訊息
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder_msg_content" runat="server">
+     <asp:Label ID="Label_message" runat="server" CssClass="msg"></asp:Label>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder_msg_btn" runat="server">
 </asp:Content>

@@ -11,7 +11,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">
-    <i class="fa-solid fa-database"></i> 牧場批次新增
+    <i class="fa-solid fa-house"></i> 牧場批次新增
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_title" runat="server">
 </asp:Content>
@@ -20,8 +20,9 @@
         <div class="queryBox-header">
             待新增畜牧場清單
         </div>
+
         <div class="queryBox-body">
-            <asp:Label ID="Label_message" runat="server" CssClass="text-danger fw-bold d-block mb-3"></asp:Label>
+            
 
             <asp:Panel ID="Panel_serialInfo" runat="server" CssClass="alert alert-info d-flex align-items-start" Visible="false">
                 <i class="fa-solid fa-circle-info me-2 mt-1"></i>
@@ -143,4 +144,12 @@
             }
         })();
     </script>
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder_msg_title" runat="server">
+    系統訊息
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder_msg_content" runat="server">
+     <asp:Label ID="Label_message" runat="server" CssClass="msg"></asp:Label>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder_msg_btn" runat="server">
 </asp:Content>

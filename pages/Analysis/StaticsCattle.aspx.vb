@@ -1,13 +1,13 @@
 ﻿Imports NPOI.SS.UserModel
 Imports NPOI.XSSF.UserModel
 Imports System.IO
-Imports taifCattle.taifCattle
 
 Public Class StaticsCattle
     Inherits taifCattle.Base
 
     Dim taifCattle_cattle As New taifCattle.Cattle
     Dim taifCattle_farm As New taifCattle.Farm
+    Public js As New StringBuilder
 #Region "Property"
     ''' <summary>
     ''' 搜尋條件：牛籍流水號
@@ -60,11 +60,15 @@ Public Class StaticsCattle
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
     End Sub
+    Private Sub StaticsCattle_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
+        Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
+    End Sub
 
     Private Sub LinkButton_query_Click(sender As Object, e As EventArgs) Handles LinkButton_query.Click
         Dim tagNo As String = TextBox_tagNo.Text.Trim()
         If String.IsNullOrEmpty(tagNo) Then
-            Label_msg.Text = "請輸入牛籍編號。"
+            Label_message.Text = "請輸入牛籍編號。"
+            js.AppendLine("showModal();")
             Panel_result.Visible = False
             Exit Sub
         End If
@@ -72,7 +76,8 @@ Public Class StaticsCattle
         '檢查牛籍邊號
         Dim result As stru_checkResult = taifCattle_cattle.Check_IsCattleExist(tagNo)
         If result.msg = "-1" Then
-            Label_msg.Text = "查無此牛籍編號。"
+            Label_message.Text = "查無此牛籍編號。"
+            js.AppendLine("showModal();")
             Panel_result.Visible = False
             Exit Sub
         End If
@@ -87,7 +92,6 @@ Public Class StaticsCattle
         Bind_Gridview()
 
         Panel_result.Visible = True
-        Label_msg.Text = ""
     End Sub
 
     Private Sub LinkButton_excel_Click(sender As Object, e As EventArgs) Handles LinkButton_excel.Click
@@ -234,4 +238,6 @@ Public Class StaticsCattle
             Response.End()
         End Using
     End Sub
+
+
 End Class
