@@ -33,7 +33,7 @@ Public Class CattleUninsured
                 '=== 寫入LOG
                 taifCattle_WSBase.Insert_DataExchangeLog(
                     taifCattle.WS_Base.enum_dataSourceName.外部單位,
-                    taifCattle.WS_Base.enum_apiName.滿一歲未投保之乳牛清單,
+                    taifCattle.WS_Base.enum_apiName.滿一歲未投保乳母牛清單查詢服務,
                     token,
                     result.dataList.Count,
                     triggerType,

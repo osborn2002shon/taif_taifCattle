@@ -397,7 +397,7 @@ body {
 
 
 
-@media (resolution: 1dppx) {
+@media (min-width: 1920px) and (resolution: 1dppx) {
     html, body, * {
         font-size: 24px; /* 投影機顯示 */
     }
