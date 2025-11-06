@@ -141,7 +141,7 @@ Public Class HisEndManage_Batch
                     If allowAutoCreateCattle Then
                         needCreateCattle = True
                     Else
-                        reasons.Add("查無牛籍資料")
+                        reasons.Add("找不到牛籍編號")
                     End If
                 End If
             End If

@@ -144,7 +144,7 @@ Public Class HisManage_Batch
                     If allowAutoCreateCattle Then
                         needCreateCattle = True
                     Else
-                        reasons.Add("查無牛籍資料")
+                        reasons.Add("找不到牛籍編號")
                     End If
                 End If
             End If
@@ -192,19 +192,17 @@ Public Class HisManage_Batch
             End If
 
             Dim createdCattleId As Integer = -1
-            Dim hasDuplicateDifferentDate As Boolean = False
 
             Try
                 If Not needCreateCattle Then
                     If HasExistingJourneyHistorySameDate(cattleId, dataDateValue, farmId) Then
                         Dim failedRow As DataRow = failedTable.NewRow()
                         FillCommonRowValues(failedRow, tagNo, dataDateValue.ToString("yyyy/MM/dd"), hisTypeName, farmCode, memo)
-                        failedRow("失敗原因") = "已有相同除籍資料"
+                        failedRow("失敗原因") = "已有相同旅程資料"
                         failedTable.Rows.Add(failedRow)
                         Continue For
                     End If
 
-                    hasDuplicateDifferentDate = HasExistingJourneyHistoryDifferentDate(cattleId, dataDateValue, farmId)
                 End If
 
                 If needCreateCattle Then
@@ -229,7 +227,7 @@ Public Class HisManage_Batch
 
                 Dim successRow As DataRow = successTable.NewRow()
                 FillCommonRowValues(successRow, tagNo, dataDateValue.ToString("yyyy/MM/dd"), hisTypeName, farmCode, memo)
-                successRow("匯入結果") = If(hasDuplicateDifferentDate, "成功匯入，但有重複資料，請確認資料正確性", "成功")
+                successRow("匯入結果") = "成功"
                 successTable.Rows.Add(successRow)
 
                 Insert_UserLog(insertUserId, enum_UserLogItem.旅程批次新增功能, enum_UserLogType.新增, $"hisID:{hisId}")
@@ -259,7 +257,7 @@ Public Class HisManage_Batch
             End Try
         End If
 
-        SuccessTable = successTable
+        successTable = successTable
         FailureTable = failedTable
 
         BindResult(successTable, failedTable)
