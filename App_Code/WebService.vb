@@ -283,24 +283,24 @@ Namespace taifCattle
         ''' 滿一歲未投保乳牛資料結構
         ''' </summary>
         Public Structure stru_UninsuredCattle
-            Public city As String
-            Public area As String
-            Public address As String
-            Public farmCode As String
-            Public farmName As String
-            Public tagNo As String
-            Public birthYear As Integer
-            Public cattleAge As Integer
-            Public milkProduction As Decimal
+            Property city As String
+            Property area As String
+            Property address As String
+            Property farmCode As String
+            Property farmName As String
+            Property tagNo As String
+            Property birthYear As Integer
+            Property cattleAge As Integer
+            Property milkProduction As Decimal
         End Structure
 
         ''' <summary>
         ''' 查詢結果    
         ''' </summary>
         Public Structure stru_resultWithList
-            Public isPass As Boolean
-            Public msg As String
-            Public dataList As List(Of stru_UninsuredCattle)
+            Property isPass As Boolean
+            Property msg As String
+            Property dataList As List(Of stru_UninsuredCattle)
         End Structure
 
         ''' <summary>
@@ -402,6 +402,125 @@ Namespace taifCattle
             Return result
         End Function
     End Class
+
+    Public Class WS_CattleCulling
+        Dim taifCattle_wsBase As New taifCattle.WS_Base
+
+        ''' <summary>
+        ''' 撲殺補償牛籍資料結構
+        ''' </summary>
+        Public Structure stru_CattleCulling
+            Property cattleID As Integer
+            Property tagNo As String
+            Property cullDate As Date
+            Property deathDate As Date
+            Property deathType As String
+            Property farmCode As String
+            Property farmName As String
+            Property owner As String
+            Property city As String
+            Property area As String
+            Property address As String
+        End Structure
+
+        ''' <summary>
+        ''' 查詢結果
+        ''' </summary>
+        Public Structure stru_resultWithList
+            Property isPass As Boolean
+            Property msg As String
+            Property dataList As List(Of stru_CattleCulling)
+        End Structure
+
+        ''' <summary>
+        ''' 取得撲殺補償牛籍清單（依日期區間）
+        ''' </summary>
+        ''' <param name="dateBeg">起始日期</param>
+        ''' <param name="dateEnd">結束日期</param>
+        ''' <returns>List(Of stru_CullingCompCattle)</returns>
+        Function Get_CullingList(dateBeg As Date, dateEnd As Date) As List(Of stru_CattleCulling)
+            Dim sqlString As String =
+            <xml>
+                select cattleID, tagNo, cullDate, deathDate, deathType,
+                       farmCode, farmName, owner, city, area, address
+                from View_CattleCulling
+                where cullDate between @dateBeg and @dateEnd
+                order by cullDate, tagNo
+            </xml>.Value
+
+            Dim result As New List(Of stru_CattleCulling)
+            Dim dt As New Data.DataTable
+
+            Dim para As New List(Of Data.SqlClient.SqlParameter)
+            para.Add(New Data.SqlClient.SqlParameter("dateBeg", dateBeg))
+            para.Add(New Data.SqlClient.SqlParameter("dateEnd", dateEnd))
+            Using da As New DataAccess.MS_SQL
+                dt = da.GetDataTable(sqlString, para.ToArray())
+            End Using
+
+            For Each row As Data.DataRow In dt.Rows
+                Dim info As New stru_CattleCulling
+                info.cattleID = If(IsDBNull(row("cattleID")), 0, CInt(row("cattleID")))
+                info.tagNo = "" & row("tagNo")
+                info.cullDate = If(IsDBNull(row("cullDate")), Date.MinValue, CDate(row("cullDate")))
+                info.deathDate = If(IsDBNull(row("deathDate")), Date.MinValue, CDate(row("deathDate")))
+                info.deathType = "" & row("deathType")
+                info.farmCode = "" & row("farmCode")
+                info.farmName = "" & row("farmName")
+                info.owner = "" & row("owner")
+                info.city = "" & row("city")
+                info.area = "" & row("area")
+                info.address = "" & row("address")
+                result.Add(info)
+            Next
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' 檢查 Token 後撈取撲殺補償清單
+        ''' </summary>
+        ''' <param name="token">驗證用 Token</param>
+        ''' <param name="dateBeg">起始日期</param>
+        ''' <param name="dateEnd">結束日期</param>
+        ''' <returns>stru_resultWithList</returns>
+        Function Get_CullingList_ByToken(token As String, dateBeg As Date, dateEnd As Date) As stru_resultWithList
+            Dim result As New stru_resultWithList With {
+            .isPass = False,
+            .msg = "驗證失敗",
+            .dataList = Nothing
+        }
+
+            Try
+                '=== 驗證 Token
+                If taifCattle_wsBase.Check_IsTokenAlive(token) = False Then
+                    result.msg = "Token 已失效或不存在"
+                    Return result
+                End If
+
+                '=== TOKEN通過，撈取資料
+                Dim list As List(Of stru_CattleCulling) = Get_CullingList(dateBeg, dateEnd)
+
+                If list IsNot Nothing AndAlso list.Count > 0 Then
+                    result.isPass = True
+                    result.msg = $"成功取得 {list.Count} 筆資料"
+                    result.dataList = list
+                Else
+                    result.isPass = True
+                    result.msg = "查無符合條件資料"
+                    result.dataList = New List(Of stru_CattleCulling)
+                End If
+
+            Catch ex As Exception
+                result.isPass = False
+                result.msg = "系統發生錯誤：" & ex.Message
+                result.dataList = Nothing
+            End Try
+
+            Return result
+        End Function
+    End Class
+
 
 
 End Namespace

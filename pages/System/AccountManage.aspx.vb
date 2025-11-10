@@ -172,13 +172,11 @@ Public Class AccountManage
         Label_recordCount.Text = dtAccounts.Rows.Count.ToString("N0")
     End Sub
 
-    Private Sub ShowMessage(message As String, cssClass As String)
+    Private Sub ShowMessage(message As String)
         If String.IsNullOrWhiteSpace(message) Then
             Label_message.Text = String.Empty
-            Label_message.CssClass = "d-block fw-bold px-4 pt-3"
         Else
             Label_message.Text = message
-            Label_message.CssClass = "d-block fw-bold px-4 pt-3 " & cssClass
         End If
     End Sub
 
@@ -205,7 +203,7 @@ Public Class AccountManage
         CheckBox_isActive.Visible = False
         Label_isActive.Visible = False
         If cleanMessage Then
-            ShowMessage(String.Empty, False)
+            ShowMessage(String.Empty)
         End If
 
         HiddenField_editAccountID.Value = String.Empty
@@ -229,7 +227,7 @@ Public Class AccountManage
     Private Sub OpenEditEditor(accountID As Integer)
         Dim row As DataRow = taifCattle_account.GetSystemAccount(accountID)
         If row Is Nothing Then
-            ShowMessage("找不到指定的帳號資料。", "text-danger")
+            ShowMessage("找不到指定的帳號資料。")
             Exit Sub
         End If
 
@@ -352,25 +350,25 @@ Public Class AccountManage
         Dim selectedCityID As Integer? = Nothing
 
         If String.IsNullOrWhiteSpace(accountText) Then
-            ShowMessage("請輸入登入帳號。", True)
+            ShowMessage("請輸入登入帳號。")
             ShowEditorView()
             Exit Sub
         End If
 
         If Not IsValidEmailFormat(accountText) Then
-            ShowMessage("請輸入正確的登入帳號電子信箱格式。", True)
+            ShowMessage("請輸入正確的登入帳號電子信箱格式。")
             ShowEditorView()
             Exit Sub
         End If
 
         If String.IsNullOrWhiteSpace(nameText) Then
-            ShowMessage("請輸入使用者姓名。", True)
+            ShowMessage("請輸入使用者姓名。")
             ShowEditorView()
             Exit Sub
         End If
 
         If String.IsNullOrEmpty(roleValue) Then
-            ShowMessage("請選擇系統權限。", True)
+            ShowMessage("請選擇系統權限。")
             ShowEditorView()
             Exit Sub
         End If
@@ -379,7 +377,7 @@ Public Class AccountManage
         Dim cityIDValue As Integer
         If isGovUser Then
             If String.IsNullOrEmpty(cityValue) OrElse Not Integer.TryParse(cityValue, cityIDValue) Then
-                ShowMessage("請選擇縣市。", True)
+                ShowMessage("請選擇縣市。")
                 ShowEditorView()
                 Exit Sub
             End If
@@ -397,7 +395,7 @@ Public Class AccountManage
         Try
             If Property_EditMode = taifCattle.Base.enum_EditMode.新增 Then
                 If Not ValidateAccountUniqueness(accountText, -1) Then
-                    ShowMessage("此登入帳號已存在，請重新輸入。", True)
+                    ShowMessage("此登入帳號已存在，請重新輸入。")
                     ShowEditorView()
                     Exit Sub
                 End If
@@ -408,15 +406,15 @@ Public Class AccountManage
 
                 Dim mailSent = SendAccountNotification(nameText, accountText, emailText, tempPassword, True)
                 If mailSent Then
-                    ShowMessage($"已建立帳號並寄送預設密碼至「{accountText}」。", "text-success")
+                    ShowMessage($"已建立帳號並寄送預設密碼至「{accountText}」。")
                 Else
-                    ShowMessage($"帳號已建立，但寄送通知信件至「{accountText}」時發生錯誤。", "text-warning")
+                    ShowMessage($"帳號已建立，但寄送通知信件至「{accountText}」時發生錯誤。")
                 End If
             ElseIf Property_EditMode = taifCattle.Base.enum_EditMode.編輯 Then
                 Dim targetID As Integer = Property_EditAccountID
                 Dim originalRow As DataRow = taifCattle_account.GetSystemAccount(targetID)
                 If originalRow Is Nothing Then
-                    ShowMessage("找不到指定的帳號資料。", True)
+                    ShowMessage("找不到指定的帳號資料。")
                     ShowEditorView()
                     Exit Sub
                 End If
@@ -426,7 +424,7 @@ Public Class AccountManage
                     accountText = originalRow("account").ToString()
                 Else
                     If Not ValidateAccountUniqueness(accountText, targetID) Then
-                        ShowMessage("此登入帳號已存在，請重新輸入。", True)
+                        ShowMessage("此登入帳號已存在，請重新輸入。")
                         ShowEditorView()
                         Exit Sub
                     End If
@@ -435,7 +433,7 @@ Public Class AccountManage
                 Dim isActive As Boolean = If(isVerified, CheckBox_isActive.Checked, True)
                 taifCattle_account.UpdateSystemAccount(targetID, Convert.ToInt32(roleValue), accountText, nameText, emailText, unitText, mobileText, memoText, isActive, currentUser.accountID, selectedCityID)
                 Insert_UserLog(currentUser.accountID, taifCattle.Base.enum_UserLogItem.系統帳號管理, taifCattle.Base.enum_UserLogType.修改, $"accountID:{targetID}")
-                ShowMessage("帳號資料已更新完成。", "text-success")
+                ShowMessage("帳號資料已更新完成。")
             End If
 
             ResetEditor()
@@ -443,7 +441,7 @@ Public Class AccountManage
             Property_EditMode = taifCattle.Base.enum_EditMode.預設
             BindGridView()
         Catch ex As Exception
-            ShowMessage("儲存帳號資料時發生錯誤，請稍後再試。", True)
+            ShowMessage("儲存帳號資料時發生錯誤，請稍後再試。")
             ShowEditorView()
         End Try
     End Sub
@@ -451,7 +449,7 @@ Public Class AccountManage
     Private Sub HandleResetPassword(accountID As Integer)
         Dim targetRow As DataRow = taifCattle_account.GetSystemAccount(accountID)
         If targetRow Is Nothing Then
-            ShowMessage("找不到指定的帳號資料，無法重設密碼。", "text-danger")
+            ShowMessage("找不到指定的帳號資料，無法重設密碼。")
             Exit Sub
         End If
 
@@ -464,7 +462,7 @@ Public Class AccountManage
         Dim tempPassword As String = taifCattle_account.GenerateCompliantPassword()
         Dim result = taifCattle_account.ChangeUserPassword(accountID, currentUser.accountID, tempPassword, taifCattle.Base.enum_UserLogItem.系統帳號管理)
         If result = False Then
-            ShowMessage("重設密碼時發生錯誤，請稍後再試。", "text-danger")
+            ShowMessage("重設密碼時發生錯誤，請稍後再試。")
             Exit Sub
         End If
 
@@ -473,22 +471,22 @@ Public Class AccountManage
         Dim emailText As String = If(targetRow("email") Is DBNull.Value, accountText, targetRow("email").ToString())
         Dim mailSent = SendAccountNotification(nameText, accountText, emailText, tempPassword, False)
         If mailSent Then
-            ShowMessage($"已重設帳號「{accountText}」的密碼並寄送通知信件。", "text-success")
+            ShowMessage($"已重設帳號「{accountText}」的密碼並寄送通知信件。")
         Else
-            ShowMessage($"已重設帳號「{accountText}」的密碼，但寄送通知信件時發生錯誤。", "text-warning")
+            ShowMessage($"已重設帳號「{accountText}」的密碼，但寄送通知信件時發生錯誤。")
         End If
     End Sub
 
     Private Sub HandleToggleActive(accountID As Integer)
         Dim targetRow As DataRow = taifCattle_account.GetSystemAccount(accountID)
         If targetRow Is Nothing Then
-            ShowMessage("找不到指定的帳號資料，無法變更狀態。", "text-danger")
+            ShowMessage("找不到指定的帳號資料，無法變更狀態。")
             Exit Sub
         End If
 
         Dim isVerified As Boolean = Convert.ToBoolean(targetRow("isEmailVerified"))
         If Not isVerified Then
-            ShowMessage("此帳號尚未完成驗證，請先請使用者登入後再進行啟用或停用設定。", "text-warning")
+            ShowMessage("此帳號尚未完成驗證，請先請使用者登入後再進行啟用或停用設定。")
             Exit Sub
         End If
 
@@ -503,20 +501,20 @@ Public Class AccountManage
         taifCattle_account.UpdateAccountActiveStatus(accountID, newStatus, currentUser.accountID)
         Dim actionText As String = If(newStatus, "啟用", "停用")
         Insert_UserLog(currentUser.accountID, taifCattle.Base.enum_UserLogItem.系統帳號管理, taifCattle.Base.enum_UserLogType.修改, $"accountID:{accountID},action:{actionText}")
-        ShowMessage($"已{actionText}帳號「{targetRow("account")}」。", "text-success")
+        ShowMessage($"已{actionText}帳號「{targetRow("account")}」。")
         BindGridView()
     End Sub
 
     Private Sub HandleDeleteAccount(accountID As Integer)
         Dim targetRow As DataRow = taifCattle_account.GetSystemAccount(accountID)
         If targetRow Is Nothing Then
-            ShowMessage("找不到指定的帳號資料，無法刪除。", "text-danger")
+            ShowMessage("找不到指定的帳號資料，無法刪除。")
             Exit Sub
         End If
 
         Dim isVerified As Boolean = Convert.ToBoolean(targetRow("isEmailVerified"))
         If isVerified Then
-            ShowMessage("此帳號已完成驗證，無法刪除。", "text-warning")
+            ShowMessage("此帳號已完成驗證，無法刪除。")
             Exit Sub
         End If
 
@@ -531,7 +529,7 @@ Public Class AccountManage
         ResetEditor()
         ShowQueryView()
         Property_EditMode = taifCattle.Base.enum_EditMode.預設
-        ShowMessage($"已刪除尚未驗證的帳號「{targetRow("account")}」。", "text-success")
+        ShowMessage($"已刪除尚未驗證的帳號「{targetRow("account")}」。")
         BindGridView()
     End Sub
 
@@ -617,7 +615,7 @@ Public Class AccountManage
     End Sub
 
     Protected Sub LinkButton_addAccount_Click(sender As Object, e As EventArgs) Handles LinkButton_addAccount.Click
-        ShowMessage(String.Empty, String.Empty)
+        ShowMessage(String.Empty)
         OpenAddEditor()
     End Sub
 
@@ -641,7 +639,7 @@ Public Class AccountManage
         ResetEditor(True)
         ShowQueryView()
         Property_EditMode = taifCattle.Base.enum_EditMode.預設
-        ShowMessage(String.Empty, False)
+        ShowMessage(String.Empty)
     End Sub
 
     Protected Sub GridView_accounts_PageIndexChanging(sender As Object, e As GridViewPageEventArgs) Handles GridView_accounts.PageIndexChanging

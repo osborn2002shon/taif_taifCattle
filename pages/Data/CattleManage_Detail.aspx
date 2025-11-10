@@ -229,7 +229,8 @@
                             <asp:TemplateField HeaderText="操作" ItemStyle-Width="120px">
                                 <ItemTemplate>
                                         <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-danger"
-                                            CommandName="hisRemove" CommandArgument='<%# Eval("hisID") %>' >
+                                            CommandName="hisRemove" CommandArgument='<%# Eval("hisID") %>'
+                                            OnClientClick="return confirm('確定要刪除嗎？');">
                                             <i class="fa-solid fa-trash me-1"></i>刪除</asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -327,7 +328,8 @@
                             <asp:TemplateField HeaderText="操作" ItemStyle-Width="120px">
                                 <ItemTemplate>
                                         <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-danger"
-                                            CommandName="hisRemove" CommandArgument='<%# Eval("hisID") %>' >
+                                            CommandName="hisRemove" CommandArgument='<%# Eval("hisID") %>'
+                                            OnClientClick="return confirm('確定要刪除嗎？');">
                                             <i class="fa-solid fa-trash me-1"></i>刪除</asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>

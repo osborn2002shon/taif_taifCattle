@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>農保基金牛籍管理系統</title>
+    <title>農險基金牛籍管理系統</title>
     <script src="_js/bootstrap.bundle.js"></script>
     <script src="_js/jquery-3.7.1.js"></script>
     <link href="_css/bootstrap.css" rel="stylesheet" />

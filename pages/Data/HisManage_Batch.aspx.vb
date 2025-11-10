@@ -363,7 +363,7 @@ Public Class HisManage_Batch
     Private Function GetFarmLookup() As Dictionary(Of String, Integer)
         Dim dict As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
         Using da As New DataAccess.MS_SQL()
-            Dim sql As String = "select farmID, farmCode from List_Farm where removeDateTime is null"
+            Dim sql As String = "select farmID, farmCode from View_FarmList where removeDateTime is null"
             Dim dt As DataTable = da.GetDataTable(sql)
             For Each row As DataRow In dt.Rows
                 Dim code As String = Convert.ToString(row("farmCode")).Trim()

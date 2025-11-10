@@ -62,7 +62,6 @@ Namespace taifCattle
             牛籍批次新增功能
             旅程批次新增功能
             除籍批次設定功能
-
         End Enum
 
         ''' <summary>

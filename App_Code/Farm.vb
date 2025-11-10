@@ -52,9 +52,8 @@ Namespace taifCattle
             Dim sql As String =
             <xml>
                 SELECT COUNT(*) 
-                FROM List_Farm 
-                WHERE farmCode = @farmCode 
-                  AND removeDateTime IS NULL
+                FROM View_FarmList 
+                WHERE farmCode = @farmCode AND removeDateTime IS NULL
             </xml>.Value
 
             If excludeFarmID > 0 Then
@@ -83,16 +82,16 @@ Namespace taifCattle
                 <xml string="
                     select
                         farmID, farmName, farmCode, owner, ownerID, ownerTel, animalCount, 
-                        List_Farm.twID, cityID, city, area, address, memo, insertType,insertAccountID
-                    from List_Farm
-                    left join System_Taiwan on List_Farm.twID = System_Taiwan.twID
-                    where removeDateTime is null and cityID like @cityID and List_Farm.twID like @twID  and
+                        View_FarmList.twID, cityID, city, area, address, memo, insertType,insertAccountID
+                    from View_FarmList
+                    left join System_Taiwan on View_FarmList.twID = System_Taiwan.twID
+                    where removeDateTime is null and cityID like @cityID and View_FarmList.twID like @twID  and
                     (
 	                    farmCode like '%' + @keyWord + '%' or 
 	                    farmName like '%' + @keyWord + '%' or
 	                    owner like '%' + @keyWord + '%'
                     )
-                    order by List_Farm.twID, farmCode, farmName, owner, ownerID
+                    order by View_FarmList.twID, farmCode, farmName, owner, ownerID
                 "></xml>.FirstAttribute.Value
             Dim para As New List(Of Data.SqlClient.SqlParameter)
 
@@ -143,9 +142,9 @@ Namespace taifCattle
                 <xml string="
                     select
                         farmID, farmName, farmCode, owner, ownerID, ownerTel, animalCount, 
-                        List_Farm.twID, cityID, city, area, address, memo, insertType, insertAccountID
-                    from List_Farm
-                    left join System_Taiwan on List_Farm.twID = System_Taiwan.twID
+                        View_FarmList.twID, cityID, city, area, address, memo, insertType, insertAccountID
+                    from View_FarmList
+                    left join System_Taiwan on View_FarmList.twID = System_Taiwan.twID
                     where farmID = @farmID
                 "></xml>.FirstAttribute.Value
 
@@ -191,9 +190,9 @@ Namespace taifCattle
                 <xml string="
                     select
                         farmID, farmName, farmCode, owner, ownerID, ownerTel, animalCount, 
-                        List_Farm.twID, cityID, city, area, address, memo, insertType, insertAccountID
-                    from List_Farm
-                    left join System_Taiwan on List_Farm.twID = System_Taiwan.twID
+                        View_FarmList.twID, cityID, city, area, address, memo, insertType, insertAccountID
+                    from View_FarmList
+                    left join System_Taiwan on View_FarmList.twID = System_Taiwan.twID
                     where farmCode = @farmCode
                 "></xml>.FirstAttribute.Value
 
@@ -239,10 +238,10 @@ Namespace taifCattle
             Dim sql As String =
                 <xml>
                     INSERT INTO List_Farm
-                    (farmName, farmCode, owner, ownerID, ownerTel, twID, address,
+                    (farmName, farmCode_enc, farmCode_hash, owner, ownerID, ownerTel, twID, address,
                      animalCount, memo, insertType, insertDateTime, insertAccountID,updateDateTime,updateAccountID)
                     VALUES
-                    (@farmName, @farmCode, @owner, @ownerID, @ownerTel, @twID, @address,
+                    (@farmName, dbo.makeSecret(@farmCode), dbo.makeHash(@farmCode), @owner, @ownerID, @ownerTel, @twID, @address,
                      @animalCount, @memo, @insertType,@insertDateTime, @insertAccountID,@insertDateTime,@insertAccountID)
                 </xml>.Value
 
@@ -393,7 +392,7 @@ Namespace taifCattle
             End If
 
             Dim sqlBuilder As New StringBuilder()
-            sqlBuilder.Append("SELECT farmCode FROM List_Farm WHERE removeDateTime IS NULL AND farmCode IN (")
+            sqlBuilder.Append("SELECT farmCode FROM View_FarmList WHERE removeDateTime IS NULL AND farmCode IN (")
 
             Dim para As New List(Of SqlClient.SqlParameter)
             For i As Integer = 0 To codeList.Count - 1
