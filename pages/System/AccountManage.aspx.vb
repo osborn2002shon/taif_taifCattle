@@ -670,6 +670,21 @@ Public Class AccountManage
             Dim isActive As Boolean = Convert.ToBoolean(data("isActive"))
             Dim isVerified As Boolean = Convert.ToBoolean(data("isEmailVerified"))
 
+            Dim accountLiteral As Literal = CType(e.Row.FindControl("Literal_accountInfo"), Literal)
+            If accountLiteral IsNot Nothing Then
+                Dim accountValue As String = Convert.ToString(data("account"))
+                Dim emailValue As String = If(data("email") Is DBNull.Value, String.Empty, Convert.ToString(data("email")))
+
+                Dim accountDisplay As New StringBuilder()
+                accountDisplay.AppendFormat("<span class='account-id'>{0}</span>", HttpUtility.HtmlEncode(accountValue))
+
+                If Not String.IsNullOrWhiteSpace(emailValue) AndAlso Not String.Equals(accountValue, emailValue, StringComparison.OrdinalIgnoreCase) Then
+                    accountDisplay.AppendFormat("<div class='text-muted small'>{0}</div>", HttpUtility.HtmlEncode(emailValue))
+                End If
+
+                accountLiteral.Text = accountDisplay.ToString()
+            End If
+
             Dim statusLabel As Label = CType(e.Row.FindControl("Label_status"), Label)
             If statusLabel IsNot Nothing Then
                 statusLabel.Text = GetStatusBadge(isVerified, isActive)
