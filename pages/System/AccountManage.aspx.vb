@@ -679,7 +679,7 @@ Public Class AccountManage
                 accountDisplay.AppendFormat("<span class='account-id'>{0}</span>", HttpUtility.HtmlEncode(accountValue))
 
                 If Not String.IsNullOrWhiteSpace(emailValue) AndAlso Not String.Equals(accountValue, emailValue, StringComparison.OrdinalIgnoreCase) Then
-                    accountDisplay.AppendFormat("<div class='text-muted small'>{0}</div>", HttpUtility.HtmlEncode(emailValue))
+                    'accountDisplay.AppendFormat("<div class='text-muted small'>{0}</div>", HttpUtility.HtmlEncode(emailValue))
                 End If
 
                 accountLiteral.Text = accountDisplay.ToString()

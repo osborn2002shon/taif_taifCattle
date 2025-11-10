@@ -538,8 +538,7 @@ Namespace taifCattle.DAO
                         and (
                                 @keyword = '' or
                                 ua.account like '%' + @keyword + '%' or
-                                ua.name like '%' + @keyword + '%' or
-                                ua.email like '%' + @keyword + '%'
+                                ua.name like '%' + @keyword + '%' 
                             )                    
                 </sql>.Value
 
