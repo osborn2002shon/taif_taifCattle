@@ -162,7 +162,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="登入帳號（電子信箱）">
                         <ItemTemplate>
-                            <span class="account-id"><%# Eval("account") %></span>
+                            <asp:Literal ID="Literal_accountInfo" runat="server"></asp:Literal>
                             <asp:HiddenField ID="HiddenField_accountID" runat="server" Value='<%# Eval("accountID") %>' />
                             <asp:HiddenField ID="HiddenField_isActive" runat="server" Value='<%# Eval("isActive") %>' />
                             <asp:HiddenField ID="HiddenField_isVerified" runat="server" Value='<%# Eval("isEmailVerified") %>' />
