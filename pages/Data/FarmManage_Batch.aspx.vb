@@ -25,6 +25,20 @@ Public Class FarmManage_Batch
         End Set
     End Property
 
+    Private Sub FarmManage_Batch_Init(sender As Object, e As EventArgs) Handles Me.Init
+        Dim masterPage As mp_default = TryCast(Me.Master, mp_default)
+        If masterPage Is Nothing Then
+            Return
+        End If
+
+        Dim serialQuery As String = Request.QueryString("serial")
+        Dim parentMenuPage As String = ResolveParentMenuPageBySerial(serialQuery)
+
+        If Not String.IsNullOrEmpty(parentMenuPage) Then
+            masterPage.ParentMenuPage = parentMenuPage
+        End If
+    End Sub
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim serialQuery As String = Request.QueryString("serial")
         If String.IsNullOrWhiteSpace(serialQuery) Then
@@ -112,6 +126,44 @@ Public Class FarmManage_Batch
         LinkButton_submit.Visible = canAdd
         LinkButton_submit.Enabled = canAdd
     End Sub
+
+    Private Function ResolveParentMenuPageBySerial(serialNo As String) As String
+        Dim dataSource As String = GetMissingImportDataSource(serialNo)
+        If String.IsNullOrEmpty(dataSource) Then
+            Return String.Empty
+        End If
+
+        Select Case dataSource.Trim()
+            Case "CattleManage_Batch"
+                Return "../Data/CattleManage_Batch.aspx"
+            Case "HisManage_Batch"
+                Return "../Data/hisManage_Batch.aspx"
+            Case "HisEndManage_Batch"
+                Return "../Data/hisEndManage_Batch.aspx"
+            Case Else
+                Return String.Empty
+        End Select
+    End Function
+
+    Private Function GetMissingImportDataSource(serialNo As String) As String
+        If String.IsNullOrWhiteSpace(serialNo) Then
+            Return String.Empty
+        End If
+
+        Const sql As String = "SELECT TOP 1 dataSource FROM Data_FarmMissingImport WHERE serialNo = @serialNo ORDER BY missingID"
+        Dim para As SqlClient.SqlParameter() = {
+            New SqlClient.SqlParameter("@serialNo", serialNo.Trim())
+        }
+
+        Using da As New DataAccess.MS_SQL
+            Dim result As Object = da.ExecuteScalar(sql, para)
+            If result Is Nothing OrElse Convert.IsDBNull(result) Then
+                Return String.Empty
+            End If
+
+            Return Convert.ToString(result)
+        End Using
+    End Function
 
     Protected Sub Repeater_missingFarms_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles Repeater_missingFarms.ItemDataBound
         If e.Item.ItemType <> ListItemType.Item AndAlso e.Item.ItemType <> ListItemType.AlternatingItem Then
