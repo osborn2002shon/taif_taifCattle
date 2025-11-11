@@ -47,6 +47,14 @@ Public Class Permission
 
     Private _roleCache As List(Of RoleModel)
 
+    Private Sub Permission_Init(sender As Object, e As EventArgs) Handles Me.Init
+        '指定父選單頁面
+        Dim masterPage As mp_default = TryCast(Me.Master, mp_default)
+        If masterPage IsNot Nothing Then
+            masterPage.ParentMenuPage = "/system/AccountManage.aspx"
+        End If
+    End Sub
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not IsPostBack Then
             Label_result.Text =""

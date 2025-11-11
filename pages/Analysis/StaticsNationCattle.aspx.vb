@@ -80,7 +80,7 @@ Public Class StaticsNationCattle
             ORDER BY histNonRemoval.dataDate DESC, typeRefNonRemoval.orderby DESC
         ) AS latestNonRemoval
 
-        LEFT JOIN List_Farm ON latestNonRemoval.farmID = List_Farm.farmID
+        LEFT JOIN View_FarmList List_Farm ON latestNonRemoval.farmID = List_Farm.farmID
         LEFT JOIN System_Taiwan AS twFarm  ON List_Farm.twID = twFarm.twID
 
         WHERE 

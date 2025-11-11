@@ -23,12 +23,13 @@
     </div>
 
     <div class="form-floating position-relative">
-        <asp:TextBox ID="TextBox_Captcha" runat="server" class="form-control" placeholder="請輸入驗證碼" autocomplete="off" Width="100%" TabIndex="3"></asp:TextBox>
+        <asp:TextBox ID="TextBox_Captcha" runat="server" class="form-control" placeholder="請輸入驗證碼" autocomplete="off" TabIndex="3" MaxLength="4"></asp:TextBox>
         <asp:Label ID="Label_Captcha" runat="server" AssociatedControlID="TextBox_Captcha">
             <i class="fa-solid fa-hashtag me-2"></i>驗證碼
         </asp:Label>
-        <asp:Image ID="Image_Captcha" runat="server" ImageUrl="~/_uc/captcha.ashx" Height="30"/>                    
-    </div> 
+        <asp:Image ID="Image_Captcha" runat="server" ImageUrl="~/_uc/captcha.ashx" Height="38" CssClass="captcha-image"/>                    
+    </div>
+
     <asp:Button ID="Button_login" runat="server" CssClass="btn btn-login mb-3" Text="登入" />
     <asp:Label ID="Label_msg" runat="server" ForeColor="Tomato"></asp:Label>
     <div class="text-end">

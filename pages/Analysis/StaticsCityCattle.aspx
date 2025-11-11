@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="StaticsCityCattle.aspx.vb" Inherits="taifCattle.StaticsCityCattle" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/_mp/mp_default.master" CodeBehind="StaticsCityCattle.aspx.vb" Inherits="taifCattle.StaticsCityCattle"  %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_path" runat="server">

@@ -87,9 +87,21 @@ Public Class FarmManage
                 MultiView_main.SetActiveView(View_list)
             Case enum_EditMode.編輯
                 MultiView_main.SetActiveView(View_edit)
+                ClearFarmForm()
+                Label_editTitle.Text = "編輯畜牧場"
+
+                ' 顯示欄位
+                TextBox_farmCode.Visible = False
+                Label_farmCode_display.Visible = True
+
             Case enum_EditMode.新增
                 MultiView_main.SetActiveView(View_edit)
+                ClearFarmForm()
+                Label_editTitle.Text = "新增畜牧場"
 
+                ' 顯示欄位
+                TextBox_farmCode.Visible = True
+                Label_farmCode_display.Visible = False
         End Select
     End Sub
     ''' <summary>
@@ -116,30 +128,16 @@ Public Class FarmManage
     End Sub
 
     ''' <summary>
-    ''' 載入指定畜牧場資料至表單
+    ''' 載入資料
     ''' </summary>
-    ''' <param name="farmID"></param>
-    Private Sub LoadFarmData(farmID As Integer)
-        ClearFarmForm()
-
-        Dim info As taifCattle.Farm.stru_farmInfo = taifCattle_farm.Get_FarmByID(farmID)
-
-        If info.farmID = 0 Then
-            ' 查無資料處理
-            Label_editTitle.Text = "查無資料"
-            Exit Sub
-        End If
-
-        ' 標題設定
-        Label_editTitle.Text = "編輯畜牧場"
+    ''' <param name="info"></param>
+    Private Sub LoadFarmData(ByVal info As taifCattle.Farm.stru_farmInfo)
 
         ' 填入資料
         TextBox_farmName.Text = info.farmName
 
         ' ---- 證號處理 ----
         Label_farmCode_display.Text = info.farmCode
-        Label_farmCode_display.Visible = True
-        TextBox_farmCode.Visible = False
 
         TextBox_owner.Text = info.owner
         TextBox_ownerID.Text = info.ownerID
@@ -177,10 +175,8 @@ Public Class FarmManage
         TextBox_memo.Text = ""
         Label_msg.Text = ""
 
-        DropDownList_editCity.Items.Clear()
         DropDownList_editCity.SelectedIndex = -1
-        DropDownList_editTown.Items.Clear()
-        DropDownList_editTown.SelectedIndex = -1
+        taifCattle_con.BindDropDownList_area(DropDownList_editTown, DropDownList_editCity.SelectedValue, False)
     End Sub
 
     ''' <summary>
@@ -284,9 +280,12 @@ Public Class FarmManage
 
             '縣市
             taifCattle_con.BindDropDownList_city(DropDownList_city, True)
+            taifCattle_con.BindDropDownList_city(DropDownList_editCity, False)
+
 
             '鄉鎮
             taifCattle_con.BindDropDownList_area(DropDownList_town, DropDownList_city.SelectedValue, True)
+            taifCattle_con.BindDropDownList_area(DropDownList_editTown, DropDownList_editCity.SelectedValue, False)
 
             '搜尋紀錄
             SaveQueryCondition()
@@ -308,9 +307,17 @@ Public Class FarmManage
         Select Case e.CommandName
             Case "myEdit"
                 Dim farmID As Integer = Convert.ToInt32(e.CommandArgument)
-                Property_farmID = farmID
-                LoadFarmData(farmID)
+                Dim info As taifCattle.Farm.stru_farmInfo = taifCattle_farm.Get_FarmByID(farmID)
+                If info.farmID = 0 Then
+                    ' 查無資料處理
+                    Label_msg.Text = "發生問題，請稍後再試。"
+                    js.AppendLine("showModal();")
+                    Exit Sub
+                End If
+
                 SwitchView(enum_EditMode.編輯)
+                Property_farmID = farmID
+                LoadFarmData(info)
         End Select
     End Sub
 
@@ -429,22 +436,19 @@ Public Class FarmManage
     End Sub
 
     Private Sub LinkButton_cancel_Click(sender As Object, e As EventArgs) Handles LinkButton_cancel.Click
-        SwitchView(enum_EditMode.預設)
+        Dim isAddMode As Boolean = (Property_farmID = -1)
+        If isAddMode Then
+            Response.Redirect("FarmManage.aspx")
+        Else
+            SwitchView(enum_EditMode.預設)
+        End If
+
     End Sub
 
     Private Sub LinkButton_addFarm_Click(sender As Object, e As EventArgs) Handles LinkButton_addFarm.Click
-        ClearFarmForm()
-
-        ' 顯示可輸入的欄位
-        TextBox_farmCode.Visible = True
-        Label_farmCode_display.Visible = False
-
-        taifCattle_con.BindDropDownList_city(DropDownList_editCity, False)
-        taifCattle_con.BindDropDownList_area(DropDownList_editTown, DropDownList_editCity.SelectedValue, False)
-
-        Label_editTitle.Text = "新增畜牧場"
+        SwitchView(enum_EditMode.新增)
         Property_farmID = -1
-        SwitchView(enum_EditMode.編輯)
+
     End Sub
     Private Sub DropDownList_city_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DropDownList_city.SelectedIndexChanged
         '鄉鎮
@@ -468,11 +472,16 @@ Public Class FarmManage
         If isAddMode Then
             taifCattle_farm.Insert_Farm(info)
             Insert_UserLog(info.insertAccountID, taifCattle.Base.enum_UserLogItem.牧場資料管理, taifCattle.Base.enum_UserLogType.新增, $"farmCode:{info.farmCode}")
+
+            '清空控制項
+            ClearFarmForm()
+
             Label_msg.Text = "牧場資料已新增成功！"
             js.AppendLine("showModal();")
         Else
             taifCattle_farm.Update_Farm(info)
             Insert_UserLog(info.updateAccountID, taifCattle.Base.enum_UserLogItem.牧場資料管理, taifCattle.Base.enum_UserLogType.修改, $"farmID:{info.farmID}")
+            BindGridView()
             Label_msg.Text = "牧場資料已更新成功！"
             js.AppendLine("showModal();")
         End If

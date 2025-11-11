@@ -328,7 +328,7 @@ Namespace taifCattle
                         ORDER BY histNonRemoval.dataDate DESC, typeRefNonRemoval.orderby DESC
                     ) AS latestNonRemoval
                     LEFT JOIN View_CattleInsClaStatus vIns ON vc.tagNo = vIns.tagNo
-                    LEFT JOIN List_Farm ON latestNonRemoval.farmID = List_Farm.farmID
+                    LEFT JOIN View_FarmList List_Farm ON latestNonRemoval.farmID = List_Farm.farmID
                     LEFT JOIN System_Taiwan AS twFarm  ON List_Farm.twID = twFarm.twID
                     where vc.cattleTypeID = 2 
                       and vc.cattleAge &gt;= 1 
@@ -410,10 +410,8 @@ Namespace taifCattle
         ''' 撲殺補償牛籍資料結構
         ''' </summary>
         Public Structure stru_CattleCulling
-            Property cattleID As Integer
             Property tagNo As String
             Property cullDate As Date
-            Property deathDate As Date
             Property deathType As String
             Property farmCode As String
             Property farmName As String
@@ -460,10 +458,10 @@ Namespace taifCattle
 
             For Each row As Data.DataRow In dt.Rows
                 Dim info As New stru_CattleCulling
-                info.cattleID = If(IsDBNull(row("cattleID")), 0, CInt(row("cattleID")))
+                'info.cattleID = If(IsDBNull(row("cattleID")), 0, CInt(row("cattleID")))
                 info.tagNo = "" & row("tagNo")
                 info.cullDate = If(IsDBNull(row("cullDate")), Date.MinValue, CDate(row("cullDate")))
-                info.deathDate = If(IsDBNull(row("deathDate")), Date.MinValue, CDate(row("deathDate")))
+                'info.deathDate = If(IsDBNull(row("deathDate")), Date.MinValue, CDate(row("deathDate")))
                 info.deathType = "" & row("deathType")
                 info.farmCode = "" & row("farmCode")
                 info.farmName = "" & row("farmName")

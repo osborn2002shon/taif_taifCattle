@@ -232,7 +232,17 @@ body {
     }
 
 .form-floating.position-relative .form-control {
-    padding-right: 50px;
+    padding-right: 130px; /* 增加右側padding給驗證碼圖片留空間 */
+}
+
+.form-floating.position-relative .captcha-image {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 border: 2px solid #0f2350;

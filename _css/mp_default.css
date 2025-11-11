@@ -85,22 +85,35 @@ body {
     .nav-link.active {
         background: rgba(255,255,255,0.15);
         color: white;
-        border-left-color: #ffc107;
+        border-left-color: #fef263;
     }
 
     .nav-link i {
         margin-right: 10px;
     }
 
-/* 子選單樣式 */
-.nav-submenu {
-    background: rgba(0,0,0,0.2);
-}
+    .nav-link:focus {
+        color:white !important
+    }
+    /* 子選單樣式 */
+    .nav-submenu {
+        background: rgba(0,0,0,0.2);
+    }
 
     .nav-submenu .nav-link {
         padding-left: 30px;
         font-size: 1.25rem;
     }
+
+        .nav-submenu .nav-link.active {
+            color: #fef263 !important; /* Bootstrap 紅色 */
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+            .nav-submenu .nav-link.active i {
+                color: #fef263;
+            }
 
 /* 主要內容區域 */
 .main-content {

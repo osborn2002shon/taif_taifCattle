@@ -138,8 +138,8 @@
 
                         <!-- 連絡電話 -->
                         <div class="col">
-                            <label>連絡電話</label>
-                            <asp:TextBox ID="TextBox_ownerTel" runat="server" CssClass="form-control" placeholder="請輸入電話"></asp:TextBox>
+                            <label>聯絡電話</label>
+                            <asp:TextBox ID="TextBox_ownerTel" runat="server" CssClass="form-control" placeholder="請輸入聯絡電話"></asp:TextBox>
                         </div>
                     </div>
                     <div class="row">

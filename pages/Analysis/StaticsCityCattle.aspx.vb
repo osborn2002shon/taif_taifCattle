@@ -203,7 +203,7 @@ Public Class StaticsCityCattle
               AND cattleHistory.dataDate BETWEEN @dateBeg AND @dateEnd
             ORDER BY cattleHistory.dataDate DESC, typeNonRemoval.orderBy DESC
         ) AS latestNonRemoval
-        LEFT JOIN List_Farm AS latestFarm ON latestNonRemoval.farmID = latestFarm.farmID
+        LEFT JOIN View_FarmList AS latestFarm ON latestNonRemoval.farmID = latestFarm.farmID
         LEFT JOIN System_Taiwan AS taiwanFarm ON latestFarm.twID = taiwanFarm.twID
 
         /* 取得最新「除籍」旅程（限定期間內）*/
@@ -225,7 +225,7 @@ Public Class StaticsCityCattle
         /* 歷程 JOIN：拿到截至結束日期的所有歷程 */
         INNER JOIN Cattle_History AS cattleHistory ON cattleView.cattleID = cattleHistory.cattleID
         LEFT JOIN Cattle_TypeHistory AS historyType ON cattleHistory.hisTypeID = historyType.hisTypeID
-        LEFT JOIN List_Farm AS farm ON cattleHistory.farmID = farm.farmID
+        LEFT JOIN View_FarmList AS farm ON cattleHistory.farmID = farm.farmID
         LEFT JOIN List_Slaughterhouse AS slaughterhouse ON cattleHistory.slauID = slaughterhouse.slauID
         LEFT JOIN List_RenderingPlant AS renderingPlant ON cattleHistory.plantID = renderingPlant.plantID
         LEFT JOIN System_Taiwan AS taiwanPlace ON ISNULL(ISNULL(farm.twID, slaughterhouse.twID), renderingPlant.twID) = taiwanPlace.twID
@@ -245,10 +245,16 @@ Public Class StaticsCityCattle
 
         ' === 組成參數 ===
         Dim para As New List(Of SqlClient.SqlParameter)
-        para.Add(New SqlClient.SqlParameter("dateBeg", dateBeg))
-        para.Add(New SqlClient.SqlParameter("dateEnd", dateEnd))
-        para.Add(New SqlClient.SqlParameter("cityID", If(cityID Is Nothing OrElse cityID.ToString().Trim() = "%" OrElse cityID.ToString().Trim() = "", DBNull.Value, cityID)))
+        para.Add(New SqlClient.SqlParameter("@dateBeg", SqlDbType.Date) With {.Value = dateBeg})
+        para.Add(New SqlClient.SqlParameter("@dateEnd", SqlDbType.Date) With {.Value = dateEnd})
 
+        Dim cityParam As New SqlClient.SqlParameter("@cityID", SqlDbType.Int)
+        If cityID Is Nothing OrElse cityID.ToString().Trim() = "%" OrElse cityID.ToString().Trim() = "" Then
+            cityParam.Value = DBNull.Value
+        Else
+            cityParam.Value = Convert.ToInt32(cityID)
+        End If
+        para.Add(cityParam)
 
         ' === 執行查詢 ===
         Dim dt As New Data.DataTable

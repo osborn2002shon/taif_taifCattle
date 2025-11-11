@@ -733,4 +733,5 @@ Public Class AccountManage
         End If
         Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
     End Sub
+
 End Class
