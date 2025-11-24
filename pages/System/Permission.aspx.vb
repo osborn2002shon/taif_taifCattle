@@ -51,7 +51,7 @@ Public Class Permission
         '指定父選單頁面
         Dim masterPage As mp_default = TryCast(Me.Master, mp_default)
         If masterPage IsNot Nothing Then
-            masterPage.ParentMenuPage = "/system/AccountManage.aspx"
+            masterPage.ParentMenuPage = "/System/AccountManage.aspx"
         End If
     End Sub
 

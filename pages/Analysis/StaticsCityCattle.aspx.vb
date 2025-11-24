@@ -85,15 +85,15 @@ Public Class StaticsCityCattle
     ''' <summary>
     ''' 搜尋條件：縣市
     ''' </summary>
-    Public Property Property_Query_city As String
+    Public Property Property_Query_city As Integer
         Get
             If IsNothing(ViewState("Property_FarmQuery_city")) Then
-                Return "%"
+                Return -1
             Else
                 Return ViewState("Property_FarmQuery_city").ToString()
             End If
         End Get
-        Set(value As String)
+        Set(value As Integer)
             ViewState("Property_FarmQuery_city") = value
         End Set
     End Property
@@ -141,120 +141,141 @@ Public Class StaticsCityCattle
     ''' <param name="dateEnd">結束日期</param>
     ''' <param name="cityID">縣市 ID</param>
     ''' <returns>牛隻歷程 DataTable</returns>
-    Function Get_CattleHistoryList(dateBeg As Date, dateEnd As Date, cityID As Object) As List(Of CattleMain)
+    Function Get_CattleHistoryList(dateBeg As Date, dateEnd As Date, cityID As Integer) As List(Of CattleMain)
 
 
         Dim sqlString As String =
         <sql>
+            ;WITH CattleInRange AS (
+                /*  指定期間內有活動紀錄的牛隻（排除已除籍）*/
+                SELECT DISTINCT cattleHistory.cattleID
+                FROM dbo.Cattle_History AS cattleHistory
+                WHERE cattleHistory.removeDateTime IS NULL
+                  AND cattleHistory.dataDate BETWEEN @dateBeg AND @dateEnd
+            ),
+            LatestNonRemoval AS (
+                /* 對所有非除籍歷程取出每頭牛最新一筆 */
+                SELECT
+                    cattleHistory.cattleID,
+                    cattleHistory.hisTypeID,
+                    cattleHistory.dataDate,
+                    cattleHistory.farmID,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY cattleHistory.cattleID
+                        ORDER BY cattleHistory.dataDate DESC, cattleTypeHistory.orderBy DESC, cattleHistory.hisID DESC
+                    ) AS rn
+                FROM dbo.Cattle_History AS cattleHistory
+                INNER JOIN dbo.Cattle_TypeHistory AS cattleTypeHistory
+                    ON cattleHistory.hisTypeID = cattleTypeHistory.hisTypeID
+                WHERE cattleHistory.removeDateTime IS NULL
+                  AND cattleTypeHistory.groupName &lt;&gt; N'除籍'
+                  AND cattleHistory.dataDate BETWEEN @dateBeg AND @dateEnd
+            ),
+            CattleWithLatestFarm AS (
+                -- 取 rn = 1
+                SELECT
+                    latestNonRemoval.cattleID,
+                    latestNonRemoval.hisTypeID,
+                    latestNonRemoval.dataDate AS latestNonRemovalDate,
+                    latestNonRemoval.farmID,
+                    farmList.twID,
+                    farmList.farmCode  AS latestPlaceCode,
+                    farmList.farmName  AS latestPlaceName,
+                    farmList.owner     AS latestPlaceOwner,
+                    systemTaiwan.cityID,
+                    systemTaiwan.city  AS latestCity
+                FROM LatestNonRemoval AS latestNonRemoval
+                INNER JOIN dbo.View_FarmList AS farmList ON farmList.farmID = latestNonRemoval.farmID
+                INNER JOIN dbo.System_Taiwan AS systemTaiwan ON systemTaiwan.twID = farmList.twID
+                WHERE latestNonRemoval.rn = 1
+            ),
+            TargetCattle AS (
+                SELECT
+                    cattleWithLatestFarm.cattleID,
+		            cattleWithLatestFarm.twID,       
+                    cattleWithLatestFarm.farmID,
+                    cattleWithLatestFarm.latestPlaceCode,
+                    cattleWithLatestFarm.latestPlaceName,
+                    cattleWithLatestFarm.latestPlaceOwner,
+                    cattleWithLatestFarm.latestCity
+                FROM CattleWithLatestFarm AS cattleWithLatestFarm
+                WHERE cattleWithLatestFarm.cityID = @cityID
+            )
+            SELECT
+                targetCattle.cattleID,
 
-        ;WITH CattleInRange AS (
-            SELECT DISTINCT cattleHistory.cattleID
-            FROM Cattle_History AS cattleHistory
-            WHERE cattleHistory.removeDateTime IS NULL
-              AND cattleHistory.dataDate BETWEEN @dateBeg AND @dateEnd
-        )
-        SELECT 
-            CattleInRange.cattleID,
+                /* 最新非除籍（牧場）資訊 */
+                targetCattle.latestPlaceCode,
+                targetCattle.latestPlaceName,
+                targetCattle.latestCity,
 
-            /*最新非除籍旅程（畜牧場資訊）*/
-            latestFarm.farmCode                        AS latestPlaceCode,    
-            latestFarm.farmName                        AS latestPlaceName,    
-            taiwanFarm.city                            AS latestCity,         
+                /*  最新除籍旅程 */
+                removalType.typeName AS removeTypeName,
 
-            /* 最新除籍旅程（屠宰場或化製廠）*/
-            removalType.typeName                       AS removeTypeName,   
+                /*  牛籍現況資料 */
+                cattleView.tagNo,
+                cattleView.groupName,
+                cattleView.typeName,
+                cattleView.cattleTypeID,
+                cattleView.milkProduction,
+                ISNULL(insClaimView.isInsurance, 0) AS isInsurance,
+                ISNULL(insClaimView.isClaim, 0)     AS isClaim,
+                cattleView.birthYear,
+                cattleView.cattleAge,
 
-            /* 牛籍現況 */
-            cattleView.tagNo,
-            cattleView.groupName,
-            cattleView.typeName,
-            cattleView.cattleTypeID,
-            cattleView.milkProduction,
-            ISNULL(insClaimView.isInsurance, 0)        AS isInsurance,
-            ISNULL(insClaimView.isClaim, 0)            AS isClaim,
-            cattleView.birthYear,
-	        cattleView.cattleAge,
-
-            /* 歷程資訊（迄止日期之前的全部記錄）*/
-            cattleHistory.dataDate,
-            historyType.typeName                       AS hisTypeName,
-            taiwanPlace.city                           AS historyCity,
-            COALESCE(farm.farmName, slaughterhouse.slauName, renderingPlant.plantName) AS placeName,
-            COALESCE(farm.farmCode, slaughterhouse.baphiqCode, renderingPlant.plantCode) AS placeCode,
-            COALESCE(farm.owner, slaughterhouse.ownerName, renderingPlant.owner) AS placeOwner,
-            cattleHistory.memo
-
-        FROM View_CattleList AS cattleView
-        INNER JOIN CattleInRange ON cattleView.cattleID = CattleInRange.cattleID
-        LEFT JOIN View_CattleInsClaStatus AS insClaimView ON cattleView.tagNo = insClaimView.tagNo
-
-        /* 取得最新「非除籍」旅程（限定期間內）*/
-        OUTER APPLY (
-            SELECT TOP 1 
-                cattleHistory.hisTypeID,
+                /*  歷程資訊 */
                 cattleHistory.dataDate,
-                cattleHistory.farmID
-            FROM Cattle_History AS cattleHistory
-            INNER JOIN Cattle_TypeHistory AS typeNonRemoval 
-                ON cattleHistory.hisTypeID = typeNonRemoval.hisTypeID
-            WHERE cattleHistory.cattleID = CattleInRange.cattleID
-              AND cattleHistory.removeDateTime IS NULL
-              AND typeNonRemoval.groupName &lt;&gt; N'除籍'
-              AND cattleHistory.dataDate BETWEEN @dateBeg AND @dateEnd
-            ORDER BY cattleHistory.dataDate DESC, typeNonRemoval.orderBy DESC
-        ) AS latestNonRemoval
-        LEFT JOIN View_FarmList AS latestFarm ON latestNonRemoval.farmID = latestFarm.farmID
-        LEFT JOIN System_Taiwan AS taiwanFarm ON latestFarm.twID = taiwanFarm.twID
+                historyType.typeName AS hisTypeName,
+                taiwanPlace.city     AS historyCity,
+                COALESCE(farmList2.farmName, slaughterhouse.slauName, renderingPlant.plantName)   AS placeName,
+                COALESCE(farmList2.farmCode, slaughterhouse.baphiqCode, renderingPlant.plantCode) AS placeCode,
+                COALESCE(farmList2.owner,    slaughterhouse.ownerName, renderingPlant.owner)      AS placeOwner,
+                cattleHistory.memo
 
-        /* 取得最新「除籍」旅程（限定期間內）*/
-        OUTER APPLY (
-            SELECT TOP 1 
-                cattleHistory.hisTypeID,
-                cattleHistory.dataDate
-            FROM Cattle_History AS cattleHistory
-            INNER JOIN Cattle_TypeHistory AS typeRemovalRef 
-                ON cattleHistory.hisTypeID = typeRemovalRef.hisTypeID
-            WHERE cattleHistory.cattleID = CattleInRange.cattleID
-              AND cattleHistory.removeDateTime IS NULL
-              AND typeRemovalRef.groupName = N'除籍'
-              AND cattleHistory.dataDate BETWEEN @dateBeg AND @dateEnd
-            ORDER BY cattleHistory.dataDate DESC, typeRemovalRef.orderBy DESC
-        ) AS latestRemoval
-        LEFT JOIN Cattle_TypeHistory AS removalType ON latestRemoval.hisTypeID = removalType.hisTypeID
+            FROM TargetCattle AS targetCattle
+            INNER JOIN CattleInRange AS cattleInRange ON cattleInRange.cattleID = targetCattle.cattleID
+            INNER JOIN dbo.View_CattleList AS cattleView ON cattleView.cattleID = targetCattle.cattleID
+            LEFT JOIN dbo.View_CattleInsClaStatus AS insClaimView ON insClaimView.tagNo = cattleView.tagNo
 
-        /* 歷程 JOIN：拿到截至結束日期的所有歷程 */
-        INNER JOIN Cattle_History AS cattleHistory ON cattleView.cattleID = cattleHistory.cattleID
-        LEFT JOIN Cattle_TypeHistory AS historyType ON cattleHistory.hisTypeID = historyType.hisTypeID
-        LEFT JOIN View_FarmList AS farm ON cattleHistory.farmID = farm.farmID
-        LEFT JOIN List_Slaughterhouse AS slaughterhouse ON cattleHistory.slauID = slaughterhouse.slauID
-        LEFT JOIN List_RenderingPlant AS renderingPlant ON cattleHistory.plantID = renderingPlant.plantID
-        LEFT JOIN System_Taiwan AS taiwanPlace ON ISNULL(ISNULL(farm.twID, slaughterhouse.twID), renderingPlant.twID) = taiwanPlace.twID
+            /*  最新「除籍」旅程 */
+            OUTER APPLY (
+                SELECT TOP 1 
+                    cattleHistory2.hisTypeID,
+                    cattleHistory2.dataDate
+                FROM dbo.Cattle_History AS cattleHistory2
+                INNER JOIN dbo.Cattle_TypeHistory AS cattleTypeHistory2
+                    ON cattleTypeHistory2.hisTypeID = cattleHistory2.hisTypeID
+                WHERE cattleHistory2.cattleID = targetCattle.cattleID
+                  AND cattleHistory2.removeDateTime IS NULL
+                  AND cattleTypeHistory2.groupName = N'除籍'
+                  AND cattleHistory2.dataDate BETWEEN @dateBeg AND @dateEnd
+                ORDER BY cattleHistory2.dataDate DESC, cattleTypeHistory2.orderBy DESC, cattleHistory2.hisID DESC
+            ) AS latestRemoval
+            LEFT JOIN dbo.Cattle_TypeHistory AS removalType
+                ON removalType.hisTypeID = latestRemoval.hisTypeID
 
-        WHERE cattleHistory.removeDateTime IS NULL 
-	        AND cattleHistory.dataDate &lt;= @dateEnd
-            AND (@cityID IS NULL OR taiwanFarm.cityID = @cityID)
-        ORDER BY 
-            latestFarm.twID,
-            latestFarm.farmID,
-            cattleView.tagNo,
-            CattleHistory.dataDate,
-            historyType.orderBy
-
-
+            /*  撈取截止日期前的所有歷程 */
+            INNER JOIN dbo.Cattle_History AS cattleHistory ON cattleHistory.cattleID = targetCattle.cattleID
+               AND cattleHistory.removeDateTime IS NULL
+               AND cattleHistory.dataDate &lt;= @dateEnd
+            LEFT JOIN dbo.Cattle_TypeHistory AS historyType ON historyType.hisTypeID= cattleHistory.hisTypeID
+            LEFT JOIN dbo.View_FarmList AS farmList2 ON cattleHistory.farmID= farmList2.farmID
+            LEFT JOIN dbo.List_Slaughterhouse AS slaughterhouse ON cattleHistory.slauID= slaughterhouse.slauID
+            LEFT JOIN dbo.List_RenderingPlant AS renderingPlant ON cattleHistory.plantID= renderingPlant.plantID
+            LEFT JOIN dbo.System_Taiwan AS taiwanPlace ON ISNULL(ISNULL(farmList2.twID, slaughterhouse.twID), renderingPlant.twID) = taiwanPlace.twID
+            ORDER BY
+                targetCattle.twID,
+                targetCattle.farmID,
+                cattleView.tagNo,
+                CattleHistory.dataDate,
+                historyType.orderBy;
         </sql>.Value
 
         ' === 組成參數 ===
         Dim para As New List(Of SqlClient.SqlParameter)
         para.Add(New SqlClient.SqlParameter("@dateBeg", SqlDbType.Date) With {.Value = dateBeg})
         para.Add(New SqlClient.SqlParameter("@dateEnd", SqlDbType.Date) With {.Value = dateEnd})
-
-        Dim cityParam As New SqlClient.SqlParameter("@cityID", SqlDbType.Int)
-        If cityID Is Nothing OrElse cityID.ToString().Trim() = "%" OrElse cityID.ToString().Trim() = "" Then
-            cityParam.Value = DBNull.Value
-        Else
-            cityParam.Value = Convert.ToInt32(cityID)
-        End If
-        para.Add(cityParam)
+        para.Add(New SqlClient.SqlParameter("@cityID", SqlDbType.Int) With {.Value = cityID})
 
         ' === 執行查詢 ===
         Dim dt As New Data.DataTable

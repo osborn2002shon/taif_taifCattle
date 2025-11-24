@@ -535,12 +535,12 @@ Public Class AccountManage
 
     Private Function GetStatusBadge(isVerified As Boolean, isActive As Boolean) As String
         If Not isVerified Then
-            Return "<span class='status-badge status-pending'>待驗證</span>"
+            Return "<span style='color:blue'>待驗證</span>"
         End If
         If isActive Then
-            Return "<span class='status-badge status-active'>啟用</span>"
+            Return "<span style='color:green'>啟用</span>"
         End If
-        Return "<span class='status-badge status-inactive'>停用</span>"
+        Return "<span style='color:red'>停用</span>"
     End Function
 
     Private Sub ExportAccounts()

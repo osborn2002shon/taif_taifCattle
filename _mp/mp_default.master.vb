@@ -191,34 +191,39 @@ Public Class mp_default
         If userInfo.isExist = False Then
             Response.Redirect("~/Login.aspx")
         End If
-
-        '權限檢查
-        Dim currentPage As String = NormalizePath(Request.Path)
-        Dim ignorePages As String() = {}
-        If Not ignorePages.Contains(currentPage, StringComparer.OrdinalIgnoreCase) Then
-
-            Dim hasPermission As Boolean =
-            userInfo.liMenu.Any(Function(m) _
-                m.canRead AndAlso String.Equals(NormalizePath(m.menuURL), currentPage, StringComparison.OrdinalIgnoreCase))
-
-            If Not hasPermission Then
-                'Response.Redirect("~/Login.aspx")
-                'Exit Sub
-            End If
-        End If
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         Dim userInfo As taifCattle.Base.stru_LoginUserInfo = Session("userInfo")
         If IsPostBack = False Then
+
+            '注意：權限、目錄不能放在MP的Page_Init，因為主版跟子頁面的生命週期順序關係
+
             LinkButton_userName.Text = userInfo.name
 
-            '組成目錄
+
+            '目前頁面路徑
             Dim currentPage As String = NormalizePath(Request.Path)
+
+            '要亮的目錄選單名稱
+            Dim activeMenuPage As String = If(String.IsNullOrEmpty(ParentMenuPage), currentPage, NormalizePath(ParentMenuPage))
+
+            '權限檢查
+            Dim ignorePages As String() = {}
+            If Not ignorePages.Contains(currentPage, StringComparer.OrdinalIgnoreCase) Then
+
+                Dim hasPermission As Boolean =
+                    userInfo.liMenu.Any(Function(m) m.canRead AndAlso String.Equals(NormalizePath(m.menuURL), activeMenuPage, StringComparison.OrdinalIgnoreCase))
+
+                If Not hasPermission Then
+                    Response.Redirect("~/Login.aspx")
+                    Exit Sub
+                End If
+            End If
+
+            '組成目錄
             If String.IsNullOrEmpty(menuStr_def) Then
-                '決定要HL哪個選單
-                Dim activeMenuPage As String = If(String.IsNullOrEmpty(ParentMenuPage), currentPage, NormalizePath(ParentMenuPage))
                 menuStr_def = BuildMenuHTML(userInfo.liMenu, activeMenuPage)
             End If
 

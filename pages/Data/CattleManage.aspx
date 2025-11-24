@@ -76,7 +76,7 @@
                 <Columns>
                     <asp:TemplateField HeaderText="牛籍類型">
                         <ItemTemplate>
-                            <%# Eval("groupName") %>
+                            <%# IIf(Eval("groupName") = "肉牛", "<span class='tag_red'>肉牛</span>", IIf(Eval("groupName") = "乳牛", "<span class='tag_blue'>乳牛</span>", "<span class='tag_orange'>其他</span>")) %>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="牛籍規格">
@@ -91,7 +91,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="牛籍狀態">
                         <ItemTemplate>
-                            <%# Eval("cattleStatus") %>
+                            <%# IIf(Eval("cattleStatus") = "未除籍", "<span style='color:green'>未除籍</span>", "<span style='color:red'>已除籍</span>") %>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="出生年度">

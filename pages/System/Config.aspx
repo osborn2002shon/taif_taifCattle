@@ -21,7 +21,7 @@
                 </div>
                 <div class="form-text">需設定為8個字元以上，提升密碼安全性</div>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <label class="form-label">
                     <i class="fas fa-puzzle-piece me-1"></i>密碼複雜性要求
                 </label>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="form-text">密碼使用超過此天數後，系統將強制要求使用者更換密碼</div>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <label class="form-label">
                     <i class="fas fa-history me-1"></i>密碼歷程紀錄
                 </label>
@@ -79,7 +79,7 @@
                 </div>
                 <div class="form-text">防止使用者重複使用最近用過的密碼</div>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <label class="form-label">
                     <i class="fas fa-hourglass-start me-1"></i>密碼最短使用期限
                 </label>

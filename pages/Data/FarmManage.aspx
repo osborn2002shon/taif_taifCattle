@@ -65,16 +65,15 @@
                         </asp:TemplateField>--%>
                         <asp:BoundField DataField="city" HeaderText="縣市" ItemStyle-Width="5%" />
                         <asp:BoundField DataField="town" HeaderText="鄉鎮" ItemStyle-Width="5%"/>
-                        <asp:BoundField DataField="farmName" HeaderText="畜牧場名稱" ItemStyle-Width="10%"/>
-                        <asp:TemplateField HeaderText="畜牧場證號<br/><div style='font-size:0.8rem;'>(畜牧場證號/畜禽飼養登記證<br/>/負責人證號)</div>" ItemStyle-Width="15%">
+                        <asp:TemplateField HeaderText="畜牧場證號" ItemStyle-Width="10%">
                             <ItemTemplate>
                                 <%# MaskFarmCode(Eval("farmCode")) %>
                             </ItemTemplate>
                         </asp:TemplateField>
+                        <asp:BoundField DataField="farmName" HeaderText="畜牧場名稱" ItemStyle-Width="15%"/>
                         <asp:BoundField DataField="owner" HeaderText="負責人" ItemStyle-Width="5%"/>
-                    <%-- <asp:BoundField DataField="ownerID" HeaderText="負責人證號" ItemStyle-Width="8%" />--%>
                         <asp:BoundField DataField="address" HeaderText="畜牧場地址" ItemStyle-Width="25%" ItemStyle-CssClass="txt_left"/>
-                    <%--    <asp:BoundField DataField="insertType" HeaderText="新增來源" ItemStyle-Width="8%"/>--%>
+                        <%--<asp:BoundField DataField="insertType" HeaderText="資料來源" ItemStyle-Width="8%"/>--%>
                         <asp:TemplateField ItemStyle-Width="5%">
                             <ItemTemplate>
                                  <asp:LinkButton ID="LinkButton_edit" runat="server" CssClass="btn btn-sm btn-warning"
@@ -90,6 +89,9 @@
                     </EmptyDataTemplate>
                     <PagerStyle HorizontalAlign="Center"/>
                 </asp:GridView>
+            </div>
+            <div class="mt-3 text_info">
+                畜牧場證號：包含牧場登記證、飼養登記證、負責人身分證字號。
             </div>
         </asp:View>
         <asp:View ID="View_edit" runat="server">

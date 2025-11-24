@@ -42,7 +42,9 @@ Public Class MyAccount
         TextBox_unit.Text = If(Convert.IsDBNull(accountRow("unit")), String.Empty, accountRow("unit").ToString())
         TextBox_mobile.Text = If(Convert.IsDBNull(accountRow("mobile")), String.Empty, accountRow("mobile").ToString())
         Label_lastLogin.Text = FormatDateTimeValue(currentUser.lastLoginDateTime)
-        Label_passwordChanged.Text = FormatDateTimeValue(currentUser.pwUpdateDateTime)
+
+        '抓資料庫最新的密碼變更時間
+        Label_passwordChanged.Text = FormatDateTimeValue(accountRow("lastUpdatePWDateTime"))
 
         Dim auTypeID As Integer = Convert.ToInt32(accountRow("auTypeID"))
         If auTypeID = 3 Then

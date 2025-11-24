@@ -320,6 +320,13 @@
       <DependentUpon>CattleCulling.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="ZAP_Login.aspx.designer.vb">
+      <DependentUpon>ZAP_Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ZAP_Login.aspx.vb">
+      <DependentUpon>ZAP_Login.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="_mp\mp_public.master.designer.vb">
       <DependentUpon>mp_public.master</DependentUpon>
     </Compile>
@@ -354,6 +361,7 @@
     <Compile Include="App_Code\WebService.vb" />
     <Content Include="WebService\CattleCulling.aspx" />
     <Content Include="WebService\CattleUninsured.aspx" />
+    <Content Include="ZAP_Login.aspx" />
     <Content Include="_css\bootstrap-icons.css" />
     <Content Include="_css\bootstrap.css" />
     <Content Include="_css\control.css" />

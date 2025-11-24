@@ -83,7 +83,8 @@
                     Case True
 
                         '初次變更檢查
-                        If Not userInfo.isEmailVerified Then
+                        If Not userInfo.isEmailVerified OrElse userInfo.pwUpdateDateTime Is Nothing OrElse
+                           IsDBNull(userInfo.pwUpdateDateTime) Then
                             Session("CPW_accountID") = userInfo.accountID
                             Session.Remove("UserInfo")
                             Insert_UserLog(userInfo.accountID, enum_UserLogItem.登入, enum_UserLogType.其他, "初次登入，導向密碼變更")

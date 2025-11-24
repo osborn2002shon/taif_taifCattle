@@ -190,27 +190,27 @@
                                     <%#CDate(Eval("dataDate")).ToString("yyyy/MM/dd") %>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="縣市" ItemStyle-Width="80px">
+                            <asp:TemplateField HeaderText="牧場縣市" ItemStyle-Width="80px">
                                 <ItemTemplate>
                                     <%# Eval("city") %>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="鄉鎮" ItemStyle-Width="80px">
+                            <asp:TemplateField HeaderText="牧場鄉鎮" ItemStyle-Width="80px">
                                 <ItemTemplate>
                                     <%# Eval("area") %>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="證號" ItemStyle-Width="100px">
+                            <asp:TemplateField HeaderText="牧場證號" ItemStyle-Width="100px">
                                 <ItemTemplate>
                                     <%# Eval("placeCode") %>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="名稱" ItemStyle-Width="180px">
+                            <asp:TemplateField HeaderText="牧場名稱" ItemStyle-Width="180px">
                                 <ItemTemplate>
                                     <%# Eval("placeName") %>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="負責人" ItemStyle-Width="120px">
+                            <asp:TemplateField HeaderText="牧場 負責人" ItemStyle-Width="120px">
                                 <ItemTemplate>
                                     <%# Eval("placeOwner") %>
                                 </ItemTemplate>
@@ -294,22 +294,22 @@
                                     <%#CDate(Eval("dataDate")).ToString("yyyy/MM/dd") %>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="縣市" ItemStyle-Width="80px">
+                            <asp:TemplateField HeaderText="場域縣市" ItemStyle-Width="80px">
                                 <ItemTemplate>
                                     <%# Eval("city") %>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="鄉鎮" ItemStyle-Width="80px">
+                            <asp:TemplateField HeaderText="場域鄉鎮" ItemStyle-Width="80px">
                                 <ItemTemplate>
                                     <%# Eval("area") %>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="名稱" ItemStyle-Width="180px">
+                            <asp:TemplateField HeaderText="場域名稱" ItemStyle-Width="180px">
                                 <ItemTemplate>
                                     <%# Eval("placeName") %>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="負責人" ItemStyle-Width="120px">
+                            <asp:TemplateField HeaderText="場域負責人" ItemStyle-Width="120px">
                                 <ItemTemplate>
                                     <%# Eval("placeOwner") %>
                                 </ItemTemplate>

@@ -51,6 +51,15 @@ Public Class CattleManage_Detail
         End If
     End Sub
 
+
+    Private Sub CattleManage_Detail_Init(sender As Object, e As EventArgs) Handles Me.Init
+        '指定父選單頁面
+        Dim masterPage As mp_default = TryCast(Me.Master, mp_default)
+        If masterPage IsNot Nothing Then
+            masterPage.ParentMenuPage = "/Data/CattleManage.aspx"
+        End If
+    End Sub
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
             Dim s_cattleManage As Object = Session("CattleManage")
@@ -308,4 +317,5 @@ Public Class CattleManage_Detail
     Private Sub Page_LoadComplete(sender As Object, e As EventArgs) Handles Me.LoadComplete
         Page.ClientScript.RegisterStartupScript(Me.Page.GetType(), "page_js", js.ToString(), True)
     End Sub
+
 End Class

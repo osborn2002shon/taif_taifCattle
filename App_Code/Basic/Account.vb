@@ -426,14 +426,23 @@ Namespace taifCattle
                 Return pwr
             End If
 
-            Dim dt As Data.DataTable = taifCattle_dao.Get_UserPasswordHistory(accountID, 1) ' 只撈最新一筆
+            ' === 撈取最新一次密碼變更時間 ===
+            Dim dt As Data.DataTable = taifCattle_dao.GetSystemAccount(accountID)
 
             If dt.Rows.Count = 0 Then
                 pwr.isPass = True
                 Return pwr
             End If
 
-            Dim lastChangeTime As DateTime = Convert.ToDateTime(dt.Rows(0)("changeDateTime"))
+            Dim row As Data.DataRow = dt.Rows(0)
+
+            ' === 若無 lastUpdatePWDateTime → 視為 第一次使用，不限制 ===
+            If IsDBNull(row("lastUpdatePWDateTime")) OrElse row("lastUpdatePWDateTime") Is Nothing Then
+                pwr.isPass = True
+                Return pwr
+            End If
+
+            Dim lastChangeTime As DateTime = Convert.ToDateTime(dt.Rows(0)("lastUpdatePWDateTime"))
             Dim nextAllowDate As DateTime = lastChangeTime.AddDays(cfg.passwordMinAge)
 
             If Now < nextAllowDate Then
@@ -462,25 +471,27 @@ Namespace taifCattle
             End If
 
             ' === 撈取最新一次密碼變更時間 ===
-            Dim dt As Data.DataTable = taifCattle_dao.Get_UserPasswordHistory(accountID, 1)
+            Dim dt As Data.DataTable = taifCattle_dao.GetSystemAccount(accountID)
             If dt.Rows.Count = 0 Then
-                ' 沒有歷史紀錄 → 視為需變更（初始帳號）
-                pwr.isPass = False
-                pwr.msg = "系統尚未設定密碼，請立即變更密碼。"
+                ' 理論上不會發生，但不應被當成密碼過期
+                pwr.isPass = True
                 Return pwr
             End If
 
-            Dim lastChangeTime As DateTime = Convert.ToDateTime(dt.Rows(0)("changeDateTime"))
-            Dim expireDate As DateTime = lastChangeTime.AddDays(cfg.passwordMaxAge)
+            Dim lastUpdatePW As DateTime = CType(dt.Rows(0)("lastUpdatePWDateTime"), DateTime)
 
+            Dim expireDate As DateTime = lastUpdatePW.AddDays(cfg.passwordMaxAge)
+
+            ' === 密碼過期 ===
             If Now >= expireDate Then
                 pwr.isPass = False
                 pwr.msg = $"密碼已使用超過 {cfg.passwordMaxAge} 天，請立即變更密碼。"
                 Return pwr
-            Else
-                pwr.isPass = True
-                Return pwr
             End If
+
+            ' === 密碼仍有效 ===
+            pwr.isPass = True
+            Return pwr
         End Function
     End Class
 
@@ -568,7 +579,7 @@ Namespace taifCattle.DAO
                 <sql>
                     select ua.accountID, ua.account, ua.name, ua.email, ua.unit, ua.mobile, ua.memo,
                            ua.isActive, ua.isEmailVerified, ua.emailVerifiedDateTime, ua.insertDateTime,
-                           ua.updateDateTime, ua.updateAccountID, ua.lastLoginDateTime, ua.auTypeID,
+                           ua.updateDateTime, ua.updateAccountID, ua.lastLoginDateTime,ua.lastUpdatePWDateTime, ua.auTypeID,
                            ua.govID,
                            aut.auTypeName
                     from System_UserAccount ua

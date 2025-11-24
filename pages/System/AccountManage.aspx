@@ -154,7 +154,13 @@
                 OnRowCommand="GridView_accounts_RowCommand"
                 OnRowDataBound="GridView_accounts_RowDataBound">
                 <Columns>
-                    <asp:BoundField DataField="auTypeName" HeaderText="系統權限" ItemStyle-Width="100px" />
+                    <asp:TemplateField HeaderText="系統權限" ItemStyle-Width="150px">
+                        <ItemTemplate>
+                            <%# IIf(Eval("auTypeName") = "系統管理者", "<span class='tag_red'>系統管理者</span>",
+                       IIf(Eval("auTypeName") = "一般管理者", "<span class='tag_orange'>一般管理者</span>",
+                           IIf(Eval("auTypeName") = "縣府使用者", "<span class='tag_blue'>縣府使用者</span>", "<span class='tag_green'>查詢使用者</span>"))) %>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="帳號狀態" ItemStyle-Width="100px">
                         <ItemTemplate>
                             <asp:Label ID="Label_status" runat="server"></asp:Label>
