@@ -1,0 +1,13 @@
+目錄,說明（中文）
+/App_Code,共用程式碼庫包含基礎類別資料存取與業務邏輯
+/App_Code/Basic,基礎工具（帳號資料庫存取郵件報表Excel 匯出等）
+/pages,網站的主要功能頁面與管理介面
+/_css,靜態資源：樣式
+/_js,靜態資源：腳本
+/_fonts,靜態資源：字型
+/_img,靜態資源：圖片
+/_uc,User Control 元件
+/_doc,文件與匯入範本
+Web.config,站台設定與環境組態
+Web.Debug.config,站台設定（除錯環境）
+Web.Release.config,站台設定（正式環境）

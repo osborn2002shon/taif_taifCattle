@@ -1,0 +1,44 @@
+檔案或區段,說明（中文）
+App_Code/Basic/Account.vb,帳號權限與驗證相關工具
+App_Code/Basic/Base.vb,共用基底類別
+App_Code/Basic/Base_Convert.vb,型別轉換輔助
+App_Code/Basic/Control.vb,Web 控制項輔助方法
+App_Code/Basic/DataAccess_MSSQL.vb,MSSQL 資料存取封裝
+App_Code/Basic/ExcelExporter.vb,匯出 Excel 的通用工具（NPOI 依賴）
+App_Code/Basic/Mail.vb,郵件傳送工具
+App_Code/Basic/Report.vb,報表產製輔助
+App_Code/Cattle.vb,牛隻資料處理與核心業務邏輯
+App_Code/Cattle_Control.vb,與牛隻控制流程相關的輔助模組
+App_Code/Farm.vb,牧場資料處理邏輯
+App_Code/WebService.vb,WebService 端點及相關封裝
+CPW.aspx,變更密碼頁面
+CPW.aspx.vb,變更密碼後置程式
+FPW.aspx,忘記密碼頁面
+FPW.aspx.vb,忘記密碼後置程式
+Login.aspx,登入頁面
+Login.aspx.vb,登入後置程式
+WebService/CattleCulling.aspx,Web Service 介面：牛隻淘汰
+WebService/CattleHistory.aspx,Web Service 介面：牛隻歷程查詢
+WebService/CattleUninsured.aspx,Web Service 介面：未投保牛隻查詢
+WebService/Verify.aspx,Web Service 介面：驗證服務
+pages/Data/CattleManage.aspx,資料維護：牛隻管理列表
+pages/Data/CattleManage_Detail.aspx,資料維護：牛隻明細編輯
+pages/Data/CattleManage_Batch.aspx,資料維護：牛隻批次處理
+pages/Data/FarmManage.aspx,資料維護：牧場管理列表
+pages/Data/FarmManage_Batch.aspx,資料維護：牧場批次處理
+pages/Data/HisManage_Batch.aspx,資料維護：歷程批次匯入
+pages/Data/HisEndManage_Batch.aspx,資料維護：歷程結案批次匯入
+pages/Analysis/StaticsCattle.aspx,分析報表：牛隻統計
+pages/Analysis/StaticsFarm.aspx,分析報表：牧場統計
+pages/Analysis/StaticsCityCattle.aspx,分析報表：縣市別牛隻統計
+pages/Analysis/StaticsNationCattle.aspx,分析報表：全國牛隻統計
+pages/System/AccountManage.aspx,系統管理：帳號管理
+pages/System/MyAccount.aspx,系統管理：我的帳號設定
+pages/System/WebServiceLog.aspx,系統管理：Web Service 呼叫紀錄
+pages/System/Permission.aspx,系統管理：權限設定
+pages/System/Config.aspx,系統管理：系統組態設定
+pages/System/MilkSetting.aspx,系統管理：乳量與相關設定
+pages/System/UserLog.aspx,系統管理：使用者操作紀錄
+pages/sample/sample.aspx,範例頁面
+WebService/,供外部系統呼叫的 Web Service 介面
+_doc/batch/*,批次匯入的 Excel 範本與說明檔

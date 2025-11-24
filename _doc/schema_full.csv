@@ -1,0 +1,227 @@
+物件類型,物件名稱,欄位名稱,型態,說明（中文）
+Function,makeSecret,,,,以 PassPhrase TaIFT 將文字加密並回傳 VARBINARY
+Function,showSecret,,,,以 PassPhrase TaIFT 解密 VARBINARY 並回傳 NVARCHAR
+Table,Cattle_List,cattleID,"int identity",主鍵牛隻流水號
+Table,Cattle_List,cattleTypeID,int,牛隻類型（對應 Cattle_TypeCattle）
+Table,Cattle_List,tagNo,nvarchar(50),耳標號碼
+Table,Cattle_List,tagMemo,nvarchar(max),耳標備註
+Table,Cattle_List,birthYear,int,出生年（民國/西元依系統慣例）
+Table,Cattle_List,cattleMemo,nvarchar(max),其他牛隻備註
+Table,Cattle_List,insertType,nvarchar(max),建立來源描述
+Table,Cattle_List,insertDateTime,datetime,建立時間
+Table,Cattle_List,insertAccountID,int,建立人員帳號 ID
+Table,Cattle_List,updateDateTime,datetime,最近更新時間
+Table,Cattle_List,updateAccountID,int,最近更新人員帳號 ID
+Table,Cattle_List,removeDateTime,datetime,下架時間（NULL 表示仍在用）
+Table,Cattle_List,removeAccountID,int,下架人員帳號 ID
+Table,Cattle_History,hisID,"int identity",主鍵歷程流水號
+Table,Cattle_History,cattleID,int,對應牛隻主檔
+Table,Cattle_History,hisTypeID,int,歷程類型（對應 Cattle_TypeHistory）
+Table,Cattle_History,dataDate,date,事件日期
+Table,Cattle_History,farmID,int,牧場 ID（可為 NULL）
+Table,Cattle_History,plantID,int,化製場 ID（可為 NULL）
+Table,Cattle_History,slauID,int,屠宰場 ID（可為 NULL）
+Table,Cattle_History,memo,nvarchar(max),歷程備註
+Table,Cattle_History,insertType,nvarchar(max),建立來源描述
+Table,Cattle_History,insertDateTime,datetime,建立時間
+Table,Cattle_History,insertAccountID,int,建立人員帳號 ID
+Table,Cattle_History,removeDateTime,datetime,下架時間
+Table,Cattle_History,removeAccountID,int,下架人員帳號 ID
+Table,Cattle_TypeCattle,cattleTypeID,"int identity",主鍵牛隻類型 ID
+Table,Cattle_TypeCattle,groupOrder,int,類型群組排序
+Table,Cattle_TypeCattle,groupName,nvarchar(50),群組名稱
+Table,Cattle_TypeCattle,typeName,nvarchar(50),類型名稱
+Table,Cattle_TypeCattle,isActive,bit,是否啟用
+Table,Cattle_TypeHistory,hisTypeID,"int identity",主鍵歷程類型 ID
+Table,Cattle_TypeHistory,groupName,nvarchar(50),群組名稱
+Table,Cattle_TypeHistory,typeName,nvarchar(50),類型名稱
+Table,Cattle_TypeHistory,memo,nvarchar(max),備註
+Table,Data_DataExchangeLog,logID,"int identity",主鍵交換紀錄 ID
+Table,Data_DataExchangeLog,logDateTime,datetime,記錄時間
+Table,Data_DataExchangeLog,dataSourceName,nvarchar(max),資料來源名稱
+Table,Data_DataExchangeLog,apiName,nvarchar(max),API 名稱
+Table,Data_DataExchangeLog,dataCount,int,資料筆數
+Table,Data_DataExchangeLog,triggerType,nvarchar(50),觸發方式（排程/手動）
+Table,Data_DataExchangeLog,queryMemo,nvarchar(max),查詢條件/摘要
+Table,Data_DataExchangeLog,isError,bit,是否發生錯誤
+Table,Data_DataExchangeLog,errorString,nvarchar(max),錯誤訊息
+Table,Data_DataExchangeLog,ip,nvarchar(max),呼叫來源 IP
+Table,Data_FarmMissingImport,missingID,"int identity",主鍵缺漏紀錄 ID
+Table,Data_FarmMissingImport,dataSource,nvarchar(50),資料來源代碼
+Table,Data_FarmMissingImport,serialNo,nvarchar(64),外部序號
+Table,Data_FarmMissingImport,farmCode,nvarchar(50),牧場代碼
+Table,Data_FarmMissingImport,insertDateTime,"datetime default getdate()",建立時間
+Table,Data_Moa_Farm,autoID,"int identity",主鍵自動編號
+Table,Data_Moa_Farm,FarmID,nvarchar(max),MOA 牧場代碼
+Table,Data_Moa_Farm,FarmName,nvarchar(max),牧場名稱
+Table,Data_Moa_Farm,FarmCounty,nvarchar(max),縣市
+Table,Data_Moa_Farm,FarmDist,nvarchar(max),行政區
+Table,Data_Moa_Farm,FarmAddress,nvarchar(max),地址
+Table,Data_Moa_Farm,Farmer,nvarchar(max),飼養戶姓名
+Table,Data_Moa_Farm,AnimalDataString,nvarchar(max),動物數量描述
+Table,Data_Moa_Farm,isEmpty,nvarchar(max),是否為空白資料標記
+Table,Data_Moa_Farm,insertDateTime,datetime,建立時間
+Table,Data_Moa_Farm,updateType,nvarchar(50),更新類型
+Table,Data_Moa_Farm,updateFarmAutoID,int,來源/被取代資料的 autoID
+Table,Data_Moa_Farm,updateDateTime,datetime,更新時間
+Table,Data_Moa_Farm,isListData,bit,是否來自清單資料
+Table,Data_Moa_Farm,isUpdateDone,bit,是否已更新完成
+Table,Data_Moa_FarmLog,logID,"int identity",主鍵匯入紀錄 ID
+Table,Data_Moa_FarmLog,event,nvarchar(50),事件名稱
+Table,Data_Moa_FarmLog,type,nvarchar(50),類型（如 import/update）
+Table,Data_Moa_FarmLog,interfaceDate,date,介接日期
+Table,Data_Moa_FarmLog,interfaceFarmID,nvarchar(50),介接牧場代碼
+Table,Data_Moa_FarmLog,dataCount,int,資料筆數
+Table,Data_Moa_FarmLog,insertDateTime,datetime,建立時間
+Table,Data_Naif_EarTag,dataID,"int identity",主鍵耳標資料 ID
+Table,Data_Naif_EarTag,issuanceDate,date,核發日期
+Table,Data_Naif_EarTag,earTagNo,nvarchar(50),耳標號碼
+Table,Data_Naif_EarTag,govName,nvarchar(50),核發單位
+Table,Data_Naif_EarTag,farmCode,nvarchar(50),農場代碼
+Table,Data_Naif_EarTag,farmName,nvarchar(max),農場名稱
+Table,Data_Naif_EarTag,owner,nvarchar(max),飼養戶
+Table,Data_Naif_EarTag,ownerTel,nvarchar(max),飼養戶電話
+Table,Data_Naif_EarTag,city,nvarchar(50),縣市
+Table,Data_Naif_EarTag,area,nvarchar(50),行政區
+Table,Data_Naif_EarTag,address,nvarchar(max),地址
+Table,Data_Naif_EarTag,insertDateTime,datetime,建立時間
+Table,Data_Naif_EarTag,convertDateTime,datetime,轉入系統時間
+Table,Data_Naif_SlauData,dataID,"int identity",主鍵屠宰資料 ID
+Table,Data_Naif_SlauData,slauID,int,屠宰場代碼
+Table,Data_Naif_SlauData,slauName,nvarchar(max),屠宰場名稱
+Table,Data_Naif_SlauData,slauDate,date,屠宰日期
+Table,Data_Naif_SlauData,typeName,nvarchar(50),牛隻類型
+Table,Data_Naif_SlauData,tagNo,nvarchar(50),耳標號碼
+Table,Data_Naif_SlauData,brandNo,nvarchar(50),烙印號
+Table,Data_Naif_SlauData,slauTraceCode,nvarchar(50),屠宰追溯碼
+Table,Data_Naif_SlauData,dataStatus,nvarchar(50),資料狀態
+Table,Data_Naif_SlauData,jouDate,date,歷程日期
+Table,Data_Naif_SlauData,farmCode,nvarchar(50),來源牧場代碼
+Table,Data_Naif_SlauData,farmName,nvarchar(max),來源牧場名稱
+Table,Data_Naif_SlauData,owner,nvarchar(max),飼養戶
+Table,Data_Naif_SlauData,ownerTel,nvarchar(max),飼養戶電話
+Table,Data_Naif_SlauData,city,nvarchar(50),縣市
+Table,Data_Naif_SlauData,area,nvarchar(50),行政區
+Table,Data_Naif_SlauData,address,nvarchar(max),地址
+Table,Data_Naif_SlauData,insertDateTime,datetime,建立時間
+Table,Data_Naif_SlauData,convertDateTime,datetime,轉入系統時間
+Table,List_Farm,farmID,"int identity",主鍵牧場 ID
+Table,List_Farm,farmName,nvarchar(max),牧場名稱
+Table,List_Farm,farmCode,nvarchar(max),牧場代碼
+Table,List_Farm,owner,nvarchar(max),飼養戶
+Table,List_Farm,ownerID,nvarchar(max),飼養戶身分證/統編
+Table,List_Farm,ownerTel,nvarchar(max),飼養戶電話
+Table,List_Farm,twID,int,所在行政區（對應 System_Taiwan）
+Table,List_Farm,address,nvarchar(max),地址
+Table,List_Farm,animalCount,nvarchar(max),牧場動物數量描述
+Table,List_Farm,memo,nvarchar(max),備註
+Table,List_Farm,insertType,nvarchar(max),建立來源描述
+Table,List_Farm,insertDateTime,datetime,建立時間
+Table,List_Farm,insertAccountID,int,建立人員帳號 ID
+Table,List_Farm,updateDateTime,datetime,最近更新時間
+Table,List_Farm,updateAccountID,int,最近更新人員帳號 ID
+Table,List_Farm,removeDateTime,datetime,下架時間
+Table,List_Farm,removeAccount,int,下架人員帳號 ID
+Table,List_RenderingPlant,plantID,"int identity",主鍵化製場 ID
+Table,List_RenderingPlant,plantCode,nvarchar(50),化製場代碼
+Table,List_RenderingPlant,plantName,nvarchar(max),化製場名稱
+Table,List_RenderingPlant,owner,nvarchar(max),負責人
+Table,List_RenderingPlant,twID,int,行政區 ID
+Table,List_RenderingPlant,address,nvarchar(max),地址
+Table,List_RenderingPlant,isActive,bit,是否啟用
+Table,List_RenderingPlant,memo,nvarchar(max),備註
+Table,List_Slaughterhouse,slauID,"int identity",主鍵屠宰場 ID
+Table,List_Slaughterhouse,baphiqCode,nvarchar(50),防檢局代碼
+Table,List_Slaughterhouse,slauName,nvarchar(max),屠宰場全名
+Table,List_Slaughterhouse,slauName_short,nvarchar(max),屠宰場簡稱
+Table,List_Slaughterhouse,twID,int,行政區 ID
+Table,List_Slaughterhouse,address,nvarchar(max),地址
+Table,List_Slaughterhouse,ownerName,nvarchar(max),業者名稱
+Table,List_Slaughterhouse,ownerTel,nvarchar(max),業者電話
+Table,List_Slaughterhouse,contactName,nvarchar(max),聯絡人
+Table,List_Slaughterhouse,contactTel,nvarchar(max),聯絡電話
+Table,List_Slaughterhouse,contactMobile,nvarchar(max),聯絡手機
+Table,List_Slaughterhouse,fax,nvarchar(max),傳真
+Table,List_Slaughterhouse,isActive,bit,是否啟用
+Table,List_Slaughterhouse,memo,nvarchar(max),備註
+Table,System_Config,configID,"int identity",主鍵設定 ID
+Table,System_Config,passwordMinLength,int,密碼最小長度
+Table,System_Config,requireUppercase,bit,是否要求大寫
+Table,System_Config,requireLowercase,bit,是否要求小寫
+Table,System_Config,requireNumbers,bit,是否要求數字
+Table,System_Config,requireSymbols,bit,是否要求符號
+Table,System_Config,passwordMaxAge,int,密碼最長有效天數
+Table,System_Config,passwordHistoryCount,int,密碼歷史不得重複次數
+Table,System_Config,passwordMinAge,int,密碼最短使用天數
+Table,System_Config,maxFailAttempts,int,最多失敗登入次數
+Table,System_Config,lockoutDuration,int,鎖定時長（分鐘）
+Table,System_Config,updateDateTime,datetime,更新時間
+Table,System_Config,updateUserID,int,更新人員帳號 ID
+Table,System_Menu,menuID,"int identity",主鍵選單 ID
+Table,System_Menu,groupName,nvarchar(50),選單群組名稱
+Table,System_Menu,menuName,nvarchar(50),選單項目名稱
+Table,System_Menu,menuURL,nvarchar(max),目標 URL
+Table,System_Menu,iconClass,nvarchar(50),圖示樣式（CSS class）
+Table,System_Menu,orderBy_group,int,群組排序
+Table,System_Menu,orderBy_menu,int,群組內排序
+Table,System_Menu,isActive,bit,是否啟用
+Table,System_Menu,isShow,bit,是否顯示
+Table,System_Menu,memo,nvarchar(max),備註
+Table,System_MenuAu,auTypeID,int,授權類型 ID（對應 System_UserAuType）
+Table,System_MenuAu,menuID,int,選單 ID（對應 System_Menu）
+Table,System_MilkSetting,age,int,乳量年齡（月/週齡依系統慣例）
+Table,System_MilkSetting,milkProduction,decimal(4,1),對應年齡的乳量
+Table,System_MilkSetting,remark,nvarchar(max),備註
+Table,System_MilkSetting,updateDateTime,datetime,更新時間
+Table,System_MilkSetting,updateUserID,int,更新人員帳號 ID
+Table,System_Taiwan,twID,"int identity",主鍵行政區 ID
+Table,System_Taiwan,cityID,int,縣市代碼
+Table,System_Taiwan,city,nvarchar(50),縣市名稱
+Table,System_Taiwan,area,nvarchar(50),鄉鎮市區名稱
+Table,System_UserAccount,accountID,"int identity",主鍵帳號 ID
+Table,System_UserAccount,auTypeID,int,授權類型
+Table,System_UserAccount,slauID,int,所屬屠宰場 ID（可空）
+Table,System_UserAccount,govID,int,主管機關 ID（可空）
+Table,System_UserAccount,farmID,int,所屬牧場 ID（可空）
+Table,System_UserAccount,account,nvarchar(50),帳號名稱
+Table,System_UserAccount,password,nvarchar(max),密碼（加密後存放）
+Table,System_UserAccount,name,nvarchar(50),使用者姓名
+Table,System_UserAccount,email,nvarchar(max),電子郵件
+Table,System_UserAccount,unit,nvarchar(max),單位/部門
+Table,System_UserAccount,mobile,nvarchar(max),行動電話
+Table,System_UserAccount,memo,nvarchar(max),備註
+Table,System_UserAccount,isActive,bit,是否啟用
+Table,System_UserAccount,isEmailVerified,bit,電子郵件是否驗證
+Table,System_UserAccount,emailVerifiedDateTime,datetime,驗證時間
+Table,System_UserAccount,lastLoginDateTime,datetime,最近登入時間
+Table,System_UserAccount,insertDateTime,datetime,建立時間
+Table,System_UserAccount,insertAccountID,int,建立人員帳號 ID
+Table,System_UserAccount,updateDateTime,datetime,最近更新時間
+Table,System_UserAccount,updateAccountID,int,最近更新人員帳號 ID
+Table,System_UserAccount,removeDateTime,datetime,停用時間
+Table,System_UserAccount,removeAccountID,int,停用人員帳號 ID
+Table,System_UserAccount,lastUpdatePWDateTime,datetime,最近更改密碼時間
+Table,System_UserAuType,auTypeID,"int identity",主鍵授權類型 ID
+Table,System_UserAuType,auTypeName,nvarchar(50),授權類型名稱
+Table,System_UserAuType,isActive,bit,是否啟用
+Table,System_UserAuType,memo,nvarchar(max),備註
+Table,System_UserCPWLog,cpwID,"int identity",主鍵變更紀錄 ID
+Table,System_UserCPWLog,accountID,int,目標帳號 ID
+Table,System_UserCPWLog,exAccountID,int,操作者帳號 ID
+Table,System_UserCPWLog,pwdHash,varchar(64),更改後的密碼雜湊
+Table,System_UserCPWLog,changeType,nvarchar(50),變更類型（自助/管理者）
+Table,System_UserCPWLog,changeDateTime,datetime,變更時間
+Table,System_UserFPWLog,fpwID,"int identity",主鍵忘記密碼請求 ID
+Table,System_UserFPWLog,accountID,int,目標帳號 ID
+Table,System_UserFPWLog,email,nvarchar(200),收件者 Email
+Table,System_UserFPWLog,resetToken,nvarchar(max),重設 token
+Table,System_UserFPWLog,requestTime,datetime,請求時間
+Table,System_UserFPWLog,changeTime,datetime,完成重設時間
+Table,System_UserFPWLog,isUsed,bit,是否已使用
+Table,System_UserLog,logID,"int identity",主鍵紀錄 ID
+Table,System_UserLog,accountID,int,相關帳號 ID
+Table,System_UserLog,logDateTime,datetime,記錄時間
+Table,System_UserLog,IP,nvarchar(max),操作來源 IP
+Table,System_UserLog,logItem,nvarchar(50),事件項目（如 Login）
+Table,System_UserLog,logType,nvarchar(50),事件類型（如 Success/Fail）
+Table,System_UserLog,memo,nvarchar(max),詳細描述

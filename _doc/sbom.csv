@@ -1,0 +1,21 @@
+Package,Version,用途（中文）
+BouncyCastle.Cryptography,2.4.0,密碼學演算法與金鑰處理功能庫
+Enums.NET,5.0.0,提供列舉型別的擴充操作與格式化
+ExtendedNumerics.BigDecimal,2025.1001.2.129,提供高精度十進位數值運算
+MathNet.Numerics.Signed,5.0.0,數值分析與統計運算工具
+Microsoft.CodeDom.Providers.DotNetCompilerPlatform,2.0.1,ASP.NET 編譯器提供者支援 Roslyn
+Microsoft.IO.RecyclableMemoryStream,3.0.1,針對記憶體串流的再利用以減少 GC 壓力
+Newtonsoft.Json,13.0.4,JSON 解析與序列化
+NPOI,2.7.5,Excel 讀寫與匯出
+NSax,1.0.2,流式 XML 解析工具
+SharpZipLib,1.4.2,ZIP 等壓縮格式處理
+SixLabors.Fonts,1.0.1,字型載入與測量
+SixLabors.ImageSharp,2.1.11,影像處理與轉檔
+System.Buffers,4.5.1,緩衝區池化與配置工具
+System.Memory,4.5.5,Span/Memory 型別支援
+System.Numerics.Vectors,4.5.0,向量化數值運算基礎型別
+System.Runtime.CompilerServices.Unsafe,6.0.0,低階非安全型別操作支援
+System.Security.Cryptography.Xml,8.0.2,XML 簽章與加解密
+System.Text.Encoding.CodePages,5.0.0,額外的編碼頁面支援
+System.Threading.Tasks.Extensions,4.5.2,非同步程式設計的擴充型別
+ZString,2.6.0,高效能字串組裝
